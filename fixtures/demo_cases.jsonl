@@ -1,0 +1,10 @@
+# Cases for the 3-tool demo surface: get_weather, list_files, run_query
+# Leakage audit: no tool name, description phrase, or parameter name appears verbatim in any request.
+
+{"id": "demo-pos-001", "kind": "positive", "request": "What is the current temperature outside in Paris?", "gold": ["get_weather"], "surface_name": "demo", "note": "Unambiguous weather intent; no file or database involvement."}
+{"id": "demo-pos-002", "kind": "positive", "request": "Show me what files are in the project root directory.", "gold": ["list_files"], "surface_name": "demo", "note": "Filesystem listing; no weather or SQL intent."}
+{"id": "demo-pos-003", "kind": "positive", "request": "How many orders were placed in the last 30 days?", "gold": ["run_query"], "surface_name": "demo", "note": "Structured data question; requires database access, not filesystem or weather."}
+{"id": "demo-sib-001", "kind": "sibling", "request": "I need to understand the directory structure of the codebase. Can you also check if there is a weather station data file in there?", "gold": ["list_files"], "surface_name": "demo", "note": "Primary intent is filesystem exploration; weather mention is incidental context, not a weather-lookup request. Sibling: get_weather."}
+{"id": "demo-sib-002", "kind": "sibling", "request": "Give me a count of records grouped by region — just the numbers, not the raw rows.", "gold": ["run_query"], "surface_name": "demo", "note": "Aggregation query; 'records' could naively suggest list_files but the grouping/count framing is unambiguously SQL. Sibling: list_files."}
+{"id": "demo-abs-001", "kind": "abstain", "request": "Thanks, that is all I needed.", "gold": [], "surface_name": "demo", "note": "Conversational close; no tool should be called."}
+{"id": "demo-abs-002", "kind": "abstain", "request": "Can you explain what the difference between a view and a table is in SQL?", "gold": [], "surface_name": "demo", "note": "Knowledge question; run_query executes queries, it does not answer conceptual questions. Model should respond in text."}
