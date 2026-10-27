@@ -147,6 +147,70 @@ class TestKeyRotation:
 
 
 # ---------------------------------------------------------------------------
+# 429 retry with backoff
+# ---------------------------------------------------------------------------
+
+
+class TestRateLimitRetry:
+    def _make_rate_limit_error(self) -> "openai.RateLimitError":
+        import openai
+        from unittest.mock import MagicMock
+        mock_response = MagicMock()
+        mock_response.request = MagicMock()
+        mock_response.status_code = 429
+        mock_response.headers = {}
+        return openai.RateLimitError(
+            "try again in 0.01s", response=mock_response, body=None
+        )
+
+    def test_retries_on_429_and_succeeds(self, tmp_path: Path) -> None:
+        """Provider retries on RateLimitError and returns the eventual success."""
+        import openai
+        call_count = 0
+        err = self._make_rate_limit_error()
+
+        def fake_create(self_ignored, **kwargs):
+            nonlocal call_count
+            call_count += 1
+            if call_count < 3:
+                raise err
+            import types
+            return types.SimpleNamespace(model_dump=lambda: {
+                "choices": [{"message": {"tool_calls": [{"function": {"name": "get_weather", "arguments": "{}"}}]}}]
+            })
+
+        store = CassetteStore(tmp_path, mode="record")
+        with patch.dict(os.environ, {"GROQ_API_KEY_1": "key-a"}, clear=False):
+            provider = OpenAICompatProvider(
+                provider_slug="groq", model_id="openai/gpt-oss-20b", cassette_store=store
+            )
+
+        with patch("openai.resources.chat.completions.Completions.create", fake_create):
+            result = provider.call(_case("c001"), SURFACE)
+
+        assert result == "get_weather"
+        assert call_count == 3
+
+    def test_raises_after_max_retries(self, tmp_path: Path) -> None:
+        import openai
+        import pytest
+        err = self._make_rate_limit_error()
+
+        def always_429(self_ignored, **kwargs):
+            raise err
+
+        store = CassetteStore(tmp_path, mode="record")
+        with patch.dict(os.environ, {"GROQ_API_KEY_1": "key-a"}, clear=False):
+            provider = OpenAICompatProvider(
+                provider_slug="groq", model_id="openai/gpt-oss-20b", cassette_store=store
+            )
+
+        with patch("openai.resources.chat.completions.Completions.create", always_429):
+            with pytest.raises(openai.RateLimitError):
+                provider.call(_case("c001"), SURFACE)
+
+
+# ---------------------------------------------------------------------------
 # Concurrent runner
 # ---------------------------------------------------------------------------
 

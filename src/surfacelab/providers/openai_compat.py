@@ -15,10 +15,13 @@ from __future__ import annotations
 import itertools
 import json
 import os
+import re
+import time
 import threading
 from dataclasses import dataclass, field
 from typing import Any
 
+import openai
 from openai import OpenAI
 
 from ..cases import Case
@@ -156,11 +159,24 @@ class OpenAICompatProvider:
 
     def _make_live_call(self, request: dict[str, Any]) -> dict[str, Any]:
         config = PROVIDER_CONFIGS[self.provider_slug]
-        api_key = self._next_key()
-        client = OpenAI(base_url=config["base_url"], api_key=api_key)
-        from typing import cast as _cast
-        resp = client.chat.completions.create(**request)  # type: ignore[arg-type]
-        return _cast(dict[str, Any], resp.model_dump())  # type: ignore[no-untyped-call]
+        max_retries = 8
+        delay = 5.0
+        for attempt in range(max_retries):
+            api_key = self._next_key()
+            client = OpenAI(base_url=config["base_url"], api_key=api_key)
+            try:
+                from typing import cast as _cast
+                resp = client.chat.completions.create(**request)  # type: ignore[arg-type]
+                return _cast(dict[str, Any], resp.model_dump())  # type: ignore[no-untyped-call]
+            except openai.RateLimitError as exc:
+                if attempt == max_retries - 1:
+                    raise
+                # Parse "try again in X.XXXs" from the error message if present
+                m = re.search(r"try again in ([0-9.]+)s", str(exc))
+                wait = float(m.group(1)) + 0.5 if m else delay
+                time.sleep(wait)
+                delay = min(delay * 2, 60.0)
+        raise RuntimeError("unreachable")
 
     def call(self, case: Case, surface: Surface) -> str | None:
         request = self._build_request(case, surface)
