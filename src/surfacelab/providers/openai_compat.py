@@ -233,7 +233,8 @@ class OpenAICompatProvider:
         max_attempts = len(self._key_states) * 8
         for attempt in range(max_attempts):
             api_key, key_idx = self._next_available_key()
-            client = OpenAI(base_url=config["base_url"], api_key=api_key)
+            # SDK default timeout is 600s; one hung request would stall a worker for 10 min.
+            client = OpenAI(base_url=config["base_url"], api_key=api_key, timeout=60.0)
             try:
                 self._throttle()
                 from typing import cast as _cast
