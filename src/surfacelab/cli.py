@@ -107,12 +107,13 @@ def run(
 
     def harness(case: _Case, surface: _Surface) -> str | None:
         nonlocal _done_count
-        result = base_harness(case, surface)
-        with _progress_lock:
-            _done_count += 1
-            n = _done_count
-        typer.echo(f"\r  {n}/{total_trials} trials", nl=False, err=True)
-        return result
+        try:
+            return base_harness(case, surface)
+        finally:
+            with _progress_lock:
+                _done_count += 1
+                n = _done_count
+            typer.echo(f"\r  {n}/{total_trials} trials", nl=False, err=True)
 
     if workers > 1:
         typer.echo(f"  running {total_trials} trials with {workers} workers …", err=True)

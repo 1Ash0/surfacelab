@@ -24,7 +24,7 @@ from typing import Any
 import openai
 from openai import OpenAI
 
-from ..cases import Case
+from ..cases import Case, CaseKind
 from ..render import render
 from ..schema import Surface
 from .cassette import CassetteStore
@@ -96,8 +96,10 @@ def _collect_keys(env_var: str) -> list[str]:
             seen.add(k)
             keys.append(k)
 
+    # Allow skipping exhausted orgs: set {env_var}_START=N to begin at key N.
+    start = int(os.environ.get(f"{env_var}_START", "1"))
     # 1-indexed: GROQ_API_KEY_1 … GROQ_API_KEY_20
-    for i in range(1, 21):
+    for i in range(start, 21):
         _add(os.environ.get(f"{env_var}_{i}", ""))
 
     # Unnumbered primary (backward-compat): GROQ_API_KEY
@@ -198,12 +200,16 @@ class OpenAICompatProvider:
         with self._key_lock:
             self._key_states[key_idx].cooldown_until = time.monotonic() + capped
 
+    def _tool_choice_for(self, case: Case) -> str:
+        # 'required' makes abstaining impossible (Groq returns 400 tool_use_failed).
+        return "auto" if case.kind == CaseKind.abstain else self.tool_choice
+
     def _build_request(self, case: Case, surface: Surface) -> dict[str, Any]:
         return {
             "model": self.model_id,
             "messages": [{"role": "user", "content": case.request}],
             "tools": render(surface),
-            "tool_choice": self.tool_choice,
+            "tool_choice": self._tool_choice_for(case),
         }
 
     def _request_bytes(self, request: dict[str, Any]) -> bytes:
@@ -259,7 +265,7 @@ class OpenAICompatProvider:
         message: dict[str, Any] = choices[0].get("message") or {}
         tool_calls: list[dict[str, Any]] = message.get("tool_calls") or []
         if not tool_calls:
-            if self.tool_choice == "required":
+            if request["tool_choice"] == "required":
                 raise ProviderContractError(
                     f"tool_choice='required' but response had no tool_calls "
                     f"(model={self.model_id}, case={case.id})"
