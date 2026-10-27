@@ -1,0 +1,30 @@
+{
+  "server_name": "badserver",
+  "tools": [
+    {
+      "name": "fetch_document",
+      "description": "Retrieves a document from storage.",
+      "inputSchema": {"type": "object", "properties": {"id": {"type": "string"}}, "required": ["id"]}
+    },
+    {
+      "name": "get_document",
+      "description": "Retrieves a document from the storage system.",
+      "inputSchema": {"type": "object", "properties": {"id": {"type": "string"}}, "required": ["id"]}
+    },
+    {
+      "name": "do_thing",
+      "description": "Does the thing.",
+      "inputSchema": {"type": "object", "properties": {}}
+    },
+    {
+      "name": "process_data",
+      "description": "Processes data. Use instead of `get_data` which is deprecated.",
+      "inputSchema": {"type": "object", "properties": {"data": {"type": "string"}}, "required": ["data"]}
+    },
+    {
+      "name": "analyze_text",
+      "description": "Analyzes text and returns a structured result. Also useful for images and audio files.",
+      "inputSchema": {"type": "object", "properties": {"input": {"type": "string"}}, "required": ["input"]}
+    }
+  ]
+}

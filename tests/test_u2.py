@@ -6,14 +6,13 @@ from pathlib import Path
 
 import pytest
 
+from surfacelab.budget import BudgetExceededError, check, estimate
 from surfacelab.providers.cassette import (
     CassetteMissingError,
     CassetteStaleError,
     CassetteStore,
     _key,
 )
-from surfacelab.budget import BudgetExceededError, check, estimate
-
 
 # ---------------------------------------------------------------------------
 # Key derivation

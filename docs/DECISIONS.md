@@ -94,3 +94,9 @@ Decision: all scenes take time and seeds from the engine; Playwright capture and
 
 **ADR-020 EXP-008 perception check is exploratory and reported either way** — accepted
 Decision: small, preregistered, peer-run; a null result is published and changes copy, not hides.
+
+**ADR-021 Live providers use free-tier models only; all are accessed via OpenAI-compatible API** — accepted (2026-10-27)
+Context: direct Anthropic billing requires a paid account; the project is student-budget. OpenRouter, Groq, NVIDIA, and Gemini all expose an OpenAI-compatible endpoint; Mistral does too. ADR-011 (Anthropic default) is superseded by this.
+Decision: use the `openai` Python package with provider-specific `base_url` and `api_key` from environment. Model ids are pinned per experiment as before. The cassette key includes `(provider_slug, model_id, request_bytes)` — not `request_bytes` alone — so entries from different providers never collide.
+Consequences: results are scoped to free-tier models (rate-limited, smaller context windows, may differ from paid tiers); cassette key schema widens by one field; AnthropicProvider is renamed to OpenAICompatProvider; ARCHITECTURE.md updated.
+Revisit: if a free-tier rate limit blocks an experiment, add a paid-tier path with `--max-usd` guard unchanged.

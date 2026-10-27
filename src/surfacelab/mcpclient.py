@@ -5,6 +5,7 @@ tools/call is never used in v0.1 (ADR-008).
 """
 
 from __future__ import annotations
+
 import asyncio
 import json
 from typing import Any

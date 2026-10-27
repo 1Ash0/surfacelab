@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>W0 demo — instanced points</title>
+<style>
+  body { margin: 0; background: #0B1020; }
+  canvas { display: block; }
+  #info { position:fixed; top:12px; left:12px; color:#aaa; font:13px monospace; }
+</style>
+</head>
+<body>
+<div id="info">drag to orbit · scroll to zoom</div>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const N = 300;   // tool-points; try changing this to 3000 and note the frame time
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(devicePixelRatio);
+renderer.setSize(innerWidth, innerHeight);
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 200);
+camera.position.set(0, 0, 12);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+
+// One InstancedMesh = one draw call for all N points
+const geo = new THREE.SphereGeometry(0.08, 6, 6);
+const mat = new THREE.MeshBasicMaterial();
+const points = new THREE.InstancedMesh(geo, mat, N);
+const dummy = new THREE.Object3D();
+const color  = new THREE.Color();
+for (let i = 0; i < N; i++) {
+  dummy.position.set((Math.random()-0.5)*10, (Math.random()-0.5)*10, (Math.random()-0.5)*10);
+  dummy.updateMatrix();
+  points.setMatrixAt(i, dummy.matrix);
+  points.setColorAt(i, color.setHSL(i / N, 0.75, 0.6));
+}
+scene.add(points);
+
+window.addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+// Context loss: without this handler the canvas goes blank permanently
+renderer.domElement.addEventListener('webglcontextlost', e => {
+  e.preventDefault();          // tell the browser we will recover
+  cancelAnimationFrame(rafId);
+});
+renderer.domElement.addEventListener('webglcontextrestored', () => animate());
+
+// Frame-time measurement — open DevTools console to see it
+let last = 0, rafId = 0;
+function animate(now = 0) {
+  rafId = requestAnimationFrame(animate);
+  const dt = now - last; last = now;
+  if (now > 500) document.getElementById('info').textContent =
+    `${N} points · ${dt.toFixed(1)} ms/frame · ${(1000/dt).toFixed(0)} fps`;
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();
+</script>
+</body>
+</html>

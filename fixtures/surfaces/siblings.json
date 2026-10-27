@@ -1,0 +1,25 @@
+{
+  "server_name": "siblings",
+  "tools": [
+    {
+      "name": "search_files",
+      "description": "Search for files matching a query in the file system. Returns matching file paths.",
+      "inputSchema": {"type": "object", "properties": {"query": {"type": "string"}}, "required": ["query"]}
+    },
+    {
+      "name": "find_files",
+      "description": "Locate files matching a query in the file system. Returns matching file paths.",
+      "inputSchema": {"type": "object", "properties": {"query": {"type": "string"}}, "required": ["query"]}
+    },
+    {
+      "name": "locate_files",
+      "description": "Find files matching a query across the file system. Returns matching file paths.",
+      "inputSchema": {"type": "object", "properties": {"query": {"type": "string"}}, "required": ["query"]}
+    },
+    {
+      "name": "query_files",
+      "description": "Query for files matching a search term in the file system. Returns matching file paths.",
+      "inputSchema": {"type": "object", "properties": {"query": {"type": "string"}}, "required": ["query"]}
+    }
+  ]
+}

@@ -11,7 +11,6 @@ import pytest
 from surfacelab.cases import Case, CaseKind, load_cases
 from surfacelab.grading import Verdict, grade
 
-
 FIXTURES = Path(__file__).parent.parent / "fixtures" / "demo_cases.jsonl"
 
 

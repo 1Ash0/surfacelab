@@ -5,15 +5,11 @@ no fixture files to maintain yet.
 """
 
 import asyncio
-import json
 import sys
 
-import pytest
-
-from surfacelab.schema import Surface, Tool
 from surfacelab.mcpclient import fetch_surface
 from surfacelab.render import render, token_ledger
-
+from surfacelab.schema import Surface, Tool
 
 # ---------------------------------------------------------------------------
 # Schema

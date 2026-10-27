@@ -11,3 +11,6 @@ runs/
 results/
 cassettes/
 *.local
+.env
+.env.*
+!.env.example

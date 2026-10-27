@@ -9,6 +9,7 @@ bytes the model saw (ADR-005). Never post-process or reorder the fields here.
 """
 
 from __future__ import annotations
+
 import json
 from dataclasses import dataclass
 from typing import Any

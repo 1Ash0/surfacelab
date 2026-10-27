@@ -12,7 +12,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-
 # Approximate prices per million tokens (input / output) as of 2026-10.
 # These are illustrative; update when pricing changes, and pin model ids
 # per experiment (ADR-011).

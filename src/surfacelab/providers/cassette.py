@@ -19,9 +19,10 @@ from __future__ import annotations
 
 import hashlib
 import json
-from datetime import datetime, timezone
+from collections.abc import Callable
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Callable, Literal
+from typing import Any, Literal
 
 
 class CassetteMissingError(Exception):
@@ -95,7 +96,7 @@ class CassetteStore:
 
         entry: dict[str, Any] = {
             "key": key,
-            "recorded_at": datetime.now(timezone.utc).isoformat(),
+            "recorded_at": datetime.now(UTC).isoformat(),
             "request": request_stored,  # structured dict for real requests; string fallback
             "response": response,
         }
