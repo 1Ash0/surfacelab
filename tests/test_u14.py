@@ -49,37 +49,48 @@ CASES = [_case(f"c{i:03d}") for i in range(4)]
 
 
 class TestCollectKeys:
-    def test_primary_key_only(self) -> None:
-        with patch.dict(os.environ, {"MY_KEY": "key-a"}, clear=False):
+    def test_numbered_primary_only(self) -> None:
+        env = {k: v for k, v in os.environ.items() if not k.startswith("MY_KEY")}
+        env["MY_KEY_1"] = "key-a"
+        with patch.dict(os.environ, env, clear=True):
             keys = _collect_keys("MY_KEY")
         assert keys == ["key-a"]
 
-    def test_multiple_keys_collected(self) -> None:
-        env = {"MY_KEY": "key-a", "MY_KEY_2": "key-b", "MY_KEY_3": "key-c"}
-        with patch.dict(os.environ, env, clear=False):
+    def test_numbered_keys_collected(self) -> None:
+        env = {k: v for k, v in os.environ.items() if not k.startswith("MY_KEY")}
+        env.update({"MY_KEY_1": "key-a", "MY_KEY_2": "key-b", "MY_KEY_3": "key-c"})
+        with patch.dict(os.environ, env, clear=True):
             keys = _collect_keys("MY_KEY")
         assert keys == ["key-a", "key-b", "key-c"]
 
-    def test_gap_stops_collection(self) -> None:
-        # _2 missing → _3 is not collected even if set
-        env = {"MY_KEY": "key-a", "MY_KEY_3": "key-c"}
-        with patch.dict(os.environ, env, clear=False):
+    def test_unnumbered_primary_backward_compat(self) -> None:
+        env = {k: v for k, v in os.environ.items() if not k.startswith("MY_KEY")}
+        env["MY_KEY"] = "key-legacy"
+        with patch.dict(os.environ, env, clear=True):
             keys = _collect_keys("MY_KEY")
-        assert keys == ["key-a"]
-        assert "key-c" not in keys
+        assert "key-legacy" in keys
 
-    def test_missing_primary_returns_empty_string(self) -> None:
-        # Ensure MY_KEY is absent from the env
-        env = {k: v for k, v in os.environ.items() if k != "MY_KEY"}
+    def test_deduplicates_same_key_value(self) -> None:
+        env = {k: v for k, v in os.environ.items() if not k.startswith("MY_KEY")}
+        env.update({"MY_KEY_1": "same", "MY_KEY": "same"})
+        with patch.dict(os.environ, env, clear=True):
+            keys = _collect_keys("MY_KEY")
+        assert keys.count("same") == 1
+
+    def test_missing_all_returns_empty_string(self) -> None:
+        env = {k: v for k, v in os.environ.items() if not k.startswith("MY_KEY")}
         with patch.dict(os.environ, env, clear=True):
             keys = _collect_keys("MY_KEY")
         assert keys == [""]
 
-    def test_not_more_than_10(self) -> None:
-        env = {f"MY_KEY{'_' + str(i) if i > 1 else ''}": f"k{i}" for i in range(1, 12)}
-        with patch.dict(os.environ, env, clear=False):
+    def test_not_more_than_10_numbered(self) -> None:
+        env = {k: v for k, v in os.environ.items() if not k.startswith("MY_KEY")}
+        for i in range(1, 15):
+            env[f"MY_KEY_{i}"] = f"k{i}"
+        with patch.dict(os.environ, env, clear=True):
             keys = _collect_keys("MY_KEY")
-        assert len(keys) <= 10
+        # _1 through _10 only; _11.._14 ignored
+        assert len(keys) == 10
 
 
 # ---------------------------------------------------------------------------
@@ -98,18 +109,18 @@ class TestKeyRotation:
             )
 
     def test_single_key_always_returned(self, tmp_path: Path) -> None:
-        provider = self._make_provider(tmp_path, {"GROQ_API_KEY": "key-a"})
+        provider = self._make_provider(tmp_path, {"GROQ_API_KEY_1": "key-a"})
         assert provider._next_key() == "key-a"
         assert provider._next_key() == "key-a"
 
     def test_two_keys_rotate(self, tmp_path: Path) -> None:
-        env = {"GROQ_API_KEY": "key-a", "GROQ_API_KEY_2": "key-b"}
+        env = {"GROQ_API_KEY_1": "key-a", "GROQ_API_KEY_2": "key-b"}
         provider = self._make_provider(tmp_path, env)
         seen = [provider._next_key() for _ in range(4)]
         assert seen == ["key-a", "key-b", "key-a", "key-b"]
 
     def test_rotation_is_thread_safe(self, tmp_path: Path) -> None:
-        env = {"GROQ_API_KEY": "key-a", "GROQ_API_KEY_2": "key-b"}
+        env = {"GROQ_API_KEY_1": "key-a", "GROQ_API_KEY_2": "key-b"}
         provider = self._make_provider(tmp_path, env)
         results: list[str] = []
         lock = threading.Lock()
@@ -129,7 +140,7 @@ class TestKeyRotation:
         assert set(results) == {"key-a", "key-b"}
 
     def test_rotation_stays_within_known_keys(self, tmp_path: Path) -> None:
-        env = {"GROQ_API_KEY": "ka", "GROQ_API_KEY_2": "kb", "GROQ_API_KEY_3": "kc"}
+        env = {"GROQ_API_KEY_1": "ka", "GROQ_API_KEY_2": "kb", "GROQ_API_KEY_3": "kc"}
         provider = self._make_provider(tmp_path, env)
         for _ in range(30):
             assert provider._next_key() in {"ka", "kb", "kc"}

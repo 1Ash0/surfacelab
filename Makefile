@@ -36,37 +36,37 @@ exp007:
 	uv run python scripts/run_exp007.py
 
 # ---- EXP-001: order sensitivity ----------------------------------------
-# Models: llama-3.1-8b-instant and llama-3.3-70b-versatile on Groq
+# Models: openai/gpt-oss-20b and openai/gpt-oss-120b on Groq
 # Requires GROQ_API_KEY in .env
 
 exp001-dry-run:
 	uv run surfacelab run fixtures/cases/core.jsonl \
 	  --surface goodserver --provider groq \
-	  --model llama-3.1-8b-instant \
+	  --model openai/gpt-oss-20b \
 	  --variants 5 --dry-run
 	uv run surfacelab run fixtures/cases/siblings.jsonl \
 	  --surface siblings --provider groq \
-	  --model llama-3.1-8b-instant \
+	  --model openai/gpt-oss-20b \
 	  --variants 4 --dry-run
 
 exp001-record:
 	@echo "--- EXP-001: small model (8b) ---"
 	uv run surfacelab run fixtures/cases/core.jsonl \
 	  --surface goodserver --provider groq \
-	  --model llama-3.1-8b-instant \
+	  --model openai/gpt-oss-20b \
 	  --variants 120 --record --max-usd 5.00 --workers 8
 	uv run surfacelab run fixtures/cases/siblings.jsonl \
 	  --surface siblings --provider groq \
-	  --model llama-3.1-8b-instant \
+	  --model openai/gpt-oss-20b \
 	  --variants 24 --record --max-usd 5.00 --workers 8
-	@echo "--- EXP-001: large model (70b) ---"
+	@echo "--- EXP-001: large model (120b) ---"
 	uv run surfacelab run fixtures/cases/core.jsonl \
 	  --surface goodserver --provider groq \
-	  --model llama-3.3-70b-versatile \
+	  --model openai/gpt-oss-120b \
 	  --variants 120 --record --max-usd 5.00 --workers 8
 	uv run surfacelab run fixtures/cases/siblings.jsonl \
 	  --surface siblings --provider groq \
-	  --model llama-3.3-70b-versatile \
+	  --model openai/gpt-oss-120b \
 	  --variants 24 --record --max-usd 5.00 --workers 8
 
 # ---- EXP-002: paraphrase fragility -------------------------------------
@@ -74,7 +74,7 @@ exp001-record:
 exp002-dry-run:
 	uv run surfacelab run fixtures/cases/core.jsonl \
 	  --surface goodserver --provider groq \
-	  --model llama-3.1-8b-instant \
+	  --model openai/gpt-oss-20b \
 	  --variants 1 --dry-run
 
 exp002-record:
@@ -88,7 +88,7 @@ exp003-dry-run:
 	                goodserver_prepend_summary goodserver_trim goodserver_set_desc_vague; do \
 	  uv run surfacelab run fixtures/cases/core.jsonl \
 	    --surface $$surface --provider groq \
-	    --model llama-3.1-8b-instant \
+	    --model openai/gpt-oss-20b \
 	    --variants 1 --dry-run; \
 	done
 
@@ -97,11 +97,11 @@ exp003-record:
 	                goodserver_prepend_summary goodserver_trim goodserver_set_desc_vague; do \
 	  uv run surfacelab run fixtures/cases/core.jsonl \
 	    --surface $$surface --provider groq \
-	    --model llama-3.1-8b-instant \
+	    --model openai/gpt-oss-20b \
 	    --variants 1 --record --max-usd 2.00 --workers 8; \
 	  uv run surfacelab run fixtures/cases/core.jsonl \
 	    --surface $$surface --provider groq \
-	    --model llama-3.3-70b-versatile \
+	    --model openai/gpt-oss-120b \
 	    --variants 1 --record --max-usd 2.00 --workers 8; \
 	done
 
@@ -111,7 +111,7 @@ exp004-dry-run:
 	@for surface in merged_none merged_prefix merged_qualified; do \
 	  uv run surfacelab run fixtures/cases/cross_server.jsonl \
 	    --surface $$surface --provider groq \
-	    --model llama-3.1-8b-instant \
+	    --model openai/gpt-oss-20b \
 	    --variants 1 --dry-run; \
 	done
 
@@ -119,11 +119,11 @@ exp004-record:
 	@for surface in merged_none merged_prefix merged_qualified; do \
 	  uv run surfacelab run fixtures/cases/cross_server.jsonl \
 	    --surface $$surface --provider groq \
-	    --model llama-3.1-8b-instant \
+	    --model openai/gpt-oss-20b \
 	    --variants 1 --record --max-usd 2.00 --workers 8; \
 	  uv run surfacelab run fixtures/cases/cross_server.jsonl \
 	    --surface $$surface --provider groq \
-	    --model llama-3.3-70b-versatile \
+	    --model openai/gpt-oss-120b \
 	    --variants 1 --record --max-usd 2.00 --workers 8; \
 	done
 
@@ -132,7 +132,7 @@ exp004-record:
 exp005-dry-run:
 	uv run surfacelab run fixtures/cases/core.jsonl \
 	  --surface goodserver --provider groq \
-	  --model llama-3.1-8b-instant \
+	  --model openai/gpt-oss-20b \
 	  --variants 1 --dry-run
 
 exp005-record:

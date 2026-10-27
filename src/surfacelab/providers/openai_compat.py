@@ -72,19 +72,28 @@ class ProviderContractError(Exception):
 def _collect_keys(env_var: str) -> list[str]:
     """Collect all API keys for a provider from environment variables.
 
-    Reads GROQ_API_KEY, GROQ_API_KEY_2, GROQ_API_KEY_3, ... up to _2 through _10.
-    Returns at least one entry (may be empty string if the primary key is unset).
+    Accepts two naming conventions (whichever is present wins):
+      GROQ_API_KEY_1, GROQ_API_KEY_2, ... GROQ_API_KEY_10  (1-indexed)
+      GROQ_API_KEY, GROQ_API_KEY_2, ... GROQ_API_KEY_10    (legacy: unnumbered primary)
+
+    Both are checked; duplicates are dropped. Returns at least one entry
+    (may be empty string if no key is found at all).
     """
+    seen: set[str] = set()
     keys: list[str] = []
-    primary = os.environ.get(env_var, "")
-    if primary:
-        keys.append(primary)
-    for i in range(2, 11):
-        k = os.environ.get(f"{env_var}_{i}", "")
-        if k:
+
+    def _add(k: str) -> None:
+        if k and k not in seen:
+            seen.add(k)
             keys.append(k)
-        else:
-            break
+
+    # 1-indexed: GROQ_API_KEY_1 … GROQ_API_KEY_10
+    for i in range(1, 11):
+        _add(os.environ.get(f"{env_var}_{i}", ""))
+
+    # Unnumbered primary (backward-compat): GROQ_API_KEY
+    _add(os.environ.get(env_var, ""))
+
     return keys or [""]
 
 
