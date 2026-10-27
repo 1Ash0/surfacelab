@@ -137,11 +137,11 @@ def run(
             json.dumps(dataclasses.asdict(report), indent=2),
             encoding="utf-8",
         )
-        typer.echo(f"JSON report → {out}")
+        typer.echo(f"JSON report -> {out}")
 
     if html is not None:
         html.write_text(render_html(report), encoding="utf-8")
-        typer.echo(f"HTML report → {html}")
+        typer.echo(f"HTML report -> {html}")
 
 
 # ---------------------------------------------------------------------------
