@@ -158,24 +158,34 @@ class OpenAICompatProvider:
         return (prefix + body).encode()
 
     def _make_live_call(self, request: dict[str, Any]) -> dict[str, Any]:
+        """Call the API, rotating through all keys before sleeping on 429.
+
+        Strategy: on rate-limit, try every key in sequence with no delay
+        (a key from a different org will succeed immediately). Only sleep
+        once the full key ring is exhausted — meaning every org is saturated.
+        """
         config = PROVIDER_CONFIGS[self.provider_slug]
-        max_retries = 8
-        delay = 5.0
-        for attempt in range(max_retries):
-            api_key = self._next_key()
-            client = OpenAI(base_url=config["base_url"], api_key=api_key)
-            try:
-                from typing import cast as _cast
-                resp = client.chat.completions.create(**request)  # type: ignore[arg-type]
-                return _cast(dict[str, Any], resp.model_dump())  # type: ignore[no-untyped-call]
-            except openai.RateLimitError as exc:
-                if attempt == max_retries - 1:
-                    raise
-                # Parse "try again in X.XXXs" from the error message if present
-                m = re.search(r"try again in ([0-9.]+)s", str(exc))
-                wait = float(m.group(1)) + 0.5 if m else delay
-                time.sleep(wait)
-                delay = min(delay * 2, 60.0)
+        n_keys = len(self._keys)
+        max_rounds = 8
+        last_exc: openai.RateLimitError | None = None
+
+        for round_num in range(max_rounds):
+            for _ in range(n_keys):
+                api_key = self._next_key()
+                client = OpenAI(base_url=config["base_url"], api_key=api_key)
+                try:
+                    from typing import cast as _cast
+                    resp = client.chat.completions.create(**request)  # type: ignore[arg-type]
+                    return _cast(dict[str, Any], resp.model_dump())  # type: ignore[no-untyped-call]
+                except openai.RateLimitError as exc:
+                    last_exc = exc
+            # Every key exhausted — sleep before retrying the ring
+            if round_num == max_rounds - 1:
+                raise last_exc  # type: ignore[misc]
+            m = re.search(r"try again in ([0-9.]+)s", str(last_exc))
+            wait = float(m.group(1)) + 0.5 if m else 5.0
+            time.sleep(min(wait, 60.0))
+
         raise RuntimeError("unreachable")
 
     def call(self, case: Case, surface: Surface) -> str | None:
