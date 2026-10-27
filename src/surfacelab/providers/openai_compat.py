@@ -132,7 +132,7 @@ class OpenAICompatProvider:
     _key_lock: threading.Lock = field(default_factory=threading.Lock, init=False, repr=False)
     _throttle_lock: threading.Lock = field(default_factory=threading.Lock, init=False, repr=False)
     _last_call_time: float = field(default=0.0, init=False, repr=False)
-    _min_call_interval: float = field(default=3.5, init=False, repr=False)
+    _min_call_interval: float = field(default=5.0, init=False, repr=False)
 
     def __post_init__(self) -> None:
         if self.provider_slug not in PROVIDER_CONFIGS:
@@ -178,17 +178,20 @@ class OpenAICompatProvider:
     def _throttle(self) -> None:
         """Enforce a minimum gap between API calls across all workers combined.
 
-        Prevents bursting: even with 4 workers, calls are serialized through this
-        lock so the aggregate rate stays under (1 / _min_call_interval) req/s.
-        At 3.5 s gap: ~17 req/min total → org-A (60% of keys) sees ~10 req/min
-        = 7000 tokens/min, under the 8000 TPM/org Groq free-tier limit.
+        The lock is held only for the instant check-and-claim; sleeping happens
+        outside so other workers are not blocked while one sleeps.
+        At 5 s gap: 12 req/min total → org-A (60% of 10 keys) = 7.2 req/min
+        × 700 tokens = 5040 TPM, safely under Groq's 8000 TPM/org free-tier.
         """
-        with self._throttle_lock:
-            now = time.monotonic()
-            wait = self._last_call_time + self._min_call_interval - now
-            if wait > 0:
-                time.sleep(wait)
-            self._last_call_time = time.monotonic()
+        while True:
+            with self._throttle_lock:
+                now = time.monotonic()
+                next_allowed = self._last_call_time + self._min_call_interval
+                if now >= next_allowed:
+                    self._last_call_time = now  # claim this slot
+                    return
+                wait = next_allowed - now
+            time.sleep(wait)  # sleep OUTSIDE lock so other workers can check
 
     def _mark_cooldown(self, key_idx: int, retry_after: float) -> None:
         capped = min(retry_after, self._MAX_COOLDOWN)
