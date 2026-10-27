@@ -96,8 +96,8 @@ def _collect_keys(env_var: str) -> list[str]:
             seen.add(k)
             keys.append(k)
 
-    # 1-indexed: GROQ_API_KEY_1 … GROQ_API_KEY_10
-    for i in range(1, 11):
+    # 1-indexed: GROQ_API_KEY_1 … GROQ_API_KEY_20
+    for i in range(1, 21):
         _add(os.environ.get(f"{env_var}_{i}", ""))
 
     # Unnumbered primary (backward-compat): GROQ_API_KEY
@@ -111,7 +111,7 @@ class OpenAICompatProvider:
     """Live model calls via any OpenAI-compatible endpoint, backed by cassettes.
 
     Supports round-robin key rotation across multiple API keys.
-    Set GROQ_API_KEY, GROQ_API_KEY_2, GROQ_API_KEY_3 … to enable rotation.
+    Set GROQ_API_KEY_1 … GROQ_API_KEY_20 to enable rotation.
     """
 
     provider_slug: str
@@ -132,7 +132,7 @@ class OpenAICompatProvider:
     _key_lock: threading.Lock = field(default_factory=threading.Lock, init=False, repr=False)
     _throttle_lock: threading.Lock = field(default_factory=threading.Lock, init=False, repr=False)
     _last_call_time: float = field(default=0.0, init=False, repr=False)
-    _min_call_interval: float = field(default=5.0, init=False, repr=False)
+    _min_call_interval: float = field(default=1.5, init=False, repr=False)
 
     def __post_init__(self) -> None:
         if self.provider_slug not in PROVIDER_CONFIGS:
@@ -180,8 +180,8 @@ class OpenAICompatProvider:
 
         The lock is held only for the instant check-and-claim; sleeping happens
         outside so other workers are not blocked while one sleeps.
-        At 5 s gap: 12 req/min total → org-A (60% of 10 keys) = 7.2 req/min
-        × 700 tokens = 5040 TPM, safely under Groq's 8000 TPM/org free-tier.
+        At 1.5 s gap: 40 req/min total → org-A (6/14 keys = 43%) = 17 req/min
+        × 370 tokens ≈ 6300 TPM, safely under Groq's 8000 TPM/org free-tier.
         """
         while True:
             with self._throttle_lock:

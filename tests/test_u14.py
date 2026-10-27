@@ -83,14 +83,14 @@ class TestCollectKeys:
             keys = _collect_keys("MY_KEY")
         assert keys == [""]
 
-    def test_not_more_than_10_numbered(self) -> None:
+    def test_collects_up_to_20_numbered(self) -> None:
         env = {k: v for k, v in os.environ.items() if not k.startswith("MY_KEY")}
-        for i in range(1, 15):
+        for i in range(1, 22):
             env[f"MY_KEY_{i}"] = f"k{i}"
         with patch.dict(os.environ, env, clear=True):
             keys = _collect_keys("MY_KEY")
-        # _1 through _10 only; _11.._14 ignored
-        assert len(keys) == 10
+        # _1 through _20 only; _21 ignored
+        assert len(keys) == 20
 
 
 # ---------------------------------------------------------------------------
