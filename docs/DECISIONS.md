@@ -95,6 +95,11 @@ Decision: all scenes take time and seeds from the engine; Playwright capture and
 **ADR-020 EXP-008 perception check is exploratory and reported either way** — accepted
 Decision: small, preregistered, peer-run; a null result is published and changes copy, not hides.
 
+**ADR-022 Docker sandbox for EXP-006 and untrusted server probes** — accepted (2026-10-27)
+Context: ADR-007 accepted the goal but deferred the sandbox design ("Docker sandboxing is a v0.2 extension" note in pulse.py). EXP-006 requires probing a curated list of third-party servers; plain subprocess is not safe for untrusted code.
+Decision: `probe_docker(image, server_command, ...)` wraps `probe()` with fixed security flags: `--network=none --read-only --memory=256m --cpus=0.5 --user=1000:1000 --tmpfs=/tmp:size=32m --security-opt=no-new-privileges --init`. If the Docker daemon is not running, `DockerNotAvailableError` is raised immediately. `probe()` (plain subprocess) remains the path for fixture servers. If Docker is available, EXP-006 is unblocked.
+Consequences: fixture server tests in CI continue using `probe()` with no Docker dependency. An image must be built or pulled per server type. Revisit for Podman, gVisor, or non-Python servers.
+
 **ADR-021 Live providers use free-tier models only; all are accessed via OpenAI-compatible API** — accepted (2026-10-27)
 Context: direct Anthropic billing requires a paid account; the project is student-budget. OpenRouter, Groq, NVIDIA, and Gemini all expose an OpenAI-compatible endpoint; Mistral does too. ADR-011 (Anthropic default) is superseded by this.
 Decision: use the `openai` Python package with provider-specific `base_url` and `api_key` from environment. Model ids are pinned per experiment as before. The cassette key includes `(provider_slug, model_id, request_bytes)` — not `request_bytes` alone — so entries from different providers never collide.

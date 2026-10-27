@@ -1,0 +1,96 @@
+{
+  "server_name": "goodserver",
+  "tools": [
+    {
+      "name": "get_weather",
+      "description": "Get current weather conditions for a specified location. Returns temperature, humidity, wind speed, and a short conditions summary.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "location"
+        ]
+      }
+    },
+    {
+      "name": "search_web",
+      "description": "Search the web for information on a given query. Returns a ranked list of URLs with titles and short excerpts.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "read_file",
+      "description": "Read the text contents of a file at a specified path on the local filesystem.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "path"
+        ]
+      }
+    },
+    {
+      "name": "send_email",
+      "description": "Send an email to a recipient with a specified subject and body text.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "to": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "to",
+          "subject",
+          "body"
+        ]
+      }
+    },
+    {
+      "name": "create_calendar_event",
+      "description": "Creates an event.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "time": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "date",
+          "time"
+        ]
+      }
+    }
+  ]
+}

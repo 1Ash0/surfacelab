@@ -32,6 +32,13 @@ from typing import Any, cast
 from .schema import Surface, Tool
 from .snapshot import DriftEvent, Snapshot, SnapshotStore, classify_drift
 
+
+class DockerNotAvailableError(Exception):
+    """Raised when probe_docker() is called but the Docker daemon is not running.
+
+    Start Docker Desktop (or the Docker daemon) and retry.
+    """
+
 # ---------------------------------------------------------------------------
 # Outcome taxonomy
 # ---------------------------------------------------------------------------
@@ -239,3 +246,89 @@ def probe(
         instruction_like_flags=flags,
         drift_events=drift_events,
     )
+
+
+# ---------------------------------------------------------------------------
+# Docker sandbox (EXP-006; ADR-022)
+# ---------------------------------------------------------------------------
+
+_DOCKER_CHECK_CMD = ["docker", "info", "--format", "{{.ServerVersion}}"]
+
+# Container security flags used for every probe_docker call.
+_DOCKER_SECURITY_FLAGS = [
+    "--network=none",       # no outbound network
+    "--read-only",          # read-only root filesystem
+    "--memory=256m",        # memory cap
+    "--cpus=0.5",           # CPU cap
+    "--user=1000:1000",     # non-root
+    "--tmpfs=/tmp:size=32m",  # writable /tmp only
+    "--rm",                 # auto-remove on exit
+    "--init",               # PID 1 reaping
+    "--security-opt=no-new-privileges",
+]
+
+
+def _docker_available() -> bool:
+    """Return True iff the Docker daemon responds."""
+    try:
+        result = subprocess.run(
+            _DOCKER_CHECK_CMD,
+            check=False,
+            capture_output=True,
+            timeout=5,
+        )
+        return result.returncode == 0
+    except (FileNotFoundError, subprocess.TimeoutExpired, OSError):
+        return False
+
+
+def probe_docker(
+    image: str,
+    server_command: list[str],
+    server_name: str,
+    timeout: float = 10.0,
+    snapshot_store: SnapshotStore | None = None,
+    extra_docker_flags: list[str] | None = None,
+) -> ProbeResult:
+    """Probe a server that runs inside a Docker container (EXP-006 safe path).
+
+    Wraps probe() with Docker security flags. The container must already
+    exist locally or be pullable. The server command is run as the container's
+    entrypoint arguments.
+
+    Parameters
+    ----------
+    image:
+        Docker image name + tag (e.g. "mcprunner/goodserver:latest").
+    server_command:
+        Arguments appended after the image name (the MCP server command).
+    server_name:
+        Logical name used in ProbeResult and snapshots.
+    timeout:
+        Wall-clock timeout for the MCP handshake.
+    snapshot_store:
+        If provided, enables drift detection against previous snapshots.
+    extra_docker_flags:
+        Additional docker run flags (e.g. volume mounts for server code).
+        Appended after the security flags, before the image.
+
+    Raises
+    ------
+    DockerNotAvailableError
+        If the Docker daemon is not reachable. Start Docker Desktop and retry.
+    """
+    if not _docker_available():
+        raise DockerNotAvailableError(
+            "Docker daemon is not running. "
+            "Start Docker Desktop (or `sudo systemctl start docker`) and retry. "
+            "EXP-006 requires Docker for safe sandboxing of untrusted servers (ADR-022)."
+        )
+
+    docker_cmd = (
+        ["docker", "run", "-i"]
+        + _DOCKER_SECURITY_FLAGS
+        + (extra_docker_flags or [])
+        + [image]
+        + server_command
+    )
+    return probe(docker_cmd, server_name, timeout=timeout, snapshot_store=snapshot_store)

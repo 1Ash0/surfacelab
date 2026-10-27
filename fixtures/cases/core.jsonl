@@ -1,0 +1,15 @@
+{"id":"c001","kind":"positive","request":"What's the weather like in Tokyo right now?","gold":["get_weather"],"surface_name":"goodserver","note":"clear intent, unambiguous location"}
+{"id":"c002","kind":"positive","request":"Look up the current temperature and conditions in London.","gold":["get_weather"],"surface_name":"goodserver","note":"paraphrase of c001 intent; name-blind test: descriptions must distinguish from search"}
+{"id":"c003","kind":"positive","request":"Search for recent articles about quantum computing breakthroughs.","gold":["search_web"],"surface_name":"goodserver","note":"web search, no ambiguity"}
+{"id":"c004","kind":"positive","request":"Find information online about the best hiking trails in Patagonia.","gold":["search_web"],"surface_name":"goodserver","note":"paraphrase of c003 intent using different vocabulary"}
+{"id":"c005","kind":"positive","request":"Read the contents of the file at /home/user/notes.txt","gold":["read_file"],"surface_name":"goodserver","note":"explicit path; unambiguous"}
+{"id":"c006","kind":"positive","request":"Show me what's in config.yaml","gold":["read_file"],"surface_name":"goodserver","note":"implicit path as filename only; shorter phrasing"}
+{"id":"c007","kind":"positive","request":"Send an email to bob@example.com with subject 'Meeting confirmed' and body 'See you at 3pm.'","gold":["send_email"],"surface_name":"goodserver","note":"explicit all-field request"}
+{"id":"c008","kind":"positive","request":"Email Alice at alice@corp.io to let her know the report is ready.","gold":["send_email"],"surface_name":"goodserver","note":"natural-language request; recipient and intent, no explicit subject/body"}
+{"id":"c009","kind":"positive","request":"Schedule a team standup for tomorrow at 9am titled 'Daily Standup'","gold":["create_calendar_event"],"surface_name":"goodserver","note":"calendar creation with explicit time and title"}
+{"id":"c010","kind":"positive","request":"Put a reminder on my calendar for the dentist appointment next Friday at 2pm.","gold":["create_calendar_event"],"surface_name":"goodserver","note":"colloquial 'reminder' maps to calendar event"}
+{"id":"c011","kind":"positive","request":"Is it raining in Berlin?","gold":["get_weather"],"surface_name":"goodserver","note":"short, vague, human-like phrasing; deliberately minimal"}
+{"id":"c012","kind":"positive","request":"google 'best python async libraries 2025'","gold":["search_web"],"surface_name":"goodserver","note":"informal verb; tests description-based disambiguation"}
+{"id":"c013","kind":"abstain","request":"What is the capital of France?","gold":[],"surface_name":"goodserver","note":"pure knowledge; no tool should be called"}
+{"id":"c014","kind":"abstain","request":"Explain what a Merkle tree is.","gold":[],"surface_name":"goodserver","note":"conceptual explanation; no tool needed"}
+{"id":"c015","kind":"abstain","request":"Thank you, that's all I needed.","gold":[],"surface_name":"goodserver","note":"social utterance; should not trigger any tool call"}
