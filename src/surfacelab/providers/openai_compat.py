@@ -146,6 +146,8 @@ class OpenAICompatProvider:
             self._key_index += 1
             return self._key_states[idx].key
 
+    _MAX_COOLDOWN: float = 30.0  # cap per-key sleep to avoid multi-minute stalls
+
     def _next_available_key(self) -> tuple[str, int]:
         """Return (key, index) skipping cooling keys; sleeps only when all orgs saturated."""
         n = len(self._key_states)
@@ -159,15 +161,18 @@ class OpenAICompatProvider:
                     state = self._key_states[idx]
                     if now >= state.cooldown_until:
                         return state.key, idx
-                # Every key is cooling — find the earliest wake-up
+                # Every key cooling — sleep until the earliest wakes up
                 sleep_until = min(s.cooldown_until for s in self._key_states) + 0.05
             remaining = sleep_until - time.monotonic()
             if remaining > 0:
+                import sys
+                print(f"  [rate-limit] all keys cooling, sleeping {remaining:.1f}s", file=sys.stderr, flush=True)
                 time.sleep(remaining)
 
     def _mark_cooldown(self, key_idx: int, retry_after: float) -> None:
+        capped = min(retry_after, self._MAX_COOLDOWN)
         with self._key_lock:
-            self._key_states[key_idx].cooldown_until = time.monotonic() + retry_after
+            self._key_states[key_idx].cooldown_until = time.monotonic() + capped
 
     def _build_request(self, case: Case, surface: Surface) -> dict[str, Any]:
         return {
