@@ -13,6 +13,7 @@ prompt; mixing them would corrupt replay).
 from __future__ import annotations
 
 import json
+import random
 import os
 import re
 import time
@@ -166,8 +167,10 @@ class OpenAICompatProvider:
             remaining = sleep_until - time.monotonic()
             if remaining > 0:
                 import sys
-                print(f"  [rate-limit] all keys cooling, sleeping {remaining:.1f}s", file=sys.stderr, flush=True)
-                time.sleep(remaining)
+                jitter = random.uniform(0.0, 2.0)
+                total = remaining + jitter
+                print(f"  [rate-limit] all keys cooling, sleeping {total:.1f}s", file=sys.stderr, flush=True)
+                time.sleep(total)
 
     def _mark_cooldown(self, key_idx: int, retry_after: float) -> None:
         capped = min(retry_after, self._MAX_COOLDOWN)
