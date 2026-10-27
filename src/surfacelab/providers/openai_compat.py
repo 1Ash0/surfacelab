@@ -130,6 +130,9 @@ class OpenAICompatProvider:
     _key_states: list[_KeyState] = field(default_factory=list, init=False, repr=False)
     _key_index: int = field(default=0, init=False, repr=False)
     _key_lock: threading.Lock = field(default_factory=threading.Lock, init=False, repr=False)
+    _throttle_lock: threading.Lock = field(default_factory=threading.Lock, init=False, repr=False)
+    _last_call_time: float = field(default=0.0, init=False, repr=False)
+    _min_call_interval: float = field(default=3.5, init=False, repr=False)
 
     def __post_init__(self) -> None:
         if self.provider_slug not in PROVIDER_CONFIGS:
@@ -172,6 +175,21 @@ class OpenAICompatProvider:
                 print(f"  [rate-limit] all keys cooling, sleeping {total:.1f}s", file=sys.stderr, flush=True)
                 time.sleep(total)
 
+    def _throttle(self) -> None:
+        """Enforce a minimum gap between API calls across all workers combined.
+
+        Prevents bursting: even with 4 workers, calls are serialized through this
+        lock so the aggregate rate stays under (1 / _min_call_interval) req/s.
+        At 3.5 s gap: ~17 req/min total → org-A (60% of keys) sees ~10 req/min
+        = 7000 tokens/min, under the 8000 TPM/org Groq free-tier limit.
+        """
+        with self._throttle_lock:
+            now = time.monotonic()
+            wait = self._last_call_time + self._min_call_interval - now
+            if wait > 0:
+                time.sleep(wait)
+            self._last_call_time = time.monotonic()
+
     def _mark_cooldown(self, key_idx: int, retry_after: float) -> None:
         capped = min(retry_after, self._MAX_COOLDOWN)
         with self._key_lock:
@@ -208,6 +226,7 @@ class OpenAICompatProvider:
             api_key, key_idx = self._next_available_key()
             client = OpenAI(base_url=config["base_url"], api_key=api_key)
             try:
+                self._throttle()
                 from typing import cast as _cast
                 resp = client.chat.completions.create(**request)  # type: ignore[arg-type]
                 return _cast(dict[str, Any], resp.model_dump())  # type: ignore[no-untyped-call]

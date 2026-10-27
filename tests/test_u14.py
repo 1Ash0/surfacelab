@@ -217,6 +217,7 @@ class TestRateLimitRetry:
             provider = OpenAICompatProvider(
                 provider_slug="groq", model_id="openai/gpt-oss-20b", cassette_store=store
             )
+        provider._min_call_interval = 0.0  # disable throttle; test is about cooldown-sleep only
 
         t0 = _time.monotonic()
         with patch("openai.resources.chat.completions.Completions.create", fake_create):
@@ -225,7 +226,7 @@ class TestRateLimitRetry:
 
         assert result == "get_weather"
         assert len(call_log) == 2
-        # key-b was reached without sleeping (well under 1s)
+        # key-b was reached without the all-keys-cooling sleep (well under 1s)
         assert elapsed < 1.0
 
     def test_raises_after_max_retries(self, tmp_path: Path) -> None:
