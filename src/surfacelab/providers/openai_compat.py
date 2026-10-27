@@ -12,9 +12,11 @@ prompt; mixing them would corrupt replay).
 
 from __future__ import annotations
 
+import itertools
 import json
 import os
-from dataclasses import dataclass
+import threading
+from dataclasses import dataclass, field
 from typing import Any
 
 from openai import OpenAI
@@ -67,21 +69,64 @@ class ProviderContractError(Exception):
 # ---------------------------------------------------------------------------
 
 
+def _collect_keys(env_var: str) -> list[str]:
+    """Collect all API keys for a provider from environment variables.
+
+    Reads GROQ_API_KEY, GROQ_API_KEY_2, GROQ_API_KEY_3, ... up to _2 through _10.
+    Returns at least one entry (may be empty string if the primary key is unset).
+    """
+    keys: list[str] = []
+    primary = os.environ.get(env_var, "")
+    if primary:
+        keys.append(primary)
+    for i in range(2, 11):
+        k = os.environ.get(f"{env_var}_{i}", "")
+        if k:
+            keys.append(k)
+        else:
+            break
+    return keys or [""]
+
+
 @dataclass
 class OpenAICompatProvider:
-    """Live model calls via any OpenAI-compatible endpoint, backed by cassettes."""
+    """Live model calls via any OpenAI-compatible endpoint, backed by cassettes.
+
+    Supports round-robin key rotation across multiple API keys.
+    Set GROQ_API_KEY, GROQ_API_KEY_2, GROQ_API_KEY_3 … to enable rotation.
+    """
 
     provider_slug: str
     """Registry key in PROVIDER_CONFIGS (e.g. 'openrouter', 'groq')."""
 
     model_id: str
-    """Exact model identifier pinned per experiment (e.g. 'meta-llama/llama-3-8b-instruct:free')."""
+    """Exact model identifier pinned per experiment (e.g. 'llama-3.1-8b-instant')."""
 
     cassette_store: CassetteStore
     """Replay or record mode. Never falls through silently in replay mode."""
 
     tool_choice: str = "required"
     """'required' forces ≥1 tool call. 'auto' allows abstain (use for abstain cases)."""
+
+    # Set in __post_init__ — not part of the public API.
+    _keys: list[str] = field(default_factory=lambda: [], init=False, repr=False)
+    _key_iter: Any = field(default=None, init=False, repr=False)
+    _key_lock: threading.Lock = field(default_factory=threading.Lock, init=False, repr=False)
+
+    def __post_init__(self) -> None:
+        if self.provider_slug not in PROVIDER_CONFIGS:
+            raise ValueError(
+                f"Unknown provider {self.provider_slug!r}. "
+                f"Known: {list(PROVIDER_CONFIGS)}"
+            )
+        env_var = PROVIDER_CONFIGS[self.provider_slug]["env_var"]
+        self._keys = _collect_keys(env_var)
+        self._key_iter = itertools.cycle(self._keys)
+
+    def _next_key(self) -> str:
+        """Return the next API key in round-robin order. Thread-safe."""
+        with self._key_lock:
+            return next(self._key_iter)
 
     def _build_request(self, case: Case, surface: Surface) -> dict[str, Any]:
         return {
@@ -101,13 +146,8 @@ class OpenAICompatProvider:
         return (prefix + body).encode()
 
     def _make_live_call(self, request: dict[str, Any]) -> dict[str, Any]:
-        if self.provider_slug not in PROVIDER_CONFIGS:
-            raise ValueError(
-                f"Unknown provider {self.provider_slug!r}. "
-                f"Known: {list(PROVIDER_CONFIGS)}"
-            )
         config = PROVIDER_CONFIGS[self.provider_slug]
-        api_key = os.environ.get(config["env_var"], "")
+        api_key = self._next_key()
         client = OpenAI(base_url=config["base_url"], api_key=api_key)
         from typing import cast as _cast
         resp = client.chat.completions.create(**request)  # type: ignore[arg-type]

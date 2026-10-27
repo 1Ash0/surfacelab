@@ -75,17 +75,29 @@ def test_fetch_surface_preserves_order():
 # render
 # ---------------------------------------------------------------------------
 
-def test_render_produces_anthropic_shape():
-    """render() must return list[dict] with name, description, input_schema."""
+def test_render_produces_openai_shape():
+    """render() returns OpenAI function-calling format (ADR-021)."""
     surface = asyncio.run(
         fetch_surface([sys.executable, "-c", _SERVER_SRC], server_name="test")
     )
     rendered = render(surface)
     assert isinstance(rendered, list)
     for item in rendered:
-        assert "name" in item
-        assert "description" in item
-        assert "input_schema" in item
+        assert item["type"] == "function"
+        fn = item["function"]
+        assert "name" in fn
+        assert "description" in fn
+        assert "parameters" in fn
+
+
+def test_render_produces_openai_shape_not_anthropic():
+    """render() must NOT use input_schema (Anthropic key) at the top level."""
+    surface = asyncio.run(
+        fetch_surface([sys.executable, "-c", _SERVER_SRC], server_name="test")
+    )
+    rendered = render(surface)
+    for item in rendered:
+        assert "input_schema" not in item
 
 
 def test_render_preserves_order():
@@ -93,8 +105,8 @@ def test_render_preserves_order():
         fetch_surface([sys.executable, "-c", _SERVER_SRC], server_name="test")
     )
     rendered = render(surface)
-    assert rendered[0]["name"] == "search"
-    assert rendered[1]["name"] == "summarise"
+    assert rendered[0]["function"]["name"] == "search"
+    assert rendered[1]["function"]["name"] == "summarise"
 
 
 # ---------------------------------------------------------------------------

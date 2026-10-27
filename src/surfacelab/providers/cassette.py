@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import threading
 from collections.abc import Callable
 from datetime import UTC, datetime
 from pathlib import Path
@@ -57,7 +58,11 @@ def _key(request_bytes: bytes) -> str:
 
 
 class CassetteStore:
-    """Read/write cassettes from a directory on disk."""
+    """Read/write cassettes from a directory on disk.
+
+    Thread-safe: concurrent callers with *different* keys run fully in parallel;
+    concurrent callers with the *same* key serialize so only one live call is made.
+    """
 
     def __init__(
         self,
@@ -67,6 +72,8 @@ class CassetteStore:
         self.path = path
         self.mode = mode
         path.mkdir(parents=True, exist_ok=True)
+        self._map_lock: threading.Lock = threading.Lock()
+        self._key_locks: dict[str, threading.Lock] = {}
 
     def _entry_path(self, key: str) -> Path:
         # Two-char prefix bucket keeps each subdirectory small.
@@ -114,6 +121,12 @@ class CassetteStore:
         if current != stored_key:
             raise CassetteStaleError(stored_key, current)
 
+    def _get_key_lock(self, key: str) -> threading.Lock:
+        with self._map_lock:
+            if key not in self._key_locks:
+                self._key_locks[key] = threading.Lock()
+            return self._key_locks[key]
+
     def call(
         self,
         request_bytes: bytes,
@@ -122,14 +135,15 @@ class CassetteStore:
         """Replay if cassette exists; record via live_fn if mode == 'record'.
 
         Never falls through to live_fn in replay mode — raises instead.
-        This is the only call site for live model calls in the harness.
+        Thread-safe: per-key lock prevents duplicate live calls under concurrency.
         """
-        if self.has(request_bytes):
-            return self.get(request_bytes)
-        if self.mode == "replay":
-            key = _key(request_bytes)
-            raise CassetteMissingError(key, self.path)
-        # record mode: call live, store, return
-        response = live_fn(request_bytes)
-        self.put(request_bytes, response)
-        return response
+        key = _key(request_bytes)
+        with self._get_key_lock(key):
+            if self.has(request_bytes):
+                return self.get(request_bytes)
+            if self.mode == "replay":
+                raise CassetteMissingError(key, self.path)
+            # record mode: call live, store, return
+            response = live_fn(request_bytes)
+            self.put(request_bytes, response)
+            return response

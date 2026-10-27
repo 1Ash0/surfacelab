@@ -31,13 +31,21 @@ def _count(text: str) -> int:
 
 
 def render(surface: Surface) -> list[dict[str, Any]]:
-    """Return a tools list ready to pass to anthropic client tools= param."""
+    """Return a tools list in OpenAI function-calling format.
+
+    Shape: [{"type": "function", "function": {"name", "description", "parameters"}}]
+    Compatible with all providers via ADR-021 (Groq, OpenRouter, Gemini, etc.).
+    The rendered bytes are part of the cassette key (ADR-005).
+    """
     out: list[dict[str, Any]] = []
     for tool in surface.tools:
         out.append({
-            "name": tool.name,
-            "description": tool.description,
-            "input_schema": tool.input_schema,
+            "type": "function",
+            "function": {
+                "name": tool.name,
+                "description": tool.description,
+                "parameters": tool.input_schema,
+            },
         })
     return out
 

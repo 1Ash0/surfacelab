@@ -12,6 +12,7 @@ surfacelab probe <cmd...>    run the MCP handshake probe against a server
 from __future__ import annotations
 
 import json
+import threading
 from pathlib import Path
 from typing import Annotated
 
@@ -35,6 +36,7 @@ def run(
     dry_run: Annotated[bool, typer.Option("--dry-run", help="Estimate cost and exit without calling the API")] = False,
     record: Annotated[bool, typer.Option("--record", help="Record live calls to cassette")] = False,
     variants: Annotated[int, typer.Option(help="Number of balanced permutation variants (1 = canonical only)")] = 1,
+    workers: Annotated[int, typer.Option(help="Parallel trial workers (1 = sequential)")] = 1,
     out: Annotated[Path | None, typer.Option(help="Write JSON report to this path")] = None,
     html: Annotated[Path | None, typer.Option(help="Write HTML report to this path")] = None,
 ) -> None:
@@ -94,8 +96,28 @@ def run(
     )
 
     # ---- run ----------------------------------------------------------------
-    harness = provider_obj.call
-    trials, errors = run_experiment(cases, surface_variants, harness)
+    total_trials = len(cases) * len(surface_variants)
+    _done_count = 0
+    _progress_lock = threading.Lock()
+
+    from .cases import Case as _Case
+    from .schema import Surface as _Surface
+
+    base_harness = provider_obj.call
+
+    def harness(case: _Case, surface: _Surface) -> str | None:
+        nonlocal _done_count
+        result = base_harness(case, surface)
+        with _progress_lock:
+            _done_count += 1
+            n = _done_count
+        typer.echo(f"\r  {n}/{total_trials} trials", nl=False, err=True)
+        return result
+
+    if workers > 1:
+        typer.echo(f"  running {total_trials} trials with {workers} workers …", err=True)
+    trials, errors = run_experiment(cases, surface_variants, harness, workers=workers)
+    typer.echo("", err=True)  # newline after progress
 
     if errors:
         typer.echo(f"\n{len(errors)} trial(s) failed:", err=True)

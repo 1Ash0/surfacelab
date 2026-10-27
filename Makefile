@@ -54,20 +54,20 @@ exp001-record:
 	uv run surfacelab run fixtures/cases/core.jsonl \
 	  --surface goodserver --provider groq \
 	  --model llama-3.1-8b-instant \
-	  --variants 120 --record --max-usd 5.00
+	  --variants 120 --record --max-usd 5.00 --workers 8
 	uv run surfacelab run fixtures/cases/siblings.jsonl \
 	  --surface siblings --provider groq \
 	  --model llama-3.1-8b-instant \
-	  --variants 24 --record --max-usd 5.00
+	  --variants 24 --record --max-usd 5.00 --workers 8
 	@echo "--- EXP-001: large model (70b) ---"
 	uv run surfacelab run fixtures/cases/core.jsonl \
 	  --surface goodserver --provider groq \
 	  --model llama-3.3-70b-versatile \
-	  --variants 120 --record --max-usd 5.00
+	  --variants 120 --record --max-usd 5.00 --workers 8
 	uv run surfacelab run fixtures/cases/siblings.jsonl \
 	  --surface siblings --provider groq \
 	  --model llama-3.3-70b-versatile \
-	  --variants 24 --record --max-usd 5.00
+	  --variants 24 --record --max-usd 5.00 --workers 8
 
 # ---- EXP-002: paraphrase fragility -------------------------------------
 
@@ -98,11 +98,11 @@ exp003-record:
 	  uv run surfacelab run fixtures/cases/core.jsonl \
 	    --surface $$surface --provider groq \
 	    --model llama-3.1-8b-instant \
-	    --variants 1 --record --max-usd 2.00; \
+	    --variants 1 --record --max-usd 2.00 --workers 8; \
 	  uv run surfacelab run fixtures/cases/core.jsonl \
 	    --surface $$surface --provider groq \
 	    --model llama-3.3-70b-versatile \
-	    --variants 1 --record --max-usd 2.00; \
+	    --variants 1 --record --max-usd 2.00 --workers 8; \
 	done
 
 # ---- EXP-004: cross-server collision -----------------------------------
@@ -120,11 +120,11 @@ exp004-record:
 	  uv run surfacelab run fixtures/cases/cross_server.jsonl \
 	    --surface $$surface --provider groq \
 	    --model llama-3.1-8b-instant \
-	    --variants 1 --record --max-usd 2.00; \
+	    --variants 1 --record --max-usd 2.00 --workers 8; \
 	  uv run surfacelab run fixtures/cases/cross_server.jsonl \
 	    --surface $$surface --provider groq \
 	    --model llama-3.3-70b-versatile \
-	    --variants 1 --record --max-usd 2.00; \
+	    --variants 1 --record --max-usd 2.00 --workers 8; \
 	done
 
 # ---- EXP-005: tool-count dose-response (M6; uses pad_surface at runtime)

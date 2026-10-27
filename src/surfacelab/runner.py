@@ -15,6 +15,7 @@ of one case form a *family* — the unit of clustered statistics in report.py.
 from __future__ import annotations
 
 from collections.abc import Callable
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 
 from .cases import Case
@@ -49,48 +50,70 @@ class RunError:
     message: str
 
 
+def _run_one(
+    case: Case,
+    variant: Surface,
+    variant_index: int,
+    harness: Harness,
+) -> tuple[TrialResult, RunError | None]:
+    h = _surface_hash(variant)
+    try:
+        emitted = harness(case, variant)
+        result = grade(case, emitted)
+        return TrialResult(
+            case_id=case.id,
+            surface_hash=h,
+            variant_index=variant_index,
+            emitted=emitted,
+            correct=result.verdict == Verdict.correct,
+            error=None,
+        ), None
+    except Exception as exc:  # noqa: BLE001
+        msg = str(exc)
+        return TrialResult(
+            case_id=case.id,
+            surface_hash=h,
+            variant_index=variant_index,
+            emitted=None,
+            correct=False,
+            error=msg,
+        ), RunError(case_id=case.id, variant_index=variant_index, message=msg)
+
+
 def run_experiment(
     cases: list[Case],
     surface_variants: list[Surface],
     harness: Harness,
+    *,
+    workers: int = 1,
 ) -> tuple[list[TrialResult], list[RunError]]:
     """Drive every (case, variant) pair through the harness.
+
+    workers > 1 uses a ThreadPoolExecutor; results are returned in the same
+    order as the sequential loop (cases × variants). The harness must be
+    thread-safe (CassetteStore.call is; live OpenAI clients are stateless).
 
     Returns (trials, errors).
     - trials contains one entry per (case, variant) pair, including errored ones.
     - errors is a parallel log of every raised exception.
-
-    Errors are NOT silently dropped: each error trial has correct=False and
-    error set to the exception message. The caller inspects errors to decide
-    whether the run is valid.
     """
+    work = [
+        (case, variant, i)
+        for case in cases
+        for i, variant in enumerate(surface_variants)
+    ]
+
+    if workers <= 1:
+        results = [_run_one(c, v, i, harness) for c, v, i in work]
+    else:
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            futures = [pool.submit(_run_one, c, v, i, harness) for c, v, i in work]
+            results = [f.result() for f in futures]
+
     trials: list[TrialResult] = []
     errors: list[RunError] = []
-
-    for case in cases:
-        for i, variant in enumerate(surface_variants):
-            h = _surface_hash(variant)
-            try:
-                emitted = harness(case, variant)
-                result = grade(case, emitted)
-                trials.append(TrialResult(
-                    case_id=case.id,
-                    surface_hash=h,
-                    variant_index=i,
-                    emitted=emitted,
-                    correct=result.verdict == Verdict.correct,
-                    error=None,
-                ))
-            except Exception as exc:  # noqa: BLE001
-                msg = str(exc)
-                errors.append(RunError(case_id=case.id, variant_index=i, message=msg))
-                trials.append(TrialResult(
-                    case_id=case.id,
-                    surface_hash=h,
-                    variant_index=i,
-                    emitted=None,
-                    correct=False,
-                    error=msg,
-                ))
-
+    for trial, error in results:
+        trials.append(trial)
+        if error is not None:
+            errors.append(error)
     return trials, errors
