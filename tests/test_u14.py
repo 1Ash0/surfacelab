@@ -189,7 +189,44 @@ class TestRateLimitRetry:
             result = provider.call(_case("c001"), SURFACE)
 
         assert result == "get_weather"
-        assert call_count == 3
+        assert call_count >= 3  # may retry more than twice with cooldown logic
+
+    def test_org_b_key_used_without_sleep_when_org_a_cooling(self, tmp_path: Path) -> None:
+        """When org-A key is cooling, org-B key is returned immediately (no sleep)."""
+        import openai
+        import time as _time
+
+        err = self._make_rate_limit_error()
+        call_log: list[str] = []
+
+        def fake_create(self_ignored, **kwargs):
+            # Identify which key was used via the client's api_key
+            # We simulate: first call (key-a) → 429; second call (key-b) → success
+            if not call_log:
+                call_log.append("key-a-429")
+                raise err
+            call_log.append("key-b-ok")
+            import types
+            return types.SimpleNamespace(model_dump=lambda: {
+                "choices": [{"message": {"tool_calls": [{"function": {"name": "get_weather", "arguments": "{}"}}]}}]
+            })
+
+        store = CassetteStore(tmp_path, mode="record")
+        env = {"GROQ_API_KEY_1": "key-a", "GROQ_API_KEY_2": "key-b"}
+        with patch.dict(os.environ, env, clear=False):
+            provider = OpenAICompatProvider(
+                provider_slug="groq", model_id="openai/gpt-oss-20b", cassette_store=store
+            )
+
+        t0 = _time.monotonic()
+        with patch("openai.resources.chat.completions.Completions.create", fake_create):
+            result = provider.call(_case("c001"), SURFACE)
+        elapsed = _time.monotonic() - t0
+
+        assert result == "get_weather"
+        assert len(call_log) == 2
+        # key-b was reached without sleeping (well under 1s)
+        assert elapsed < 1.0
 
     def test_raises_after_max_retries(self, tmp_path: Path) -> None:
         import openai

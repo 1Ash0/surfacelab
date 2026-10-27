@@ -12,7 +12,6 @@ prompt; mixing them would corrupt replay).
 
 from __future__ import annotations
 
-import itertools
 import json
 import os
 import re
@@ -55,6 +54,12 @@ PROVIDER_CONFIGS: dict[str, dict[str, str]] = {
         "env_var": "MISTRAL_API_KEY",
     },
 }
+
+
+@dataclass
+class _KeyState:
+    key: str
+    cooldown_until: float = 0.0  # time.monotonic() deadline; 0 = available
 
 
 class ProviderContractError(Exception):
@@ -121,8 +126,8 @@ class OpenAICompatProvider:
     """'required' forces ≥1 tool call. 'auto' allows abstain (use for abstain cases)."""
 
     # Set in __post_init__ — not part of the public API.
-    _keys: list[str] = field(default_factory=lambda: [], init=False, repr=False)
-    _key_iter: Any = field(default=None, init=False, repr=False)
+    _key_states: list[_KeyState] = field(default_factory=list, init=False, repr=False)
+    _key_index: int = field(default=0, init=False, repr=False)
     _key_lock: threading.Lock = field(default_factory=threading.Lock, init=False, repr=False)
 
     def __post_init__(self) -> None:
@@ -132,13 +137,37 @@ class OpenAICompatProvider:
                 f"Known: {list(PROVIDER_CONFIGS)}"
             )
         env_var = PROVIDER_CONFIGS[self.provider_slug]["env_var"]
-        self._keys = _collect_keys(env_var)
-        self._key_iter = itertools.cycle(self._keys)
+        self._key_states = [_KeyState(key=k) for k in _collect_keys(env_var)]
 
     def _next_key(self) -> str:
-        """Return the next API key in round-robin order. Thread-safe."""
+        """Round-robin without cooldown check. Used in tests."""
         with self._key_lock:
-            return next(self._key_iter)
+            idx = self._key_index % len(self._key_states)
+            self._key_index += 1
+            return self._key_states[idx].key
+
+    def _next_available_key(self) -> tuple[str, int]:
+        """Return (key, index) skipping cooling keys; sleeps only when all orgs saturated."""
+        n = len(self._key_states)
+        while True:
+            sleep_until = 0.0
+            with self._key_lock:
+                now = time.monotonic()
+                for _ in range(n):
+                    idx = self._key_index % n
+                    self._key_index += 1
+                    state = self._key_states[idx]
+                    if now >= state.cooldown_until:
+                        return state.key, idx
+                # Every key is cooling — find the earliest wake-up
+                sleep_until = min(s.cooldown_until for s in self._key_states) + 0.05
+            remaining = sleep_until - time.monotonic()
+            if remaining > 0:
+                time.sleep(remaining)
+
+    def _mark_cooldown(self, key_idx: int, retry_after: float) -> None:
+        with self._key_lock:
+            self._key_states[key_idx].cooldown_until = time.monotonic() + retry_after
 
     def _build_request(self, case: Case, surface: Surface) -> dict[str, Any]:
         return {
@@ -158,34 +187,28 @@ class OpenAICompatProvider:
         return (prefix + body).encode()
 
     def _make_live_call(self, request: dict[str, Any]) -> dict[str, Any]:
-        """Call the API, rotating through all keys before sleeping on 429.
+        """Call the API with per-key cooldown tracking.
 
-        Strategy: on rate-limit, try every key in sequence with no delay
-        (a key from a different org will succeed immediately). Only sleep
-        once the full key ring is exhausted — meaning every org is saturated.
+        On 429, the offending key is cooled individually. _next_available_key
+        immediately returns a key from a different org if one is free, so cross-org
+        failover costs zero sleep time. Sleep only happens when every key in every
+        org is cooling simultaneously.
         """
         config = PROVIDER_CONFIGS[self.provider_slug]
-        n_keys = len(self._keys)
-        max_rounds = 8
-        last_exc: openai.RateLimitError | None = None
-
-        for round_num in range(max_rounds):
-            for _ in range(n_keys):
-                api_key = self._next_key()
-                client = OpenAI(base_url=config["base_url"], api_key=api_key)
-                try:
-                    from typing import cast as _cast
-                    resp = client.chat.completions.create(**request)  # type: ignore[arg-type]
-                    return _cast(dict[str, Any], resp.model_dump())  # type: ignore[no-untyped-call]
-                except openai.RateLimitError as exc:
-                    last_exc = exc
-            # Every key exhausted — sleep before retrying the ring
-            if round_num == max_rounds - 1:
-                raise last_exc  # type: ignore[misc]
-            m = re.search(r"try again in ([0-9.]+)s", str(last_exc))
-            wait = float(m.group(1)) + 0.5 if m else 5.0
-            time.sleep(min(wait, 60.0))
-
+        max_attempts = len(self._key_states) * 8
+        for attempt in range(max_attempts):
+            api_key, key_idx = self._next_available_key()
+            client = OpenAI(base_url=config["base_url"], api_key=api_key)
+            try:
+                from typing import cast as _cast
+                resp = client.chat.completions.create(**request)  # type: ignore[arg-type]
+                return _cast(dict[str, Any], resp.model_dump())  # type: ignore[no-untyped-call]
+            except openai.RateLimitError as exc:
+                m = re.search(r"try again in ([0-9.]+)s", str(exc))
+                retry_after = float(m.group(1)) + 0.5 if m else 5.0
+                self._mark_cooldown(key_idx, retry_after)
+                if attempt == max_attempts - 1:
+                    raise
         raise RuntimeError("unreachable")
 
     def call(self, case: Case, surface: Surface) -> str | None:
