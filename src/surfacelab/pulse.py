@@ -125,8 +125,20 @@ def _recv(proc: subprocess.Popen[bytes], timeout: float) -> dict[str, Any]:
         ready, _, _ = _select.select([proc.stdout], [], [], timeout)
         if not ready:
             raise TimeoutError("no data on stdout")
+        line = proc.stdout.readline()
+    else:
+        # Windows pipes do not support select(); read on a daemon thread so a silent
+        # server cannot block the probe forever (EXP-006 hung on one before this).
+        import queue
+        import threading
 
-    line = proc.stdout.readline()
+        q: queue.Queue[bytes] = queue.Queue()
+        stdout = proc.stdout
+        threading.Thread(target=lambda: q.put(stdout.readline()), daemon=True).start()
+        try:
+            line = q.get(timeout=timeout)
+        except queue.Empty:
+            raise TimeoutError("no data on stdout") from None
     if not line:
         raise EOFError("stdout closed")
     try:

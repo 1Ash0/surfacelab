@@ -101,6 +101,14 @@ class TestProbe:
         assert result.surface is not None
         assert result.surface.tool_count == 4
 
+    def test_silent_server_times_out(self) -> None:
+        # A server that never answers must not block the probe (EXP-006 hung on Windows).
+        import time
+        start = time.monotonic()
+        result = probe([_PY, "-c", "import time; time.sleep(30)"], "silent", timeout=1.0)
+        assert result.outcome == ProbeOutcome.timeout
+        assert time.monotonic() - start < 10
+
     def test_spawn_error_bad_command(self) -> None:
         result = probe(["no_such_binary_xyz"], "bad")
         assert result.outcome == ProbeOutcome.spawn_error
