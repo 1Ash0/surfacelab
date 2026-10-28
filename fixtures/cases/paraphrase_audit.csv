@@ -1,16 +1,16 @@
-family,paraphrase_id,original,paraphrase,intent_preserved (yes/no),comment
-c001,c001_p5,What's the weather like in Tokyo right now?,What's the current weather in Tokyo right now?,,
-c002,c002_p3,Look up the current temperature and conditions in London.,Fetch the latest temperature and atmospheric conditions for London.,,
-c003,c003_p4,Search for recent articles about quantum computing breakthroughs.,Find the latest articles that discuss quantum computing breakthroughs.,,
-c004,c004_p3,Find information online about the best hiking trails in Patagonia.,Locate online resources that list the best hiking trails in Patagonia.,,
-c005,c005_p1,Read the contents of the file at /home/user/notes.txt,Please provide the data contained in /home/user/notes.txt.,,
-c006,c006_p4,Show me what's in config.yaml,Let me view config.yaml.,,
-c006,c006_p5,Show me what's in config.yaml,Show me the file config.yaml.,,
-c007,c007_p2,Send an email to bob@example.com with subject 'Meeting confirmed' and body 'See you at 3pm.',"Create an email for bob@example.com, title it 'Meeting confirmed' and write 'See you at 3pm.' in the body.",,
-c007,c007_p5,Send an email to bob@example.com with subject 'Meeting confirmed' and body 'See you at 3pm.',"Generate an email to bob@example.com, set the subject to 'Meeting confirmed' and the body to 'See you at 3pm.'",,
-c009,c009_p1,Schedule a team standup for tomorrow at 9am titled 'Daily Standup',Book a team standup for tomorrow at 9am under the title 'Daily Standup'.,,
-c009,c009_p2,Schedule a team standup for tomorrow at 9am titled 'Daily Standup',Create a team standup scheduled for tomorrow at 9am and label it 'Daily Standup'.,,
-c010,c010_p4,Put a reminder on my calendar for the dentist appointment next Friday at 2pm.,Add a calendar reminder for the dentist appointment next Friday at 2pm.,,
-c011,c011_p2,Is it raining in Berlin?,Can you check if it's raining in Berlin today?,,
-c012,c012_p5,google 'best python async libraries 2025',Perform a Google search for the phrase 'best python async libraries 2025'.,,
-c014,c014_p1,Explain what a Merkle tree is.,I would like to understand what a Merkle tree means; can you explain it?,,
+family,paraphrase_id,original,paraphrase,intent_preserved,comment
+c001,c001_p5,What's the weather like in Tokyo right now?,What's the current weather in Tokyo right now?,yes,Equivalent current-weather request; 'current' is redundant with 'right now'.
+c002,c002_p3,Look up the current temperature and conditions in London.,Fetch the latest temperature and atmospheric conditions for London.,yes,Preserves the request for current temperature and conditions.
+c003,c003_p4,Search for recent articles about quantum computing breakthroughs.,Find the latest articles that discuss quantum computing breakthroughs.,yes,"Preserves topic, article format and recency."
+c004,c004_p3,Find information online about the best hiking trails in Patagonia.,Locate online resources that list the best hiking trails in Patagonia.,yes,"Preserves online research intent, location and topic."
+c005,c005_p1,Read the contents of the file at /home/user/notes.txt,Please provide the data contained in /home/user/notes.txt.,yes,Low: 'data' slightly less precise than 'contents'.
+c006,c006_p4,Show me what's in config.yaml,Let me view config.yaml.,yes,Preserves file-inspection intent; slightly less explicit.
+c006,c006_p5,Show me what's in config.yaml,Show me the file config.yaml.,yes,Could be read as requesting the file itself rather than its contents.
+c007,c007_p2,Send an email to bob@example.com with subject 'Meeting confirmed' and body 'See you at 3pm.',"Create an email for bob@example.com, title it 'Meeting confirmed' and write 'See you at 3pm.' in the body.",no,High: 'create' does not imply sending; original requires transmission.
+c007,c007_p5,Send an email to bob@example.com with subject 'Meeting confirmed' and body 'See you at 3pm.',"Generate an email to bob@example.com, set the subject to 'Meeting confirmed' and the body to 'See you at 3pm.'",no,High: 'generate' does not imply sending; original requires transmission.
+c009,c009_p1,Schedule a team standup for tomorrow at 9am titled 'Daily Standup',Book a team standup for tomorrow at 9am under the title 'Daily Standup'.,yes,Low: 'book' could imply a reservation workflow rather than calendar scheduling.
+c009,c009_p2,Schedule a team standup for tomorrow at 9am titled 'Daily Standup',Create a team standup scheduled for tomorrow at 9am and label it 'Daily Standup'.,yes,"Preserves scheduling action, time, event type and title."
+c010,c010_p4,Put a reminder on my calendar for the dentist appointment next Friday at 2pm.,Add a calendar reminder for the dentist appointment next Friday at 2pm.,yes,"Preserves reminder, appointment, date, time and calendar context."
+c011,c011_p2,Is it raining in Berlin?,Can you check if it's raining in Berlin today?,no,Medium: 'today' broadens a current-conditions query to a day-long timeframe.
+c012,c012_p5,google 'best python async libraries 2025',Perform a Google search for the phrase 'best python async libraries 2025'.,yes,Low: preserves engine and query; exact-query handling may vary.
+c014,c014_p1,Explain what a Merkle tree is.,I would like to understand what a Merkle tree means; can you explain it?,yes,Preserves the request to explain the same concept.
