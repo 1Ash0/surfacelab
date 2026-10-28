@@ -37,6 +37,7 @@ def run(
     record: Annotated[bool, typer.Option("--record", help="Record live calls to cassette")] = False,
     variants: Annotated[int, typer.Option(help="Number of balanced permutation variants (1 = canonical only)")] = 1,
     workers: Annotated[int, typer.Option(help="Parallel trial workers (1 = sequential)")] = 1,
+    temperature: Annotated[float | None, typer.Option(help="Sampling temperature; omitted = provider default")] = None,
     out: Annotated[Path | None, typer.Option(help="Write JSON report to this path")] = None,
     html: Annotated[Path | None, typer.Option(help="Write HTML report to this path")] = None,
 ) -> None:
@@ -93,6 +94,7 @@ def run(
         provider_slug=provider,
         model_id=model,
         cassette_store=cassette_store,
+        temperature=temperature,
     )
 
     # ---- run ----------------------------------------------------------------

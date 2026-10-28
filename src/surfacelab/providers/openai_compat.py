@@ -128,6 +128,9 @@ class OpenAICompatProvider:
     tool_choice: str = "required"
     """'required' forces ≥1 tool call. 'auto' allows abstain (use for abstain cases)."""
 
+    temperature: float | None = None
+    """None omits the field (provider default), keeping pre-existing cassette keys valid."""
+
     # Set in __post_init__ — not part of the public API.
     _key_states: list[_KeyState] = field(default_factory=list, init=False, repr=False)
     _key_index: int = field(default=0, init=False, repr=False)
@@ -205,12 +208,15 @@ class OpenAICompatProvider:
         return "auto" if case.kind == CaseKind.abstain else self.tool_choice
 
     def _build_request(self, case: Case, surface: Surface) -> dict[str, Any]:
-        return {
+        request: dict[str, Any] = {
             "model": self.model_id,
             "messages": [{"role": "user", "content": case.request}],
             "tools": render(surface),
             "tool_choice": self._tool_choice_for(case),
         }
+        if self.temperature is not None:
+            request["temperature"] = self.temperature
+        return request
 
     def _request_bytes(self, request: dict[str, Any]) -> bytes:
         # Include provider_slug and model_id in the key so cassette entries
