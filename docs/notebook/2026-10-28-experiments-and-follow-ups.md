@@ -66,3 +66,7 @@ ADR-023 (proposed): follow-ups EXP-009–012 on near-duplicate surfaces with 32 
 - Audited every early design decision against the findings. Kept: the instrument concept, all honesty rules, reticle and scales, vanilla three.js. Dropped: gradient sky, glass-bead glow, frosted rail, grain, bloom; revised the palette and the cream daylight theme, which matched common generated looks.
 - Converged on the observatory plate room: the blink comparator is our method (same field, two plates, what moved). One rule of light: only the call is lit.
 - Specimen built from recorded EXP-013 data only.
+
+## Design direction, corrected
+- The flat "Plate Room" draft was rejected: it dropped the 3D observatory the project set out to build. Rewrote ADR-027 as the Dusk Observatory, built.
+- Prototype (`docs/design/observatory-prototype.html`): dome at dusk with lit slit, brass azimuth ring and telescope; sky = 82 real tools placed by PCA of cached description embeddings; beams = all 396 EXP-013 recorded calls; filaments = recorded confusions; ADR-026 chapters with hooks and rails; a Lab. Checked in a browser: no console errors after fixing a NaN camera at zero window height.

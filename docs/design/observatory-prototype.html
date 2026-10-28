@@ -1,0 +1,631 @@
+<meta charset="utf-8">
+<title>surfacelab Observatory</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Source+Sans+3:wght@300;400;600&display=swap">
+<style>
+/* Layout: a fixed WebGL sky behind a scroll of chapter panels; each chapter docks an evidence rail. Single deliberate dusk theme (ADR-017 Dusk Observatory). */
+:root{
+  --sky-top:#05070F; --sky-mid:#0C1226; --horizon:#2E2236; --glow:#6B4A4F;
+  --ink:#E9E4DA; --ink-2:#A9A6B4; --ink-3:#6E6C7E; --brass:#C9A26B; --brass-2:rgba(201,162,107,.38);
+  --ok:#8FE3C0; --bad:#FF7A66; --possible:#D9B36C;
+  --panel:rgba(9,12,24,.72); --panel-edge:rgba(201,162,107,.28);
+  --f-disp:"Cormorant Garamond","Iowan Old Style",Georgia,serif;
+  --f-body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"DM Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--sky-top);color:var(--ink)}
+body{margin:0;font-family:var(--f-body);font-size:16px;line-height:1.55;overflow-x:hidden}
+#gl{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0;touch-action:pan-y}
+#labels{position:fixed;inset:0;pointer-events:none;z-index:2}
+.lbl{position:absolute;transform:translate(-50%,-140%);font-family:var(--f-mono);font-size:11px;letter-spacing:.02em;color:var(--ink);white-space:nowrap;padding:3px 7px;background:rgba(5,7,15,.62);border:1px solid var(--brass-2);transition:opacity .25s}
+.lbl.cluster{background:none;border:0;color:var(--brass);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;transform:translate(-50%,-50%)}
+.lbl small{color:var(--ink-3)}
+#tip{position:fixed;z-index:6;pointer-events:none;max-width:320px;padding:10px 12px;background:rgba(5,7,15,.9);border:1px solid var(--brass-2);font-size:13px;line-height:1.4;opacity:0;transition:opacity .15s}
+#tip b{font-family:var(--f-mono);font-weight:400;color:var(--brass);font-size:12px;display:block;margin-bottom:4px}
+#tip span{color:var(--ink-2)}
+
+/* HUD (instrument readouts) */
+.hud{position:fixed;z-index:5;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;color:var(--ink-3);pointer-events:none;text-transform:uppercase}
+.hud.tl{top:calc(14px + env(safe-area-inset-top,0px));left:max(16px,env(safe-area-inset-left,0px))}
+.hud.tr{top:calc(14px + env(safe-area-inset-top,0px));right:max(16px,env(safe-area-inset-right,0px));text-align:right}
+.hud.bl{bottom:calc(14px + env(safe-area-inset-bottom,0px));left:max(16px,env(safe-area-inset-left,0px))}
+.hud b{color:var(--brass);font-weight:400}
+.prog{position:fixed;z-index:5;right:max(14px,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);display:grid;gap:10px}
+.prog a{display:block;width:22px;height:2px;background:var(--ink-3);opacity:.5;transition:all .3s;pointer-events:auto}
+.prog a.on{background:var(--brass);opacity:1;width:34px}
+@media (max-width:700px){.prog{display:none}}
+
+/* scroll content */
+main{position:relative;z-index:3}
+.ch{min-height:130vh;display:flex;align-items:center;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));padding-block:12vh}
+.ch.hero{min-height:100vh;align-items:flex-end;padding-bottom:16vh}
+.ch.right{justify-content:flex-end}
+.ch.wide{justify-content:center}
+.card{width:min(460px,100%);background:var(--panel);border:1px solid var(--panel-edge);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:26px 26px 20px;display:grid;gap:14px}
+.ch.wide .card{width:min(980px,100%)}
+.eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);margin:0}
+h1,h2{font-family:var(--f-disp);font-weight:300;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(2.9rem,8.4vw,6.6rem);line-height:.95;max-width:12ch}
+h1 em,h2 em{font-style:italic;color:var(--brass)}
+h2{font-size:clamp(2rem,4.2vw,3rem);line-height:1.02}
+p{margin:0;max-width:62ch}
+.lede{font-size:1.06rem;color:var(--ink-2)}
+.hero-sub{font-size:clamp(1rem,1.6vw,1.2rem);color:var(--ink-2);max-width:46ch;margin-top:18px}
+.cue{margin-top:34px;font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase;display:flex;align-items:center;gap:12px}
+.cue i{display:block;width:1px;height:38px;background:linear-gradient(var(--brass),transparent);animation:drip 2.2s ease-in-out infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* evidence rail */
+.rail{border-top:1px solid var(--panel-edge);padding-top:12px;display:grid;gap:7px;font-size:13px}
+.rail .big{font-family:var(--f-disp);font-weight:400;font-size:3.1rem;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.rail .big small{font-family:var(--f-mono);font-size:12px;color:var(--ink-2);letter-spacing:.02em}
+.rail .ci{font-family:var(--f-mono);font-size:12.5px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.rail .row{display:grid;grid-template-columns:92px minmax(0,1fr);gap:10px;align-items:baseline}
+.rail .k{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.rail code,.mono{font-family:var(--f-mono);font-size:.86em;color:var(--ink)}
+.tag{display:inline-block;font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:2px 7px;border:1px solid currentColor}
+.tag.exp{color:var(--possible)} .tag.meas{color:var(--ink-2)} .tag.null{color:var(--ink-2)} .tag.rep{color:var(--ok)} .tag.nc{color:var(--bad)}
+.not{font-size:12.5px;color:var(--ink-3);font-style:italic}
+
+/* hook: predict then reveal */
+.hook{display:grid;gap:10px;padding:14px;border:1px dashed var(--brass-2)}
+.hook label{font-size:14px;color:var(--ink)}
+.hook .rowh{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+input[type=range]{flex:1;min-width:160px;accent-color:var(--brass)}
+.btn{font:inherit;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);background:transparent;border:1px solid var(--brass-2);padding:8px 13px;cursor:pointer;transition:all .2s}
+.btn:hover{border-color:var(--brass);color:var(--brass)}
+.btn:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+.btn.on{background:var(--brass);color:#14100a;border-color:var(--brass)}
+.reveal{font-family:var(--f-mono);font-size:13px;color:var(--ink-2);min-height:1.4em}
+.reveal b{color:var(--brass);font-weight:400}
+
+/* null wall + ties */
+.wall{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px}
+.tile{border:1px solid var(--panel-edge);padding:14px;display:grid;gap:8px;background:rgba(5,7,15,.35)}
+.tile h3{margin:0;font-family:var(--f-disp);font-weight:400;font-size:1.35rem;line-height:1.1}
+.tile .m{font-family:var(--f-mono);font-size:11px;color:var(--ink-3);letter-spacing:.04em}
+.tile svg{display:block;width:100%;height:auto}
+.tile .v{font-family:var(--f-mono);font-size:12.5px;color:var(--ink-2)}
+.slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:end;height:170px;padding-top:6px}
+.slot{display:grid;gap:6px;align-content:end;height:100%}
+.slot .bar{background:linear-gradient(var(--brass),rgba(201,162,107,.25));transition:height 1.1s cubic-bezier(.2,.8,.2,1);height:0;position:relative}
+.slot .bar span{position:absolute;top:-20px;left:0;right:0;text-align:center;font-family:var(--f-mono);font-size:12px;color:var(--ink)}
+.slot .ghost{border-top:1px dashed var(--ink-2);position:relative;height:0;margin-top:-1px}
+.slot .cap{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3);text-align:center;letter-spacing:.06em}
+
+/* lab */
+.lab{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:18px}
+@media (max-width:820px){.lab{grid-template-columns:minmax(0,1fr)}}
+.ctrls{display:grid;gap:12px;align-content:start}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+select{font:inherit;font-size:14px;color:var(--ink);background:rgba(5,7,15,.6);border:1px solid var(--brass-2);padding:8px 10px;width:100%}
+.caselist{display:grid;gap:4px;max-height:300px;overflow:auto;padding-right:4px}
+.case{all:unset;cursor:pointer;display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:8px;align-items:center;font-size:13.5px;padding:7px 9px;border:1px solid transparent;line-height:1.3}
+.case:hover{border-color:var(--brass-2)}
+.case.sel{border-color:var(--brass);background:rgba(201,162,107,.08)}
+.case:focus-visible{outline:2px solid var(--brass)}
+.case .id{font-family:var(--f-mono);font-size:11px;color:var(--ink-3)}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.result{display:grid;gap:9px;align-content:start}
+.result .q{font-family:var(--f-disp);font-size:1.6rem;line-height:1.15;font-weight:400}
+.verdict{font-family:var(--f-mono);font-size:13px;display:flex;gap:8px;align-items:center}
+.cli{font-family:var(--f-mono);font-size:13px;background:rgba(0,0,0,.45);border:1px solid var(--panel-edge);padding:12px 14px;overflow-x:auto;white-space:pre;color:var(--ink)}
+.cli .c{color:var(--ink-3)}
+.foot{font-size:12px;color:var(--ink-3);text-align:center;padding:40px 20px 70px}
+.nogl #gl{display:none}
+.nogl body{background:linear-gradient(var(--sky-top),var(--sky-mid) 60%,var(--horizon))}
+@media (prefers-reduced-motion: reduce){.cue i{animation:none}.slot .bar{transition:none}}
+</style>
+
+<canvas id="gl" aria-label="Observatory sky: each point is a real MCP tool positioned by description similarity. A table of every value is in each chapter's evidence rail."></canvas>
+<div id="labels" aria-hidden="true"></div>
+<div id="tip" role="status"></div>
+<div class="hud tl">surfacelab · <b>observatory</b></div>
+<div class="hud tr" id="hudR">recorded data · groq · t=0</div>
+<div class="hud bl" id="hudB">az 000.0° · alt 00.0°</div>
+<nav class="prog" id="prog" aria-label="Chapters"></nav>
+
+<main>
+  <section class="ch hero" data-cam="hero" id="c0">
+    <div>
+      <p class="eyebrow">An evaluation of MCP tool choice · 12 experiments run</p>
+      <h1>Which tool does the agent <em>call?</em></h1>
+      <p class="hero-sub">We trained an instrument on 82 tools from real MCP servers and recorded where each decision landed. Every point in this sky is a real tool. Every beam is a recorded call.</p>
+      <div class="cue"><i></i>scroll to open the dome</div>
+    </div>
+  </section>
+
+  <section class="ch" data-cam="request" id="c1">
+    <div class="card">
+      <p class="eyebrow">I · The request</p>
+      <h2>Before it reads your message, the model reads <em>every tool</em> you installed.</h2>
+      <p class="lede">Lit: the 31 tools of Playwright and Chrome DevTools, loaded together. Star size is each tool's token count.</p>
+      <div class="hook">
+        <label for="g1">Guess: how many tokens is that tool list?</label>
+        <div class="rowh"><input id="g1" type="range" min="200" max="12000" step="100" value="1500"><span class="mono" id="g1v">1,500</span><button class="btn" id="g1b" type="button">Reveal</button></div>
+        <div class="reveal" id="g1r"></div>
+      </div>
+      <div class="rail">
+        <div class="row"><span class="k">Prompt</span><span class="big">3,493 <small>gpt-oss</small></span></div>
+        <div class="row"><span class="k"></span><span class="big">6,232 <small>qwen · same 31 tools</small></span></div>
+        <div class="row"><span class="k">Label</span><span><span class="tag meas">measured</span></span></div>
+        <div class="row"><span class="k">Source</span><code>results/exp013_prompt_tokens.json</code></div>
+        <p class="not">Groq-reported counts. Other providers count tool lists differently.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch wide" data-cam="wide" id="c2">
+    <div class="card">
+      <p class="eyebrow">II · What didn't matter</p>
+      <h2>On tools with one clear job each, almost <em>nothing</em> moved the choice.</h2>
+      <p class="lede">Six interventions, each preregistered. Each tile is a point and its 95% interval, clustered over case families.</p>
+      <div class="wall" id="wall"></div>
+      <p class="not">These surfaces were written by us, with one distinct job per tool. That is what chapter IV tests on real servers.</p>
+    </div>
+  </section>
+
+  <section class="ch right" data-cam="wide2" id="c3">
+    <div class="card">
+      <p class="eyebrow">III · Ties</p>
+      <h2>When four tools do the same job, <em>position</em> breaks the tie.</h2>
+      <p class="lede">The <span class="mono">siblings</span> surface: four near-synonym tools, all 24 orderings, temperature 0. Bars show how often gpt-oss-120b picked the right tool by where it sat in the list.</p>
+      <div class="hook">
+        <label for="g3">Guess first: how much more often does the first-third tool win than the last-third tool?</label>
+        <div class="rowh"><input id="g3" type="range" min="-20" max="40" step="1" value="0"><span class="mono" id="g3v">+0 pp</span><button class="btn" id="g3b" type="button">Reveal</button></div>
+      </div>
+      <div class="slots" id="slots"></div>
+      <div class="rail">
+        <div class="row"><span class="k">Gap</span><span class="big">+10.4 <small>pp · gpt-oss-120b</small></span></div>
+        <div class="row"><span class="k">95% CI</span><span class="ci">[+2.1, +19.8] · 8 families · 192 trials</span></div>
+        <div class="row"><span class="k">Qwen</span><span class="ci">+12.5 pp [+2.1, +25.0] · second model family</span></div>
+        <div class="row"><span class="k">Label</span><span><span class="tag exp">exploratory</span> <span class="tag rep">replicated</span></span></div>
+        <div class="row"><span class="k">Source</span><code>results/exp001_siblings_t0_analysis.json · exp014_analysis.json</code></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch" data-cam="real" id="c4">
+    <div class="card">
+      <p class="eyebrow">IV · Real servers</p>
+      <h2>On real servers, misses land on <em>look-alikes.</em></h2>
+      <p class="lede">The four real loadouts: browser, web, workspace, docs. Filaments join a wrong call to the right tool, brighter when more trials made that mistake. Position shows description similarity, not confusion.</p>
+      <div class="hook">
+        <label>Guess: when only one tool can do the job, how often does gpt-oss find it?</label>
+        <div class="rowh"><input id="g4" type="range" min="50" max="100" step="1" value="95"><span class="mono" id="g4v">95%</span><button class="btn" id="g4b" type="button">Reveal</button></div>
+        <div class="reveal" id="g4r"></div>
+      </div>
+      <div class="rail">
+        <div class="row"><span class="k">Right tool</span><span class="big">77<small>%</small> <small>gpt-oss-120b</small></span></div>
+        <div class="row"><span class="k">95% CI</span><span class="ci">[63, 88] · 20b 78 [66, 88] · qwen 91 [82, 98]</span></div>
+        <div class="row"><span class="k">Ours</span><span class="ci">0.99+ on hand-written surfaces (EXP-009)</span></div>
+        <div class="row"><span class="k">Look-alike</span><span class="ci">wrong pick at the 71st similarity percentile · p = 0.0007</span></div>
+        <div class="row"><span class="k">Label</span><span><span class="tag nc">below 0.90 target</span> <span class="tag exp">similarity: exploratory</span></span></div>
+        <div class="row"><span class="k">Source</span><code>results/exp013_analysis.json · exp013_h4.json</code></div>
+        <p class="not">48 families, three open models, one provider, first call only.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch right" data-cam="browser" id="c5">
+    <div class="card">
+      <p class="eyebrow">V · A second server</p>
+      <h2>Add Chrome DevTools beside Playwright, and the agent's <em>first move</em> changes.</h2>
+      <p class="lede">Each beam is one recorded first call by gpt-oss-120b on the 12 browser requests, in both orderings. Many land on <span class="mono">list_pages</span>, even for jobs only Playwright can do.</p>
+      <div class="hook">
+        <label>Ask the agent to click a button. What does it call first?</label>
+        <div class="seg" id="g5"></div>
+        <div class="reveal" id="g5r"></div>
+      </div>
+      <div class="rail">
+        <div class="row"><span class="k">list_pages</span><span class="big">14 <small>/ 24 first calls · gpt-oss-120b</small></span></div>
+        <div class="row"><span class="k">Others</span><span class="ci">20b 9 / 24 · qwen 4 / 24</span></div>
+        <div class="row"><span class="k">Label</span><span><span class="tag exp">exploratory</span></span></div>
+        <div class="row"><span class="k">Source</span><code>results/exp013_{120b,20b,27b}.json</code></div>
+        <p class="not">Scored on the first call. A multi-step agent might still finish the job; this measures the first action, not the outcome.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch wide" data-cam="lab" id="c6">
+    <div class="card">
+      <p class="eyebrow">VI · The lab</p>
+      <h2>Point the instrument <em>yourself.</em></h2>
+      <p class="lede">Pick a model, a loadout and a request. The beam is the recorded first call; swap which server is listed first to blink between orderings. Drag the sky to orbit.</p>
+      <div class="lab">
+        <div class="ctrls">
+          <div class="seg" id="mSeg"></div>
+          <div class="seg" id="lSeg"></div>
+          <div class="caselist" id="caseList" role="listbox" aria-label="Requests"></div>
+        </div>
+        <div class="result">
+          <div class="seg" id="rSeg"></div>
+          <div class="q" id="rq"></div>
+          <div class="verdict" id="rv"></div>
+          <div class="rail" id="rrail"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch" data-cam="coda" id="c7">
+    <div class="card">
+      <p class="eyebrow">Coda · Who wins</p>
+      <h2>Which server wins a shared job is a <em>model habit,</em> not list order.</h2>
+      <p class="lede">Brave, Tavily and DuckDuckGo can all search. Moving a server to the top changed the winner in 19–25% of shared requests; otherwise each model kept its favourite.</p>
+      <div class="rail">
+        <div class="row"><span class="k">Order effect</span><span class="ci">20b +2.7 pp [−10.8, +15.8] · 120b +0.0 [−7.1, +7.9] · qwen +7.3 [−3.3, +17.4]</span></div>
+        <div class="row"><span class="k">Label</span><span><span class="tag null">inconclusive</span></span></div>
+        <div class="row"><span class="k">Source</span><code>results/exp013_analysis.json</code></div>
+      </div>
+      <p class="eyebrow" style="margin-top:8px">Run it on your servers</p>
+      <div class="cli"><span class="c"># see where a loadout's tokens go</span>
+uv run surfacelab inspect real_browser
+<span class="c"># re-derive this page's EXP-013 numbers offline, no API key</span>
+PYTHONPATH=scripts uv run python scripts/analyze_followups.py --exp 13
+<span class="c"># handshake-probe your own server and snapshot its tool list</span>
+uv run surfacelab probe --server-name mine --snapshots-dir runs/mine -- &lt;your server command&gt;</div>
+    </div>
+  </section>
+  <p class="foot">Every number on this page traces to a file in <span class="mono">results/</span> (see <span class="mono">docs/FINDINGS.md</span>). Star positions are a 3D projection of description embeddings (text-embedding-3-small): similarity, not confusion.</p>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+<script>
+const DATA = {"tools":[{"n":"browser_close","s":"playwright","l":"browser","k":63,"d":"Close the page","p":[-0.031,1.0,-0.148]},{"n":"browser_resize","s":"playwright","l":"browser","k":111,"d":"Resize the browser window","p":[-0.099,0.66,0.072]},{"n":"browser_console_messages","s":"playwright","l":"browser","k":207,"d":"Returns all console messages","p":[0.131,-0.027,-0.228]},{"n":"browser_handle_dialog","s":"playwright","l":"browser","k":116,"d":"Handle a dialog","p":[0.351,0.66,0.097]},{"n":"browser_emulate_media","s":"playwright","l":"browser","k":318,"d":"Emulate CSS media features for the page, for example switch between the light and dark color scheme. Omitted parameters are left unchanged; null clears an overr","p":[0.115,0.558,0.196]},{"n":"browser_evaluate","s":"playwright","l":"browser","k":205,"d":"Evaluate JavaScript expression on page or element","p":[-0.061,0.602,-0.046]},{"n":"browser_file_upload","s":"playwright","l":"browser","k":113,"d":"Upload one or multiple files","p":[0.226,0.182,0.534]},{"n":"browser_drop","s":"playwright","l":"browser","k":259,"d":"Drop files or MIME-typed data onto an element, as if dragged from outside the page. At least one of \"paths\" or \"data\" must be provided.","p":[0.136,0.366,0.89]},{"n":"browser_find","s":"playwright","l":"browser","k":258,"d":"Search the accessibility snapshot of the current page for text or a regular expression. Returns matching snapshot nodes with a few lines of surrounding context ","p":[-0.449,0.095,-0.045]},{"n":"browser_fill_form","s":"playwright","l":"browser","k":289,"d":"Fill multiple form fields","p":[0.165,0.526,0.344]},{"n":"browser_press_key","s":"playwright","l":"browser","k":109,"d":"Press a key on the keyboard","p":[0.292,0.656,0.087]},{"n":"browser_type","s":"playwright","l":"browser","k":214,"d":"Type text into editable element","p":[0.223,0.687,0.521]},{"n":"browser_navigate","s":"playwright","l":"browser","k":90,"d":"Navigate to a URL","p":[-0.253,0.628,-0.009]},{"n":"browser_navigate_back","s":"playwright","l":"browser","k":71,"d":"Go back to the previous page in the history","p":[-0.122,0.588,-0.387]},{"n":"browser_network_requests","s":"playwright","l":"browser","k":203,"d":"Returns a numbered list of network requests since loading the page. Use browser_network_request with the number to get full details.","p":[-0.551,0.025,-0.326]},{"n":"browser_network_request","s":"playwright","l":"browser","k":235,"d":"Returns full details (headers and body) of a single network request, or a single part if `part` is set. Use the number from browser_network_requests.","p":[-0.409,-0.277,-0.163]},{"n":"browser_run_code_unsafe","s":"playwright","l":"browser","k":210,"d":"Run a Playwright code snippet. Unsafe: executes arbitrary JavaScript in the Playwright server process and is RCE-equivalent.","p":[-0.028,0.314,0.081]},{"n":"browser_take_screenshot","s":"playwright","l":"browser","k":364,"d":"Take a screenshot of the current page. You can't perform actions based on the screenshot, use browser_snapshot for actions.","p":[-0.23,0.599,-0.001]},{"n":"browser_snapshot","s":"playwright","l":"browser","k":204,"d":"Capture accessibility snapshot of the current page, this is better than screenshot","p":[-0.162,0.546,0.0]},{"n":"browser_click","s":"playwright","l":"browser","k":236,"d":"Perform click on a web page","p":[-0.19,0.876,0.038]},{"n":"browser_drag","s":"playwright","l":"browser","k":196,"d":"Perform drag and drop between two elements","p":[0.343,0.714,0.427]},{"n":"browser_hover","s":"playwright","l":"browser","k":126,"d":"Hover over element on page","p":[-0.057,0.738,0.023]},{"n":"browser_select_option","s":"playwright","l":"browser","k":172,"d":"Select an option in a dropdown","p":[0.1,0.638,-0.025]},{"n":"browser_tabs","s":"playwright","l":"browser","k":166,"d":"List, create, close, or select a browser tab.","p":[-0.116,0.693,0.036]},{"n":"browser_wait_for","s":"playwright","l":"browser","k":140,"d":"Wait for text to appear or disappear or a specified time to pass","p":[0.095,0.584,0.286]},{"n":"close_page","s":"chrome-devtools","l":"browser","k":110,"d":"Closes the page by its index. The last open page cannot be closed.","p":[-0.146,0.622,-0.122]},{"n":"list_pages","s":"chrome-devtools","l":"browser","k":68,"d":"Get a list of pages open in the browser.","p":[-0.501,0.36,-0.278]},{"n":"navigate_page","s":"chrome-devtools","l":"browser","k":323,"d":"Go to a URL, or back, forward, or reload. Use project URL if not specified otherwise.","p":[-0.227,0.452,-0.159]},{"n":"new_page","s":"chrome-devtools","l":"browser","k":256,"d":"Open a new tab and load a URL. Use project URL if not specified otherwise.","p":[-0.275,0.641,0.005]},{"n":"select_page","s":"chrome-devtools","l":"browser","k":134,"d":"Select a page as a context for future tool calls.","p":[-0.293,0.446,-0.143]},{"n":"wait_for","s":"chrome-devtools","l":"browser","k":261,"d":"Wait for the specified text to appear on the selected page. By default, hidden text is also matched. Set visible to true to wait until the matched text is visib","p":[-0.247,0.617,0.192]},{"n":"brave_web_search","s":"brave-search","l":"web","k":1647,"d":"Performs web searches using the Brave Search API and returns comprehensive search results with rich metadata. When to use: - General web searches for informatio","p":[-0.829,-0.327,-0.195]},{"n":"brave_news_search","s":"brave-search","l":"web","k":1087,"d":"This tool searches for news articles using Brave's News Search API based on the user's query. Use it when you need current news information, breaking news updat","p":[-0.714,-0.327,-0.201]},{"n":"tavily_search","s":"tavily","l":"web","k":738,"d":"Search the web for current information on any topic. Use for news, facts, or data beyond your knowledge cutoff. Returns snippets and source URLs.","p":[-0.722,-0.062,-0.07]},{"n":"tavily_extract","s":"tavily","l":"web","k":235,"d":"Extract content from URLs. Returns raw page content in markdown or text format.","p":[-0.648,-0.122,0.137]},{"n":"tavily_crawl","s":"tavily","l":"web","k":506,"d":"Crawl a website starting from a URL. Extracts content from pages with configurable depth and breadth.","p":[-0.602,-0.133,0.124]},{"n":"tavily_map","s":"tavily","l":"web","k":359,"d":"Map a website's structure. Returns a list of URLs found starting from the base URL.","p":[-0.434,-0.345,-0.051]},{"n":"tavily_research","s":"tavily","l":"web","k":190,"d":"Perform comprehensive research on a given topic or question. Use this tool when you need to gather information from multiple sources to answer a question or com","p":[-0.602,-0.21,-0.02]},{"n":"search","s":"duckduckgo","l":"web","k":350,"d":"Search the web using DuckDuckGo. Returns a list of results with titles, URLs, and snippets. Use this to find current information, research topics, or locate spe","p":[-0.991,-0.275,-0.25]},{"n":"fetch_content","s":"duckduckgo","l":"web","k":572,"d":"Fetch and extract the main text content from a webpage. Strips out navigation, headers, footers, scripts, and styles to return clean readable text. Use this aft","p":[-1.0,-0.136,0.024]},{"n":"expand_link","s":"duckduckgo","l":"web","k":177,"d":"Expand a shortened ref://<id> link token from search results back into the full URL. Search results replace very long URLs with short ref:// tokens to save spac","p":[-0.686,-0.149,-0.094]},{"n":"read_file","s":"filesystem","l":"workspace","k":139,"d":"Read the complete contents of a file as text. DEPRECATED: Use read_text_file instead.","p":[0.006,-0.212,0.654]},{"n":"read_text_file","s":"filesystem","l":"workspace","k":218,"d":"Read the complete contents of a file from the file system as text. Handles various text encodings and provides detailed error messages if the file cannot be rea","p":[-0.013,-0.458,0.713]},{"n":"read_media_file","s":"filesystem","l":"workspace","k":116,"d":"Read a file and return it as a base64-encoded content block with its MIME type. Image and audio files are returned as image/audio content; any other file type i","p":[-0.102,-0.265,0.829]},{"n":"read_multiple_files","s":"filesystem","l":"workspace","k":169,"d":"Read the contents of multiple files simultaneously. This is more efficient than reading files one by one when you need to analyze or compare multiple files. Eac","p":[0.166,-0.517,0.684]},{"n":"write_file","s":"filesystem","l":"workspace","k":119,"d":"Create a new file or completely overwrite an existing file with new content. Use with caution as it will overwrite existing files without warning. Handles text ","p":[0.53,-0.004,0.982]},{"n":"edit_file","s":"filesystem","l":"workspace","k":211,"d":"Make line-based edits to a text file. Each edit replaces exact line sequences with new content. Returns a git-style diff showing the changes made. Only works wi","p":[0.736,-0.335,0.359]},{"n":"create_directory","s":"filesystem","l":"workspace","k":119,"d":"Create a new directory or ensure a directory exists. Can create multiple nested directories in one operation. If the directory already exists, this operation wi","p":[0.52,-0.242,0.775]},{"n":"list_directory","s":"filesystem","l":"workspace","k":121,"d":"Get a detailed listing of all files and directories in a specified path. Results clearly distinguish between files and directories with [FILE] and [DIR] prefixe","p":[0.265,-0.946,0.664]},{"n":"list_directory_with_sizes","s":"filesystem","l":"workspace","k":162,"d":"Get a detailed listing of all files and directories in a specified path, including sizes. Results clearly distinguish between files and directories with [FILE] ","p":[0.221,-0.963,0.665]},{"n":"directory_tree","s":"filesystem","l":"workspace","k":163,"d":"Get a recursive tree view of files and directories as a JSON structure. Each entry includes 'name', 'type' (file/directory), and 'children' for directories. Fil","p":[0.326,-0.766,0.379]},{"n":"move_file","s":"filesystem","l":"workspace","k":137,"d":"Move or rename files and directories. Can move files between directories and rename them in a single operation. If the destination exists, the operation will fa","p":[0.568,-0.242,0.904]},{"n":"search_files","s":"filesystem","l":"workspace","k":182,"d":"Recursively search for files and directories matching a pattern. The patterns should be glob-style patterns that match paths relative to the working directory. ","p":[0.063,-0.716,0.498]},{"n":"get_file_info","s":"filesystem","l":"workspace","k":116,"d":"Retrieve detailed metadata about a file or directory. Returns comprehensive information including size, creation time, last modified time, permissions, and type","p":[0.188,-0.822,0.682]},{"n":"list_allowed_directories","s":"filesystem","l":"workspace","k":96,"d":"Returns the list of directories that this server is allowed to access. Subdirectories within these allowed directories are also accessible. Use this to understa","p":[0.052,-0.663,0.435]},{"n":"git_status","s":"git","l":"workspace","k":71,"d":"Shows the working tree status","p":[0.608,-0.138,-0.312]},{"n":"git_diff_unstaged","s":"git","l":"workspace","k":106,"d":"Shows changes in the working directory that are not yet staged","p":[0.923,-0.054,-0.147]},{"n":"git_diff_staged","s":"git","l":"workspace","k":100,"d":"Shows changes that are staged for commit","p":[0.99,0.246,-0.486]},{"n":"git_diff","s":"git","l":"workspace","k":113,"d":"Shows differences between branches or commits","p":[0.893,-0.209,-0.755]},{"n":"git_commit","s":"git","l":"workspace","k":89,"d":"Records changes to the repository","p":[0.818,-0.172,-0.499]},{"n":"git_add","s":"git","l":"workspace","k":107,"d":"Adds file contents to the staging area","p":[0.841,0.067,0.295]},{"n":"git_reset","s":"git","l":"workspace","k":72,"d":"Unstages all staged changes","p":[0.742,0.332,-0.223]},{"n":"git_log","s":"git","l":"workspace","k":309,"d":"Shows the commit logs","p":[0.647,-0.205,-0.827]},{"n":"git_create_branch","s":"git","l":"workspace","k":131,"d":"Creates a new branch from an optional base branch","p":[0.586,-0.117,-0.41]},{"n":"git_checkout","s":"git","l":"workspace","k":90,"d":"Switches branches","p":[0.697,0.343,-0.56]},{"n":"git_show","s":"git","l":"workspace","k":104,"d":"Shows the contents of a commit, or of a file or directory given as <revision>:<path>","p":[0.576,-0.533,-0.347]},{"n":"git_branch","s":"git","l":"workspace","k":242,"d":"List Git branches","p":[0.753,-0.391,-0.853]},{"n":"create_or_update_file","s":"github","l":"workspace","k":428,"d":"Create or update a single file in a GitHub repository. If updating, you should provide the SHA of the file you want to update. Use this tool to create or update","p":[0.44,-0.334,0.036]},{"n":"delete_file","s":"github","l":"workspace","k":172,"d":"Delete a file from a GitHub repository","p":[0.706,-0.217,-0.377]},{"n":"get_commit","s":"github","l":"workspace","k":304,"d":"Get details for a commit from a GitHub repository","p":[0.427,-0.494,-0.951]},{"n":"get_file_contents","s":"github","l":"workspace","k":331,"d":"Get the contents of a file or directory from a GitHub repository","p":[0.294,-0.706,-0.142]},{"n":"list_branches","s":"github","l":"workspace","k":171,"d":"List branches in a GitHub repository","p":[0.593,-0.435,-0.849]},{"n":"list_commits","s":"github","l":"workspace","k":479,"d":"Get list of commits of a branch in a GitHub repository. Returns at least 30 results per page by default, but can return more if specified using the perPage para","p":[0.054,-0.436,-1.0]},{"n":"search_code","s":"github","l":"workspace","k":445,"d":"Fast and precise code search across ALL GitHub repositories using GitHub's native search engine. Best for finding exact symbols, functions, classes, or specific","p":[0.04,-0.519,-0.352]},{"n":"resolve-library-id","s":"context7","l":"docs","k":647,"d":"Resolves a package/product name to a Context7-compatible library ID and returns matching libraries. You MUST call this function before 'Query Documentation' too","p":[-0.375,-0.287,-0.341]},{"n":"query-docs","s":"context7","l":"docs","k":499,"d":"Retrieves and queries up-to-date documentation and code examples from Context7 for any programming library or framework. You must call 'Resolve Context7 Library","p":[-0.34,-0.21,-0.313]},{"n":"read_documentation","s":"aws-documentation","l":"docs","k":586,"d":"Fetch and convert an AWS documentation page to markdown format. ## Usage This tool retrieves the content of an AWS documentation page and converts it to markdow","p":[-0.864,-0.312,-0.097]},{"n":"read_sections","s":"aws-documentation","l":"docs","k":637,"d":"Extract specific sections from AWS documentation pages by title. Retrieves a page, converts to markdown, and returns only matching sections. Section matching is","p":[-0.846,-0.458,-0.2]},{"n":"search_table","s":"aws-documentation","l":"docs","k":984,"d":"Search for specific rows in a large documentation table. Use this tool when you need specific rows from a large documentation table (e.g., service quotas, prici","p":[-0.91,-0.49,-0.218]},{"n":"search_documentation","s":"aws-documentation","l":"docs","k":1012,"d":"Search AWS documentation using the official AWS Documentation Search API. ## Usage This tool searches across all AWS documentation for pages matching your searc","p":[-0.9,-0.521,-0.253]},{"n":"recommend","s":"aws-documentation","l":"docs","k":424,"d":"Get content recommendations for an AWS documentation page. ## Usage This tool provides recommendations for related AWS documentation pages based on a given URL.","p":[-0.835,-0.334,-0.229]},{"n":"fetch","s":"fetch","l":"docs","k":285,"d":"Fetches a URL from the internet and optionally extracts its contents as markdown. Although originally you did not have internet access, and were advised to refu","p":[-0.588,0.049,0.031]}],"trials":[["20b","rb01",0,12,1],["20b","rb02",0,23,1],["20b","rb03",0,26,1],["20b","rb04",0,24,1],["20b","rb05",0,null,0],["20b","rb06",0,26,0],["20b","rb07",0,17,1],["20b","rb08",0,18,1],["20b","rb09",0,8,0],["20b","rb10",0,8,0],["20b","rb11",0,26,0],["20b","rb12",0,2,1],["20b","rb01",1,28,0],["20b","rb02",1,23,1],["20b","rb03",1,26,1],["20b","rb04",1,26,0],["20b","rb05",1,13,1],["20b","rb06",1,26,0],["20b","rb07",1,null,0],["20b","rb08",1,26,0],["20b","rb09",1,26,0],["20b","rb10",1,8,0],["20b","rb11",1,26,0],["20b","rb12",1,2,1],["20b","rw01",0,33,1],["20b","rw02",0,33,1],["20b","rw03",0,31,1],["20b","rw04",0,32,1],["20b","rw05",0,39,1],["20b","rw06",0,39,1],["20b","rw07",0,36,1],["20b","rw08",0,35,1],["20b","rw09",0,33,0],["20b","rw10",0,34,1],["20b","rw11",0,40,1],["20b","rw12",0,33,0],["20b","rw01",1,33,1],["20b","rw02",1,33,1],["20b","rw03",1,38,1],["20b","rw04",1,32,1],["20b","rw05",1,39,1],["20b","rw06",1,39,1],["20b","rw07",1,36,1],["20b","rw08",1,35,1],["20b","rw09",1,33,0],["20b","rw10",1,34,1],["20b","rw11",1,40,1],["20b","rw12",1,31,1],["20b","rw01",2,38,1],["20b","rw02",2,33,1],["20b","rw03",2,38,1],["20b","rw04",2,32,1],["20b","rw05",2,39,1],["20b","rw06",2,39,1],["20b","rw07",2,36,1],["20b","rw08",2,35,1],["20b","rw09",2,38,0],["20b","rw10",2,39,0],["20b","rw11",2,40,1],["20b","rw12",2,33,0],["20b","rk01",0,70,1],["20b","rk02",0,42,1],["20b","rk03",0,68,1],["20b","rk04",0,52,1],["20b","rk05",0,73,1],["20b","rk06",0,71,0],["20b","rk07",0,62,1],["20b","rk08",0,72,1],["20b","rk09",0,66,1],["20b","rk10",0,null,0],["20b","rk11",0,42,1],["20b","rk12",0,55,1],["20b","rk01",1,70,1],["20b","rk02",1,42,1],["20b","rk03",1,68,1],["20b","rk04",1,52,1],["20b","rk05",1,73,1],["20b","rk06",1,67,1],["20b","rk07",1,62,1],["20b","rk08",1,72,1],["20b","rk09",1,66,1],["20b","rk10",1,71,1],["20b","rk11",1,42,1],["20b","rk12",1,55,1],["20b","rk01",2,70,1],["20b","rk02",2,42,1],["20b","rk03",2,68,1],["20b","rk04",2,52,1],["20b","rk05",2,73,1],["20b","rk06",2,67,1],["20b","rk07",2,62,1],["20b","rk08",2,72,1],["20b","rk09",2,66,1],["20b","rk10",2,71,1],["20b","rk11",2,42,1],["20b","rk12",2,55,1],["20b","rd01",0,76,1],["20b","rd02",0,81,1],["20b","rd03",0,81,1],["20b","rd04",0,74,1],["20b","rd05",0,81,1],["20b","rd06",0,74,1],["20b","rd07",0,79,1],["20b","rd08",0,79,1],["20b","rd09",0,80,1],["20b","rd10",0,74,1],["20b","rd11",0,81,0],["20b","rd12",0,81,1],["20b","rd01",1,76,1],["20b","rd02",1,81,1],["20b","rd03",1,81,1],["20b","rd04",1,79,0],["20b","rd05",1,81,1],["20b","rd06",1,81,0],["20b","rd07",1,79,1],["20b","rd08",1,79,1],["20b","rd09",1,80,1],["20b","rd10",1,74,1],["20b","rd11",1,78,1],["20b","rd12",1,81,1],["20b","rd01",2,76,1],["20b","rd02",2,81,1],["20b","rd03",2,76,1],["20b","rd04",2,74,1],["20b","rd05",2,81,1],["20b","rd06",2,74,1],["20b","rd07",2,79,1],["20b","rd08",2,79,1],["20b","rd09",2,80,1],["20b","rd10",2,74,1],["20b","rd11",2,81,0],["20b","rd12",2,81,1],["120b","rb01",0,12,1],["120b","rb02",0,28,1],["120b","rb03",0,26,1],["120b","rb04",0,26,0],["120b","rb05",0,13,1],["120b","rb06",0,26,0],["120b","rb07",0,17,1],["120b","rb08",0,null,0],["120b","rb09",0,26,0],["120b","rb10",0,26,0],["120b","rb11",0,26,0],["120b","rb12",0,2,1],["120b","rb01",1,28,0],["120b","rb02",1,28,1],["120b","rb03",1,26,1],["120b","rb04",1,26,0],["120b","rb05",1,13,1],["120b","rb06",1,26,0],["120b","rb07",1,17,1],["120b","rb08",1,26,0],["120b","rb09",1,26,0],["120b","rb10",1,26,0],["120b","rb11",1,26,0],["120b","rb12",1,26,0],["120b","rw01",0,31,1],["120b","rw02",0,31,1],["120b","rw03",0,31,1],["120b","rw04",0,32,1],["120b","rw05",0,39,1],["120b","rw06",0,39,1],["120b","rw07",0,36,1],["120b","rw08",0,35,1],["120b","rw09",0,31,0],["120b","rw10",0,34,1],["120b","rw11",0,40,1],["120b","rw12",0,31,1],["120b","rw01",1,31,1],["120b","rw02",1,31,1],["120b","rw03",1,38,1],["120b","rw04",1,32,1],["120b","rw05",1,39,1],["120b","rw06",1,39,1],["120b","rw07",1,36,1],["120b","rw08",1,35,1],["120b","rw09",1,31,0],["120b","rw10",1,39,0],["120b","rw11",1,40,1],["120b","rw12",1,31,1],["120b","rw01",2,31,1],["120b","rw02",2,31,1],["120b","rw03",2,31,1],["120b","rw04",2,32,1],["120b","rw05",2,39,1],["120b","rw06",2,39,1],["120b","rw07",2,35,0],["120b","rw08",2,35,1],["120b","rw09",2,31,0],["120b","rw10",2,null,0],["120b","rw11",2,40,1],["120b","rw12",2,31,1],["120b","rk01",0,70,1],["120b","rk02",0,42,1],["120b","rk03",0,68,1],["120b","rk04",0,52,1],["120b","rk05",0,73,1],["120b","rk06",0,67,1],["120b","rk07",0,62,1],["120b","rk08",0,72,1],["120b","rk09",0,66,1],["120b","rk10",0,71,1],["120b","rk11",0,42,1],["120b","rk12",0,55,1],["120b","rk01",1,70,1],["120b","rk02",1,42,1],["120b","rk03",1,70,0],["120b","rk04",1,52,1],["120b","rk05",1,73,1],["120b","rk06",1,67,1],["120b","rk07",1,62,1],["120b","rk08",1,72,1],["120b","rk09",1,66,1],["120b","rk10",1,71,1],["120b","rk11",1,42,1],["120b","rk12",1,55,1],["120b","rk01",2,70,1],["120b","rk02",2,42,1],["120b","rk03",2,68,1],["120b","rk04",2,52,1],["120b","rk05",2,73,1],["120b","rk06",2,67,1],["120b","rk07",2,62,1],["120b","rk08",2,72,1],["120b","rk09",2,66,1],["120b","rk10",2,71,1],["120b","rk11",2,42,1],["120b","rk12",2,55,1],["120b","rd01",0,76,1],["120b","rd02",0,81,1],["120b","rd03",0,81,1],["120b","rd04",0,74,1],["120b","rd05",0,81,1],["120b","rd06",0,74,1],["120b","rd07",0,79,1],["120b","rd08",0,79,1],["120b","rd09",0,80,1],["120b","rd10",0,74,1],["120b","rd11",0,79,0],["120b","rd12",0,null,0],["120b","rd01",1,76,1],["120b","rd02",1,76,1],["120b","rd03",1,76,1],["120b","rd04",1,74,1],["120b","rd05",1,81,1],["120b","rd06",1,74,1],["120b","rd07",1,79,1],["120b","rd08",1,79,1],["120b","rd09",1,80,1],["120b","rd10",1,74,1],["120b","rd11",1,79,0],["120b","rd12",1,81,1],["120b","rd01",2,76,1],["120b","rd02",2,76,1],["120b","rd03",2,76,1],["120b","rd04",2,74,1],["120b","rd05",2,81,1],["120b","rd06",2,74,1],["120b","rd07",2,79,1],["120b","rd08",2,79,1],["120b","rd09",2,80,1],["120b","rd10",2,74,1],["120b","rd11",2,79,0],["120b","rd12",2,null,0],["27b","rb01",0,12,1],["27b","rb02",0,23,1],["27b","rb03",0,23,1],["27b","rb04",0,26,0],["27b","rb05",0,26,0],["27b","rb06",0,23,1],["27b","rb07",0,17,1],["27b","rb08",0,18,1],["27b","rb09",0,18,0],["27b","rb10",0,18,0],["27b","rb11",0,26,0],["27b","rb12",0,2,1],["27b","rb01",1,12,1],["27b","rb02",1,23,1],["27b","rb03",1,23,1],["27b","rb04",1,24,1],["27b","rb05",1,13,1],["27b","rb06",1,23,1],["27b","rb07",1,17,1],["27b","rb08",1,18,1],["27b","rb09",1,18,0],["27b","rb10",1,18,0],["27b","rb11",1,26,0],["27b","rb12",1,2,1],["27b","rw01",0,31,1],["27b","rw02",0,31,1],["27b","rw03",0,38,1],["27b","rw04",0,32,1],["27b","rw05",0,39,1],["27b","rw06",0,34,1],["27b","rw07",0,36,1],["27b","rw08",0,35,1],["27b","rw09",0,37,1],["27b","rw10",0,34,1],["27b","rw11",0,40,1],["27b","rw12",0,31,1],["27b","rw01",1,39,0],["27b","rw02",1,31,1],["27b","rw03",1,38,1],["27b","rw04",1,32,1],["27b","rw05",1,39,1],["27b","rw06",1,39,1],["27b","rw07",1,36,1],["27b","rw08",1,35,1],["27b","rw09",1,37,1],["27b","rw10",1,39,0],["27b","rw11",1,40,1],["27b","rw12",1,31,1],["27b","rw01",2,38,1],["27b","rw02",2,38,1],["27b","rw03",2,38,1],["27b","rw04",2,32,1],["27b","rw05",2,39,1],["27b","rw06",2,39,1],["27b","rw07",2,36,1],["27b","rw08",2,35,1],["27b","rw09",2,37,1],["27b","rw10",2,34,1],["27b","rw11",2,40,1],["27b","rw12",2,31,1],["27b","rk01",0,70,1],["27b","rk02",0,41,1],["27b","rk03",0,68,1],["27b","rk04",0,54,0],["27b","rk05",0,73,1],["27b","rk06",0,67,1],["27b","rk07",0,62,1],["27b","rk08",0,72,1],["27b","rk09",0,66,1],["27b","rk10",0,71,1],["27b","rk11",0,41,1],["27b","rk12",0,55,1],["27b","rk01",1,70,1],["27b","rk02",1,42,1],["27b","rk03",1,68,1],["27b","rk04",1,52,1],["27b","rk05",1,73,1],["27b","rk06",1,67,1],["27b","rk07",1,62,1],["27b","rk08",1,72,1],["27b","rk09",1,66,1],["27b","rk10",1,71,1],["27b","rk11",1,42,1],["27b","rk12",1,55,1],["27b","rk01",2,70,1],["27b","rk02",2,42,1],["27b","rk03",2,68,1],["27b","rk04",2,52,1],["27b","rk05",2,73,1],["27b","rk06",2,67,1],["27b","rk07",2,62,1],["27b","rk08",2,72,1],["27b","rk09",2,66,1],["27b","rk10",2,71,1],["27b","rk11",2,42,1],["27b","rk12",2,55,1],["27b","rd01",0,76,1],["27b","rd02",0,81,1],["27b","rd03",0,76,1],["27b","rd04",0,74,1],["27b","rd05",0,81,1],["27b","rd06",0,74,1],["27b","rd07",0,79,1],["27b","rd08",0,79,1],["27b","rd09",0,80,1],["27b","rd10",0,74,1],["27b","rd11",0,78,1],["27b","rd12",0,81,1],["27b","rd01",1,76,1],["27b","rd02",1,76,1],["27b","rd03",1,76,1],["27b","rd04",1,74,1],["27b","rd05",1,81,1],["27b","rd06",1,74,1],["27b","rd07",1,79,1],["27b","rd08",1,79,1],["27b","rd09",1,80,1],["27b","rd10",1,74,1],["27b","rd11",1,78,1],["27b","rd12",1,81,1],["27b","rd01",2,76,1],["27b","rd02",2,76,1],["27b","rd03",2,76,1],["27b","rd04",2,74,1],["27b","rd05",2,81,1],["27b","rd06",2,74,1],["27b","rd07",2,79,1],["27b","rd08",2,79,1],["27b","rd09",2,80,1],["27b","rd10",2,74,1],["27b","rd11",2,78,1],["27b","rd12",2,81,1]],"cases":{"rb01":{"q":"Go to https://example.com in the browser.","l":"browser","g":[27,12],"sh":true},"rb02":{"q":"Open a second tab with https://news.ycombinator.com while keeping this one open.","l":"browser","g":[23,28],"sh":true},"rb03":{"q":"Which tabs do I have open right now?","l":"browser","g":[26,23],"sh":true},"rb04":{"q":"Wait until the text 'Order confirmed' shows up on the page.","l":"browser","g":[30,24],"sh":true},"rb05":{"q":"Go back to the previous page.","l":"browser","g":[13,27],"sh":true},"rb06":{"q":"Close the tab I'm on.","l":"browser","g":[23,25,0],"sh":true},"rb07":{"q":"Grab a PNG image of what the page looks like right now.","l":"browser","g":[17],"sh":false},"rb08":{"q":"Get me the structure of the page so you can tell which buttons are on it.","l":"browser","g":[18],"sh":false},"rb09":{"q":"Click the Sign up button.","l":"browser","g":[19],"sh":false},"rb10":{"q":"Put 'Ada Lovelace', 'ada@example.com' and '555-0100' into the name, email and phone fields of this form.","l":"browser","g":[9],"sh":false},"rb11":{"q":"Reload the page.","l":"browser","g":[27],"sh":false},"rb12":{"q":"Show me any JavaScript errors the page has logged.","l":"browser","g":[2],"sh":false},"rw01":{"q":"Look up the latest stable Python release on the web.","l":"web","g":[33,31,38],"sh":true},"rw02":{"q":"Look online for the weather forecast in Tokyo this weekend.","l":"web","g":[33,31,38,32],"sh":true},"rw03":{"q":"Find the official website of the Rust programming language.","l":"web","g":[33,31,38],"sh":true},"rw04":{"q":"Find news articles from this week about the EU AI Act.","l":"web","g":[33,32],"sh":true},"rw05":{"q":"Get the readable text of https://docs.python.org/3/whatsnew/3.13.html.","l":"web","g":[34,39],"sh":true},"rw06":{"q":"Read the article at https://example.com/blog/post-1 for me.","l":"web","g":[34,39],"sh":true},"rw07":{"q":"List all the page URLs on https://example.org without reading their content.","l":"web","g":[36],"sh":false},"rw08":{"q":"Read every page under https://example.org/docs, up to two links deep, and give me their content.","l":"web","g":[35],"sh":false},"rw09":{"q":"Write an in-depth report on how cities use heat pumps, drawing on many sources.","l":"web","g":[37],"sh":false},"rw10":{"q":"Pull the main content out of these three URLs at once: https://a.example, https://b.example, https://c.example.","l":"web","g":[34],"sh":false},"rw11":{"q":"Turn the short link ref://7 from the earlier results back into the full URL.","l":"web","g":[40],"sh":false},"rw12":{"q":"Find restaurants open now near Shibuya Station.","l":"web","g":[31],"sh":false},"rk01":{"q":"Show me the contents of README.md in the octocat/Hello-World GitHub repository.","l":"workspace","g":[70],"sh":false},"rk02":{"q":"Read the file /tmp/notes.txt on this machine.","l":"workspace","g":[44,41,42],"sh":false},"rk03":{"q":"Delete config.old from the main branch of my repo acme/website on GitHub.","l":"workspace","g":[68],"sh":false},"rk04":{"q":"Find files ending in .log anywhere under /tmp on this computer.","l":"workspace","g":[52],"sh":false},"rk05":{"q":"Find where the function parse_config is defined across GitHub repositories.","l":"workspace","g":[73],"sh":false},"rk06":{"q":"Add a file docs/CHANGELOG.md to the acme/website GitHub repo with the text 'v1.0'.","l":"workspace","g":[67],"sh":false},"rk07":{"q":"Show the commit history of the local repository at /repo.","l":"workspace","g":[62],"sh":false},"rk08":{"q":"List the commits on the main branch of acme/website on GitHub.","l":"workspace","g":[72],"sh":false},"rk09":{"q":"What branches does the local repository at /repo have?","l":"workspace","g":[66],"sh":false},"rk10":{"q":"What branches exist in the acme/website repository on GitHub?","l":"workspace","g":[71],"sh":false},"rk11":{"q":"Print the current contents of /repo/README.md.","l":"workspace","g":[44,41,42,65],"sh":true},"rk12":{"q":"Which files in the local repository at /repo have uncommitted changes?","l":"workspace","g":[55,56],"sh":false},"rd01":{"q":"Read the page https://docs.aws.amazon.com/lambda/latest/dg/welcome.html.","l":"docs","g":[76,81],"sh":true},"rd02":{"q":"Get the AWS CLI reference page at https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html.","l":"docs","g":[76,81],"sh":true},"rd03":{"q":"Open https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html and give me its text.","l":"docs","g":[76,81],"sh":true},"rd04":{"q":"Show me up-to-date documentation and code examples for React's useEffect hook.","l":"docs","g":[75,74],"sh":false},"rd05":{"q":"Get https://react.dev/reference/react/useState and summarise it.","l":"docs","g":[81],"sh":false},"rd06":{"q":"Look up how to use pandas.merge, with examples from the current pandas documentation.","l":"docs","g":[75,74],"sh":false},"rd07":{"q":"Search the AWS documentation for DynamoDB on-demand capacity pricing.","l":"docs","g":[79],"sh":false},"rd08":{"q":"How do I configure S3 bucket lifecycle rules? Check the official AWS docs.","l":"docs","g":[79],"sh":false},"rd09":{"q":"What other AWS docs pages are related to https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html?","l":"docs","g":[80],"sh":false},"rd10":{"q":"Find the Context7 library ID for the Next.js framework.","l":"docs","g":[74],"sh":false},"rd11":{"q":"In the EC2 instance types table at https://docs.aws.amazon.com/ec2/latest/instancetypes/gp.html, find only the rows for the m7g family.","l":"docs","g":[78],"sh":false},"rd12":{"q":"Download https://raw.githubusercontent.com/psf/requests/main/README.md.","l":"docs","g":[81],"sh":false}},"sib":{"openai/gpt-oss-20b":{"0":0.3020833333333333,"1":0.22916666666666666,"2":0.16666666666666666},"openai/gpt-oss-120b":{"0":0.4166666666666667,"1":0.3333333333333333,"2":0.3125}},"sibq":{"point":0.125,"lower":0.02083333333333326,"upper":0.25000000000000006,"accuracy":0.4114583333333333,"verdict":"replicated"}}
+;
+const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const $ = s => document.querySelector(s);
+const fmt = n => n.toLocaleString("en-US");
+
+/* ---------- palette (server hues: original DESIGN set) ---------- */
+const HUE = {"playwright":"#F2B35B","chrome-devtools":"#5FD1C4","brave-search":"#FF8A70","tavily":"#B9A0F0","duckduckgo":"#B8E06A","filesystem":"#79B8FF","git":"#F2B35B","github":"#B9A0F0","context7":"#5FD1C4","aws-documentation":"#FF8A70","fetch":"#B8E06A"};
+const LOADOUT_NAME = {browser:"Browser",web:"Web search",workspace:"Workspace",docs:"Docs"};
+const MODEL_NAME = {"20b":"gpt-oss-20b","120b":"gpt-oss-120b","27b":"qwen3.8-27b"};
+
+/* ---------- static (DOM) chapters first: they must work without WebGL ---------- */
+(function wall(){
+  const T = [
+    ["Tool order","nd_* surfaces, gpt-oss-120b · gap first − last third",-0.8,-2.1,0.0,"pp",[-10,10],"absent","exp009_analysis.json"],
+    ["Request wording","paraphrases, gpt-oss-120b · mean flip rate",5.1,0,12.8,"%",[0,20],"inconclusive","exp002_analysis.json"],
+    ["Distractors","+20 same-domain tools · drop N=0 → 20, 120b",3.1,0,9.4,"pp",[-10,20],"not confirmed","exp012_analysis.json"],
+    ["Overlapping servers","wrong-server picks, no namespacing, gpt-oss-20b",2.1,0.4,10.9,"%",[0,20],"not confirmed","exp011_analysis.json"],
+    ["Second model family","qwen3.8-27b on nd_* · accuracy",100,100,100,"%",[90,100],"replicated","exp014_analysis.json"],
+    ["Description edits","goodserver at 100% before any edit",100,100,100,"%",[90,100],"ceiling","exp003_analysis.json"]];
+  const w = $("#wall");
+  for (const [h,m,p,lo,hi,u,[a,b],lab,src] of T) {
+    const X = v => 14 + (v-a)/(b-a)*272;
+    const zero = (a<=0&&b>=0)?`<line x1="${X(0)}" y1="6" x2="${X(0)}" y2="40" stroke="#6E6C7E" stroke-dasharray="2 3"/>`:"";
+    w.insertAdjacentHTML("beforeend",`<div class="tile"><h3>${h}</h3><span class="m">${m}</span>
+      <svg viewBox="0 0 300 54" role="img" aria-label="${h}: ${p}${u}, interval ${lo} to ${hi}">
+        <line x1="14" y1="30" x2="286" y2="30" stroke="#3a3850"/>${zero}
+        <line x1="${X(lo)}" y1="30" x2="${X(hi)}" y2="30" stroke="#C9A26B" stroke-width="2"/>
+        <line x1="${X(lo)}" y1="23" x2="${X(lo)}" y2="37" stroke="#C9A26B" stroke-width="2"/><line x1="${X(hi)}" y1="23" x2="${X(hi)}" y2="37" stroke="#C9A26B" stroke-width="2"/>
+        <circle cx="${X(p)}" cy="30" r="4.5" fill="#E9E4DA"/>
+        <text x="14" y="52" fill="#6E6C7E" font-family="DM Mono, monospace" font-size="9">${a}${u}</text><text x="286" y="52" fill="#6E6C7E" font-family="DM Mono, monospace" font-size="9" text-anchor="end">${b}${u}</text>
+      </svg><span class="v">${p}${u} [${lo}, ${hi}] · <span class="tag null">${lab}</span></span><span class="m">results/${src}</span></div>`);
+  }
+})();
+(function slots(){
+  const b = DATA.sib["openai/gpt-oss-120b"], el = $("#slots"), cap = ["first third","middle","last third"];
+  for (let i=0;i<3;i++) el.insertAdjacentHTML("beforeend",`<div class="slot"><div class="bar" data-v="${b[i]}"><span>${Math.round(b[i]*100)}%</span></div><div class="cap">${cap[i]}</div></div>`);
+  let shown=false;
+  const show = () => { if(shown) return; shown=true; el.querySelectorAll(".bar").forEach(x=>x.style.height=(parseFloat(x.dataset.v)*140)+"px"); };
+  $("#g3").oninput = e => $("#g3v").textContent = (e.target.value>=0?"+":"")+e.target.value+" pp";
+  $("#g3b").onclick = () => { show(); $("#g3b").textContent = `You: ${$("#g3v").textContent} · recorded +10.4`; };
+  window._showSlots = show;
+})();
+$("#g1").oninput = e => $("#g1v").textContent = fmt(+e.target.value);
+$("#g1b").onclick = () => { const g=+$("#g1").value; $("#g1r").innerHTML = `You guessed <b>${fmt(g)}</b>. Recorded: <b>3,493</b> (gpt-oss) and <b>6,232</b> (qwen), before a word of your message.`; };
+$("#g4").oninput = e => $("#g4v").textContent = e.target.value+"%";
+$("#g4b").onclick = () => { $("#g4r").innerHTML = `You guessed <b>${$("#g4").value}%</b>. Recorded: <b>77%</b> [63, 88] for gpt-oss-120b, against 99%+ on our own surfaces.`; };
+
+/* ---------- data helpers ---------- */
+const TOOLS = DATA.tools, TR = DATA.trials, CASES = DATA.cases;
+const idx = (l,n) => TOOLS.findIndex(t=>t.l===l && t.n===n);
+const LP = idx("browser","list_pages");
+(function g5(){
+  const opts = [["browser_click","Playwright · click"],["list_pages","Chrome · list pages"],["browser_snapshot","Playwright · snapshot"]];
+  const seg = $("#g5");
+  for (const [n,lab] of opts) { const b=document.createElement("button"); b.className="btn"; b.type="button"; b.textContent=lab;
+    b.onclick = () => { const r = TR.filter(t=>t[0]==="120b"&&t[1]==="rb09"); const got=r.map(t=>TOOLS[t[3]].n);
+      $("#g5r").innerHTML = `You picked <b>${n}</b>. Recorded for “Click the Sign up button”: <b>${got.join("</b> and <b>")}</b>, in both orderings.`; window._fire && window._fire("120b","rb09"); };
+    seg.appendChild(b); }
+})();
+
+/* ---------- WebGL ---------- */
+let gl_ok = true;
+try { const c=document.createElement("canvas"); gl_ok = !!(window.THREE && (c.getContext("webgl2")||c.getContext("webgl"))); } catch(e){ gl_ok=false; }
+if (!gl_ok) document.documentElement.classList.add("nogl");
+
+const canvas = $("#gl");
+let renderer, scene, camera, composer, stars, starMat, edgesGroup, beamGroup, telescope, tipPos, domeGroup, slitLight;
+const CLOUD = new THREE.Vector3(0, 21, -16), R = 10.5;
+const starPos = TOOLS.map(t => new THREE.Vector3(t.p[0]*R, t.p[1]*R*0.78, t.p[2]*R).add(CLOUD));
+const clusterCentroid = l => { const v=new THREE.Vector3(); let n=0; TOOLS.forEach((t,i)=>{ if(t.l===l){v.add(starPos[i]);n++} }); return v.multiplyScalar(1/n); };
+
+function softTex(){ const c=document.createElement("canvas"); c.width=c.height=128; const g=c.getContext("2d");
+  const gr=g.createRadialGradient(64,64,0,64,64,64); gr.addColorStop(0,"rgba(255,255,255,1)"); gr.addColorStop(.18,"rgba(255,255,255,.85)"); gr.addColorStop(.4,"rgba(255,255,255,.22)"); gr.addColorStop(1,"rgba(255,255,255,0)");
+  g.fillStyle=gr; g.fillRect(0,0,128,128); return new THREE.CanvasTexture(c); }
+function ringTex(cross){ const c=document.createElement("canvas"); c.width=c.height=256; const g=c.getContext("2d");
+  g.strokeStyle="#fff"; g.lineWidth=7; g.beginPath(); g.arc(128,128,70,0,Math.PI*2); g.stroke();
+  g.lineWidth=8; for(const a of [0,Math.PI/2,Math.PI,3*Math.PI/2]){ g.beginPath(); g.moveTo(128+Math.cos(a)*84,128+Math.sin(a)*84); g.lineTo(128+Math.cos(a)*118,128+Math.sin(a)*118); g.stroke(); }
+  if(cross){ g.lineWidth=11; g.beginPath(); g.moveTo(84,84); g.lineTo(172,172); g.moveTo(172,84); g.lineTo(84,172); g.stroke(); }
+  return new THREE.CanvasTexture(c); }
+function dashTex(){ const c=document.createElement("canvas"); c.width=c.height=256; const g=c.getContext("2d");
+  g.strokeStyle="#fff"; g.lineWidth=5; g.setLineDash([14,12]); g.beginPath(); g.arc(128,128,96,0,Math.PI*2); g.stroke(); return new THREE.CanvasTexture(c); }
+
+if (gl_ok) init();
+
+function init(){
+  renderer = new THREE.WebGLRenderer({canvas, antialias:true, powerPreference:"high-performance"});
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
+  renderer.setSize(innerWidth, innerHeight);
+  scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x060812, 0.012);
+  camera = new THREE.PerspectiveCamera(52, innerWidth/innerHeight, 0.1, 600);
+
+  /* stage: dusk sky (atmosphere only; it never varies with data) */
+  const skyMat = new THREE.ShaderMaterial({ side:THREE.BackSide, depthWrite:false, fog:false,
+    uniforms:{top:{value:new THREE.Color("#020309")},mid:{value:new THREE.Color("#070a1a")},hor:{value:new THREE.Color("#1c1424")},glow:{value:new THREE.Color("#4a2f30")}},
+    vertexShader:`varying vec3 vP; void main(){ vP=normalize(position); gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+    fragmentShader:`uniform vec3 top,mid,hor,glow; varying vec3 vP;
+      void main(){ float h=vP.y; vec3 c=mix(hor,mid,smoothstep(-.02,.22,h)); c=mix(c,top,smoothstep(.22,.85,h));
+        float g=exp(-pow((h+.01)*12.,2.))*.55; c+=glow*g*(.6+.4*smoothstep(-1.,1.,-vP.z));
+        c=mix(c,vec3(.02,.025,.05),smoothstep(0.,-.25,h)); gl_FragColor=vec4(c,1.); }`});
+  scene.add(new THREE.Mesh(new THREE.SphereGeometry(400,48,24), skyMat));
+
+  /* ground */
+  const ground = new THREE.Mesh(new THREE.CircleGeometry(220,96), new THREE.MeshBasicMaterial({color:0x030409, fog:false}));
+  ground.rotation.x=-Math.PI/2; ground.position.y=-0.01; scene.add(ground);
+
+  /* the observatory: drum, dome with an open slit, brass azimuth ring, telescope */
+  domeGroup = new THREE.Group(); scene.add(domeGroup);
+  const dark = new THREE.MeshBasicMaterial({color:0x090b14});
+  const drum = new THREE.Mesh(new THREE.CylinderGeometry(6.2,6.4,3.2,96,1,true), new THREE.MeshBasicMaterial({color:0x07080f, side:THREE.DoubleSide, fog:false}));
+  drum.position.y=1.6; domeGroup.add(drum);
+  const slitW = 0.5;
+  const dome = new THREE.Mesh(new THREE.SphereGeometry(6.2,96,48, Math.PI/2+slitW/2, Math.PI*2-slitW, 0, Math.PI/2), new THREE.MeshBasicMaterial({color:0x090b16, side:THREE.DoubleSide, fog:false}));
+  dome.position.y=3.2; domeGroup.add(dome);
+  /* rim light lines on the dome: meridians and parallels in faint brass */
+  const rimMat = new THREE.LineBasicMaterial({color:0xC9A26B, transparent:true, opacity:.22, fog:false});
+  for (let k=0;k<24;k++){ const phi = k/24*Math.PI*2; if (Math.abs(((phi-Math.PI/2+Math.PI*3)%(Math.PI*2))-Math.PI)<slitW/2+.04) continue;
+    const pts=[]; for(let j=0;j<=24;j++){ const th=j/24*Math.PI/2; pts.push(new THREE.Vector3(Math.sin(th)*Math.cos(phi)*6.23, 3.2+Math.cos(th)*6.23, Math.sin(th)*Math.sin(phi)*6.23)); }
+    domeGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), rimMat)); }
+  /* warm slit light: the interior lamp seen through the open slit */
+  const slitPts=[]; for(let j=0;j<=40;j++){ const th=j/40*Math.PI/2; slitPts.push(new THREE.Vector3(0, 3.2+Math.cos(th)*6.1, Math.sin(th)*6.1)); }
+  slitLight = new THREE.Line(new THREE.BufferGeometry().setFromPoints(slitPts), new THREE.LineBasicMaterial({color:0xF2C27A, transparent:true, opacity:.0}));
+  domeGroup.add(slitLight);
+  /* the open slit: a warm band of lamp light from inside the dome */
+  const slitBand = new THREE.Mesh(new THREE.SphereGeometry(6.05,8,32, Math.PI/2-slitW/2, slitW, 0, Math.PI/2),
+    new THREE.ShaderMaterial({transparent:true, depthWrite:false, side:THREE.DoubleSide, blending:THREE.AdditiveBlending,
+      vertexShader:`varying float vY; void main(){ vY=position.y; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+      fragmentShader:`varying float vY; void main(){ float k=.35+.65*smoothstep(6.,0.,vY); gl_FragColor=vec4(vec3(.95,.66,.32)*k*.55,1.); }`}));
+  slitBand.position.y=3.2; domeGroup.add(slitBand);
+  /* brass azimuth ring with graduations: an instrument scale */
+  const ring=[]; for(let a=0;a<360;a+=2){ const r1=7.2, r2 = a%30===0?7.95:(a%10===0?7.65:7.42), t=a*Math.PI/180;
+    ring.push(new THREE.Vector3(Math.cos(t)*r1,0.02,Math.sin(t)*r1), new THREE.Vector3(Math.cos(t)*r2,0.02,Math.sin(t)*r2)); }
+  domeGroup.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(ring), new THREE.LineBasicMaterial({color:0xC9A26B, transparent:true, opacity:.5})));
+  const circ=[]; for(let j=0;j<=180;j++){ const t=j/180*Math.PI*2; circ.push(new THREE.Vector3(Math.cos(t)*7.2,0.02,Math.sin(t)*7.2)); }
+  domeGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(circ), new THREE.LineBasicMaterial({color:0xC9A26B, transparent:true, opacity:.55})));
+  /* telescope: points out of the slit toward the sky of tools */
+  telescope = new THREE.Group();
+  const tube = new THREE.Mesh(new THREE.CylinderGeometry(.34,.46,5.2,32), new THREE.MeshBasicMaterial({color:0x1a1c28}));
+  tube.position.y=2.6; telescope.add(tube);
+  const lip = new THREE.Mesh(new THREE.TorusGeometry(.36,.05,8,40), new THREE.MeshBasicMaterial({color:0xC9A26B}));
+  lip.position.y=5.2; lip.rotation.x=Math.PI/2; telescope.add(lip);
+  telescope.position.set(0,4.2,-1.2); domeGroup.add(telescope);
+  const aim = CLOUD.clone().sub(telescope.position).normalize();
+  telescope.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), aim);
+  tipPos = telescope.position.clone().add(aim.clone().multiplyScalar(5.3));
+
+  /* data: one star per real tool. position = embedding projection; size = tokens; hue = server */
+  const g = new THREE.BufferGeometry(), N=TOOLS.length;
+  const pos = new Float32Array(N*3), col = new Float32Array(N*3), size = new Float32Array(N), lit = new Float32Array(N);
+  TOOLS.forEach((t,i)=>{ starPos[i].toArray(pos,i*3); new THREE.Color(HUE[t.s]||"#ffffff").toArray(col,i*3); size[i]=0.55+Math.sqrt(t.k)/9; lit[i]=1; });
+  g.setAttribute("position",new THREE.BufferAttribute(pos,3)); g.setAttribute("color",new THREE.BufferAttribute(col,3));
+  g.setAttribute("size",new THREE.BufferAttribute(size,1)); g.setAttribute("lit",new THREE.BufferAttribute(lit,1));
+  starMat = new THREE.ShaderMaterial({ transparent:true, depthWrite:false, blending:THREE.AdditiveBlending,
+    uniforms:{map:{value:softTex()}, scale:{value:innerHeight*0.5}, t:{value:0}},
+    vertexShader:`attribute float size; attribute float lit; attribute vec3 color; varying vec3 vC; varying float vL; uniform float scale; uniform float t;
+      void main(){ vC=color; vL=lit; vec4 mv=modelViewMatrix*vec4(position,1.); float tw=1.+.06*sin(t*1.3+position.x*3.1);
+        gl_PointSize=size*scale*(.35+.65*lit)*tw/-mv.z; gl_Position=projectionMatrix*mv; }`,
+    fragmentShader:`uniform sampler2D map; varying vec3 vC; varying float vL;
+      void main(){ vec4 s=texture2D(map,gl_PointCoord); float core=smoothstep(.55,1.,s.a);
+        vec3 c=mix(vC,vec3(1.),core*.55); gl_FragColor=vec4(c*(.18+.82*vL), s.a*(.25+.75*vL)); }`});
+  stars = new THREE.Points(g, starMat); scene.add(stars);
+
+  /* confusion filaments: measured only. one per (right tool, wrong tool) pair, opacity by trial count */
+  edgesGroup = new THREE.Group(); edgesGroup.visible=false; scene.add(edgesGroup);
+  const pairs = {};
+  for (const [m,cid,rot,e,ok] of TR) { if (ok || e===null || e===undefined) continue; const gtool = CASES[cid].g[0]; const k=gtool+"-"+e; pairs[k]=(pairs[k]||0)+1; }
+  window._pairs = pairs;
+  for (const k in pairs){ const [a,b]=k.split("-").map(Number); const n=pairs[k];
+    const A=starPos[a], B=starPos[b], mid=A.clone().add(B).multiplyScalar(.5); mid.y+=A.distanceTo(B)*.18;
+    const curve=new THREE.QuadraticBezierCurve3(A,mid,B);
+    const ln=new THREE.Line(new THREE.BufferGeometry().setFromPoints(curve.getPoints(28)), new THREE.LineBasicMaterial({color:0xFF7A66, transparent:true, opacity:Math.min(.95,.18+n/7), blending:THREE.AdditiveBlending, depthWrite:false}));
+    ln.userData={a,b,n}; edgesGroup.add(ln); }
+
+  beamGroup = new THREE.Group(); scene.add(beamGroup);
+
+  if (THREE.EffectComposer && THREE.UnrealBloomPass) {
+    composer = new THREE.EffectComposer(renderer);
+    composer.addPass(new THREE.RenderPass(scene,camera));
+    composer.addPass(new THREE.UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight), 0.75, 0.5, 0.42));
+  }
+  addEventListener("resize", ()=>{ onResize(); scrollState(); });
+  setupPointer();
+  requestAnimationFrame(loop);
+}
+function onResize(){ if(!renderer) return; camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); composer&&composer.setSize(innerWidth,innerHeight); starMat.uniforms.scale.value=innerHeight*.5; }
+
+/* ---------- beams: recorded calls ---------- */
+const RING = ringTex(false), CROSS = ringTex(true), DASH = dashTex();
+let beams=[];
+function clearBeams(){ while(beamGroup.children.length) { const c=beamGroup.children.pop(); c.geometry&&c.geometry.dispose(); } beams=[]; }
+function addBeam(target, ok, gold, delay){
+  const A=tipPos.clone(), B=starPos[target].clone();
+  const mid=A.clone().lerp(B,.5); mid.y+=1.5;
+  const curve=new THREE.QuadraticBezierCurve3(A,mid,B), pts=curve.getPoints(60);
+  const geo=new THREE.BufferGeometry().setFromPoints(pts); geo.setDrawRange(0,0);
+  const col = ok? 0x8FE3C0 : 0xFF7A66;
+  const line=new THREE.Line(geo,new THREE.LineBasicMaterial({color:0xF6D9A0, transparent:true, opacity:.85, blending:THREE.AdditiveBlending, depthWrite:false}));
+  beamGroup.add(line);
+  const ret=new THREE.Sprite(new THREE.SpriteMaterial({map: ok?RING:CROSS, color:col, transparent:true, opacity:0, depthWrite:false, blending:THREE.AdditiveBlending}));
+  ret.position.copy(B); ret.scale.setScalar(1.25); beamGroup.add(ret);
+  const rings=[];
+  if (!ok) for (const gi of gold){ const s=new THREE.Sprite(new THREE.SpriteMaterial({map:DASH, color:0xE9E4DA, transparent:true, opacity:0, depthWrite:false})); s.position.copy(starPos[gi]); s.scale.setScalar(1.15); beamGroup.add(s); rings.push(s); }
+  beams.push({geo,ret,rings,t0:performance.now()+delay, n:pts.length});
+}
+function noCall(delay){ /* a refusal: the beam stops short in the slit */
+  const A=tipPos.clone(), B=tipPos.clone().add(CLOUD.clone().sub(tipPos).normalize().multiplyScalar(2.2));
+  const geo=new THREE.BufferGeometry().setFromPoints([A,B]); geo.setDrawRange(0,0);
+  beamGroup.add(new THREE.Line(geo,new THREE.LineBasicMaterial({color:0x6E6C7E, transparent:true, opacity:.9})));
+  beams.push({geo,ret:null,rings:[],t0:performance.now()+delay,n:2});
+}
+function fire(list){ clearBeams(); list.forEach((b,i)=> b.e===null? noCall(i*90) : addBeam(b.e,b.ok,b.g,i*90)); }
+window._fire = (m,cid,rot) => { if(!renderer) return; const r=TR.filter(t=>t[0]===m&&t[1]===cid&&(rot===undefined||t[2]===rot)); fire(r.map(t=>({e:t[3]??null,ok:!!t[4],g:CASES[cid].g}))); };
+
+/* ---------- labels and hover ---------- */
+const labelsEl=$("#labels"), tip=$("#tip");
+let clusterLabels=[], focusLabels=[];
+function setClusterLabels(list){ labelsEl.innerHTML=""; clusterLabels=list.map(([txt,pos])=>{ const d=document.createElement("div"); d.className="lbl cluster"; d.textContent=txt; labelsEl.appendChild(d); return {d,pos}; });
+  focusLabels=[]; }
+function addFocusLabel(i,extra){ const d=document.createElement("div"); d.className="lbl"; d.innerHTML=TOOLS[i].n+(extra?` <small>${extra}</small>`:""); labelsEl.appendChild(d); focusLabels.push({d,pos:starPos[i]}); }
+const ray=new THREE.Raycaster(); ray.params.Points={threshold:.45};
+const mouse=new THREE.Vector2(-9,-9); let pointer={x:0,y:0}, hoverIdx=-1;
+let drag=null, orbit={az:0,el:0};
+function setupPointer(){
+  addEventListener("pointermove",e=>{ pointer.x=(e.clientX/innerWidth)*2-1; pointer.y=(e.clientY/innerHeight)*2-1; mouse.set(pointer.x,-pointer.y);
+    if (drag){ orbit.az += (e.clientX-drag.x)*.005; orbit.el = Math.max(-.6,Math.min(.6, orbit.el+(e.clientY-drag.y)*.004)); drag={x:e.clientX,y:e.clientY}; }
+    tip.style.left=Math.min(innerWidth-330,e.clientX+16)+"px"; tip.style.top=(e.clientY+16)+"px"; });
+  addEventListener("pointerdown",e=>{ if(state.key==="lab" && !e.target.closest(".card")) drag={x:e.clientX,y:e.clientY}; });
+  addEventListener("pointerup",()=>drag=null);
+}
+
+/* ---------- chapter states: camera keyframes and what is lit ---------- */
+const C_b = clusterCentroid("browser");
+const KEY = {
+  hero:   {pos:[-8,2.6,26], tgt:[-5.5,9.5,0]},
+  request:{pos:C_b.clone().add(new THREE.Vector3(-6.5,0.5,8.5)).toArray(), tgt:C_b.clone().add(new THREE.Vector3(-5,0,0)).toArray()},
+  wide:   {pos:CLOUD.clone().add(new THREE.Vector3(0,4,34)).toArray(), tgt:CLOUD.toArray()},
+  wide2:  {pos:CLOUD.clone().add(new THREE.Vector3(-18,-2,26)).toArray(), tgt:CLOUD.toArray()},
+  real:   {pos:CLOUD.clone().add(new THREE.Vector3(6,5,22)).toArray(), tgt:CLOUD.clone().add(new THREE.Vector3(-8,0,0)).toArray()},
+  browser:{pos:new THREE.Vector3(14,10,22).toArray(), tgt:C_b.clone().lerp(tipPosGuess(),.45).add(new THREE.Vector3(5,0,0)).toArray()},
+  lab:    {pos:CLOUD.clone().add(new THREE.Vector3(0,-9,27)).toArray(), tgt:CLOUD.clone().add(new THREE.Vector3(0,-3,0)).toArray()},
+  coda:   {pos:[0,5,38], tgt:[0,12,-4]},
+};
+function tipPosGuess(){ return new THREE.Vector3(0,7,-3); }
+const sections=[...document.querySelectorAll(".ch")];
+const prog=$("#prog");
+sections.forEach((s,i)=>{ const a=document.createElement("a"); a.href="#"+s.id; a.setAttribute("aria-label","Chapter "+i); prog.appendChild(a); });
+let state={key:null};
+function setLit(fn){ if(!stars) return; const a=stars.geometry.attributes.lit; for(let i=0;i<TOOLS.length;i++) a.array[i]=fn(TOOLS[i],i)?1:0.08; a.needsUpdate=true; }
+function enter(key){
+  if (state.key===key) return; state.key=key;
+  prog.querySelectorAll("a").forEach((a,i)=>a.classList.toggle("on", sections[i].dataset.cam===key));
+  if (!renderer) { if(key==="wide2") window._showSlots(); return; }
+  clearBeams(); edgesGroup.visible=false; setClusterLabels([]);
+  if (key==="hero"||key==="coda"){ setLit(()=>true); }
+  if (key==="request"){ setLit(t=>t.l==="browser"); setClusterLabels([["Playwright",avg(i=>TOOLS[i].s==="playwright")],["Chrome DevTools",avg(i=>TOOLS[i].s==="chrome-devtools")]]); }
+  if (key==="wide"){ setLit(()=>true); }
+  if (key==="wide2"){ setLit(()=>true); window._showSlots(); }
+  if (key==="real"){ setLit(()=>true); edgesGroup.visible=true; setClusterLabels(Object.keys(LOADOUT_NAME).map(l=>[LOADOUT_NAME[l],clusterCentroid(l).add(new THREE.Vector3(0,2.6,0))])); }
+  if (key==="browser"){ setLit(t=>t.l==="browser"); const r=TR.filter(t=>t[0]==="120b"&&CASES[t[1]].l==="browser"); fire(r.map(t=>({e:t[3]??null,ok:!!t[4],g:CASES[t[1]].g}))); addFocusLabel(LP,"chrome devtools"); }
+  if (key==="lab"){ setLit(t=>t.l===lab.l); labRender(); }
+}
+function avg(pred){ const v=new THREE.Vector3(); let n=0; TOOLS.forEach((t,i)=>{ if(pred(i)){v.add(starPos[i]);n++} }); return v.multiplyScalar(1/n).add(new THREE.Vector3(0,2.2,0)); }
+
+/* scroll → camera along keyframes, damped */
+const camPos=new THREE.Vector3(...KEY.hero.pos), camTgt=new THREE.Vector3(...KEY.hero.tgt);
+const wantPos=camPos.clone(), wantTgt=camTgt.clone();
+function scrollState(){
+  const mid=innerHeight*.5; let best=0, bestD=1e9;
+  sections.forEach((s,i)=>{ const r=s.getBoundingClientRect(); const c=r.top+r.height/2; const d=Math.abs(c-mid); if(d<bestD){bestD=d;best=i;} });
+  const s=sections[best], r=s.getBoundingClientRect();
+  const t=r.height>0?Math.max(0,Math.min(1,(mid-r.top)/r.height)):0;
+  const k=s.dataset.cam; enter(k);
+  const nextK = sections[Math.min(best+1,sections.length-1)].dataset.cam;
+  const a=KEY[k], b=KEY[nextK], u = Math.max(0,(t-.6)/.4); const e=u*u*(3-2*u);
+  wantPos.fromArray(a.pos).lerp(new THREE.Vector3(...b.pos), e*.5);
+  wantTgt.fromArray(a.tgt).lerp(new THREE.Vector3(...b.tgt), e*.5);
+  if (k==="hero"){ const h=innerHeight>0?Math.min(1,scrollY/innerHeight):0; wantPos.y += h*6; wantPos.z -= h*6; wantTgt.y += h*8; }
+}
+addEventListener("scroll", scrollState, {passive:true});
+
+/* ---------- lab ---------- */
+const lab={m:"120b", l:"browser", c:"rb09", rot:0};
+function labRender(){
+  const mSeg=$("#mSeg"), lSeg=$("#lSeg"), rSeg=$("#rSeg"), list=$("#caseList");
+  mSeg.innerHTML=""; for(const m in MODEL_NAME){ const b=document.createElement("button"); b.type="button"; b.className="btn"+(lab.m===m?" on":""); b.textContent=MODEL_NAME[m]; b.onclick=()=>{lab.m=m;labRender()}; mSeg.appendChild(b); }
+  lSeg.innerHTML=""; for(const l in LOADOUT_NAME){ const b=document.createElement("button"); b.type="button"; b.className="btn"+(lab.l===l?" on":""); b.textContent=LOADOUT_NAME[l]; b.onclick=()=>{lab.l=l; lab.c=Object.keys(CASES).find(c=>CASES[c].l===l); lab.rot=0; setLit(t=>t.l===l); labRender()}; lSeg.appendChild(b); }
+  list.innerHTML="";
+  for (const cid of Object.keys(CASES).filter(c=>CASES[c].l===lab.l)){
+    const r=TR.filter(t=>t[0]===lab.m&&t[1]===cid), ok=r.filter(t=>t[4]).length;
+    const b=document.createElement("button"); b.type="button"; b.className="case"+(cid===lab.c?" sel":""); b.setAttribute("role","option");
+    b.innerHTML=`<span class="id">${cid}</span><span>${CASES[cid].q}</span><span class="mono" style="color:${ok===r.length?'var(--ok)':ok===0?'var(--bad)':'var(--possible)'}">${ok}/${r.length}</span>`;
+    b.onclick=()=>{lab.c=cid; lab.rot=0; labRender()}; list.appendChild(b);
+  }
+  const rows=TR.filter(t=>t[0]===lab.m&&t[1]===lab.c).sort((a,b)=>a[2]-b[2]);
+  const servers=[...new Set(TOOLS.filter(t=>t.l===lab.l).map(t=>t.s))];
+  rSeg.innerHTML=""; rows.forEach(t=>{ const first=servers[t[2]]; const b=document.createElement("button"); b.type="button"; b.className="btn"+(t[2]===lab.rot?" on":""); b.textContent=first+" first"; b.onclick=()=>{lab.rot=t[2]; labRender()}; rSeg.appendChild(b); });
+  const row=rows.find(t=>t[2]===lab.rot)||rows[0], cs=CASES[lab.c];
+  $("#rq").textContent="“"+cs.q+"”";
+  const em = row[3]==null? null : TOOLS[row[3]];
+  $("#rv").innerHTML = em ? `<span class="dot" style="background:${row[4]?'var(--ok)':'var(--bad)'}"></span>${row[4]?"✓ right":"✕ wrong"} · called <span class="mono">${em.n}</span> <span style="color:var(--ink-3)">(${em.s})</span>` : `<span class="dot" style="background:var(--ink-3)"></span>refused · no tool called (tool_use_failed)`;
+  const gold = cs.g.map(i=>`<span class="mono">${TOOLS[i].n}</span>`).join(", ");
+  $("#rrail").innerHTML = `<div class="row"><span class="k">Accepted</span><span>${gold}</span></div>
+    <div class="row"><span class="k">Kind</span><span>${cs.sh?"shared: tools on 2+ servers can do it":"unique: only one server can do it"}</span></div>
+    <div class="row"><span class="k">All orders</span><span class="mono">${rows.map(t=>t[3]==null?"refused":TOOLS[t[3]].n).join(" · ")}</span></div>
+    <div class="row"><span class="k">Model</span><span>${MODEL_NAME[lab.m]} · Groq · temperature 0</span></div>
+    <div class="row"><span class="k">Source</span><code>results/exp013_${lab.m}.json · fixtures/cases/real_loadouts.jsonl</code></div>`;
+  if (renderer && state.key==="lab"){ labelsEl.innerHTML=""; focusLabels=[]; clusterLabels=[];
+    window._fire(lab.m, lab.c, row[2]); if(em) addFocusLabel(row[3], row[4]?"called · right":"called · wrong"); if(!row[4]) cs.g.forEach(i=>addFocusLabel(i,"accepted")); }
+}
+if (!gl_ok) labRender();
+
+/* ---------- loop ---------- */
+const clock = new THREE.Clock();
+const v=new THREE.Vector3();
+function loop(){
+  requestAnimationFrame(loop);
+  const t=clock.getElapsedTime(), now=performance.now();
+  starMat.uniforms.t.value = REDUCE?0:t;
+  /* camera: damped toward the keyframe, a little pointer parallax, user orbit in the lab */
+  const damp = REDUCE?1:0.045;
+  if(!isFinite(camPos.y+camPos.z)) camPos.copy(wantPos); if(!isFinite(camTgt.y+camTgt.z)) camTgt.copy(wantTgt);
+  camPos.lerp(wantPos,damp); camTgt.lerp(wantTgt,damp);
+  const off = new THREE.Vector3(pointer.x*0.9, -pointer.y*0.5, 0);
+  let p = camPos.clone().add(off);
+  if (state.key==="lab"){ const rel=p.clone().sub(camTgt); const s=new THREE.Spherical().setFromVector3(rel); s.theta+=orbit.az; s.phi=Math.max(.3,Math.min(2.7,s.phi-orbit.el)); p=camTgt.clone().add(new THREE.Vector3().setFromSpherical(s)); }
+  else if(!REDUCE && (state.key==="wide"||state.key==="wide2")){ const rel=p.clone().sub(camTgt); rel.applyAxisAngle(new THREE.Vector3(0,1,0), Math.sin(t*.07)*.25); p=camTgt.clone().add(rel); }
+  camera.position.copy(p); camera.lookAt(camTgt);
+  
+  /* beams grow from the telescope; reticles fade in on arrival */
+  for (const b of beams){ const u=Math.max(0,Math.min(1,(now-b.t0)/(REDUCE?1:900))); b.geo.setDrawRange(0,Math.max(0,Math.floor(u*b.n)));
+    if(b.ret){ b.ret.material.opacity=Math.max(0,(u-.85)/.15); b.ret.material.rotation = REDUCE?0:t*.4; }
+    b.rings.forEach(s=>{ s.material.opacity=Math.max(0,(u-.9)/.1)*.85; }); }
+  /* hover */
+  ray.setFromCamera(mouse,camera); const hit=ray.intersectObject(stars)[0];
+  const hi = hit? hit.index : -1;
+  if (hi!==hoverIdx){ hoverIdx=hi; if(hi>=0){ const tt=TOOLS[hi]; tip.innerHTML=`<b>${tt.n}</b>${tt.s} · ${LOADOUT_NAME[tt.l]} · ${tt.k} tokens<br><span>${tt.d}${tt.d.length>=160?"…":""}</span>`; tip.style.opacity=1; } else tip.style.opacity=0; }
+  /* labels */
+  for (const L of [...clusterLabels,...focusLabels]){ v.copy(L.pos).project(camera); const vis=v.z<1&&Math.abs(v.x)<1.1&&Math.abs(v.y)<1.1;
+    L.d.style.opacity=vis?1:0; L.d.style.left=((v.x+1)/2*innerWidth)+"px"; L.d.style.top=((1-v.y)/2*innerHeight)+"px"; }
+  /* HUD readout: camera azimuth / altitude */
+  const d=camTgt.clone().sub(camera.position).normalize();
+  $("#hudB").textContent=`az ${(((Math.atan2(d.x,-d.z)*180/Math.PI)+360)%360).toFixed(1).padStart(5,"0")}° · alt ${(Math.asin(d.y)*180/Math.PI).toFixed(1)}° · ${TOOLS.length} tools · ${TR.length} calls`;
+  composer? composer.render() : renderer.render(scene,camera);
+}
+scrollState();
+</script>
