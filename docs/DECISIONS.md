@@ -105,3 +105,13 @@ Context: direct Anthropic billing requires a paid account; the project is studen
 Decision: use the `openai` Python package with provider-specific `base_url` and `api_key` from environment. Model ids are pinned per experiment as before. The cassette key includes `(provider_slug, model_id, request_bytes)` — not `request_bytes` alone — so entries from different providers never collide.
 Consequences: results are scoped to free-tier models (rate-limited, smaller context windows, may differ from paid tiers); cassette key schema widens by one field; AnthropicProvider is renamed to OpenAICompatProvider; ARCHITECTURE.md updated.
 Revisit: if a free-tier rate limit blocks an experiment, add a paid-tier path with `--max-usd` guard unchanged.
+
+**ADR-023 Follow-up experiments EXP-009–012 move to near-duplicate surfaces, with validated gold** — proposed (2026-10-28)
+Context: EXP-003, EXP-004 and EXP-005 were mostly uninformative because goodserver is solved: both models score 100% on it, and its five distinct tools never compete. The one effect found (a position effect on `siblings` at temperature 0, `results/exp001_siblings_t0_analysis.json`) comes from near-duplicate tools, but only 8 families existed. EXP-005 also showed that some "wrong" answers picked a tool that could arguably do the job, so single-tool gold can mislabel defensible choices.
+Decision:
+1. Follow-ups EXP-009 (order), EXP-010 (description edits), EXP-011 (cross-server overlap) and EXP-012 (distractor dose) are preregistered separately; the original EXP-001–005 verdicts stand unchanged.
+2. New fixtures, written and committed before any run: 3 more near-duplicate surfaces of 4 tools (to join `siblings`), 8 cases per surface (32 families), and 3 pairs of overlapping servers with 24 cross-server cases for EXP-011.
+3. **Gold validation:** before any live run, a person who did not write the case reads each request with the full surface and marks every tool that would correctly satisfy it. Cases where the marking disagrees with the author's gold are rewritten or the gold set widened (multi-tool gold is already supported), and the outcome is logged in `fixtures/cases/gold_validation.csv`.
+4. All runs use temperature 0, record refusals rather than retrying them, and use the analysis scripts from the original experiments where the statistic is the same.
+Consequences: roughly 3,200 new trials (about 1.3M tokens at observed sizes), within a day or two of the 7-org free-tier budget. Gold validation is a human step and gates every run.
+Revisit: if gold validation shows the near-duplicate cases are too ambiguous to have a single right answer, the order and edit questions should be asked as "which of the acceptable tools" rather than "right vs wrong".
