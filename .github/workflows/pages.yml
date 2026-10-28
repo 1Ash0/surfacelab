@@ -1,5 +1,5 @@
 name: pages
-# deploys site/ (built by scripts/build_site.py) to GitHub Pages
+# deploys site/ (built by scripts/build_site.py) to GitHub Pages; source must be "GitHub Actions"
 
 on:
   push:
