@@ -194,11 +194,91 @@ def exp012() -> dict:
     return out
 
 
+# ---- EXP-013 ---------------------------------------------------------------
+
+def exp013() -> dict:
+    cases = {c.id: c for c in load_cases(Path("fixtures/cases/real_loadouts.jsonl"))}
+    owner, order = {}, {}
+    for name in ["browser", "web", "workspace", "docs"]:
+        own = json.loads(Path(f"fixtures/surfaces/real_{name}.servers.json").read_text())
+        owner[name] = own
+        order[name] = list(dict.fromkeys(own.values()))
+    out: dict = {"models": {}}
+    p_h1, p_h2 = [], []
+    for m in MODELS:
+        rows = load(13, m)
+        if rows is None:
+            continue
+        for r in rows:
+            c, own, sv = cases[r["case_id"]], owner[r["loadout"]], order[r["loadout"]]
+            rot = sv[r["rotation"]:] + sv[:r["rotation"]]
+            accepted = {own[g] for g in c.gold}
+            r["shared"] = len(accepted) >= 2
+            r["server"] = own.get(r["emitted"]) if r["emitted"] else None
+            r["first_accepted"] = next(s for s in rot if s in accepted)  # earliest server that can do it
+            r["chance"] = 1 / len(accepted)
+        sh = [r for r in rows if r["shared"]]
+        un = [r for r in rows if not r["shared"]]
+
+        def excess(x):
+            ok = [r for r in x if r["correct"]]
+            if not ok:
+                return None
+            return sum(r["server"] == r["first_accepted"] for r in ok) / len(ok) - sum(r["chance"] for r in ok) / len(ok)
+
+        h1 = boot(excess, fams(sh))
+        rng, ids, neg = random.Random(SEED), sorted(fams(sh)), 0
+        f_sh = fams(sh)
+        for _ in range(N_RESAMPLES):  # one-sided bootstrap p for Holm: share of resamples with excess <= 0
+            v = excess([r for i in rng.choices(ids, k=len(ids)) for r in f_sh[i]])
+            neg += v is None or v <= 0
+        p_h1.append(neg / N_RESAMPLES)
+        h2 = boot(acc, fams(un))
+        rng, ids, f_un, low = random.Random(SEED), sorted(fams(un)), fams(un), 0
+        for _ in range(N_RESAMPLES):
+            low += acc([r for i in rng.choices(ids, k=len(ids)) for r in f_un[i]]) < 0.90
+        p_h2.append(low / N_RESAMPLES)
+        ok = [r for r in sh if r["correct"]]
+        flips = {}
+        for cid, f in fams(sh).items():
+            chosen = {r["server"] for r in f if r["correct"]}
+            flips[cid] = len(chosen) > 1
+        prefs: dict = {}
+        for r in ok:
+            prefs.setdefault(r["loadout"], {}).setdefault(r["server"], 0)
+            prefs[r["loadout"]][r["server"]] += 1
+        by_loadout = {}
+        for name in order:
+            s = [r for r in ok if r["loadout"] == name]
+            if s:
+                by_loadout[name] = {"n": len(s), "first_listed_share": sum(r["server"] == r["first_accepted"] for r in s) / len(s),
+                                    "chance": sum(r["chance"] for r in s) / len(s)}
+        out["models"][m] = {
+            "shared": {"trials": len(sh), "accuracy": acc(sh), "correct_trials": len(ok),
+                       "first_listed_share": sum(r["server"] == r["first_accepted"] for r in ok) / len(ok) if ok else None,
+                       "chance": sum(r["chance"] for r in ok) / len(ok) if ok else None,
+                       "excess_over_chance": h1, "by_loadout": by_loadout,
+                       "H3_flip_rate": sum(flips.values()) / len(flips), "flipping_cases": sorted(k for k, v in flips.items() if v),
+                       "H3_server_counts": prefs},
+            "unique": {"trials": len(un), "accuracy": h2,
+                       "refusals": sum(r["emitted"] is None for r in un),
+                       "errors": [(r["case_id"], r["loadout"], r["rotation"], r["emitted"]) for r in un if not r["correct"]]},
+            "H1_verdict": "confirmed" if h1["lower"] is not None and h1["lower"] > 0 else
+                          "absent" if h1["upper"] is not None and h1["upper"] < 0.05 else "inconclusive",
+            "H2_verdict": "confirmed" if h2["lower"] >= 0.90 else "not_confirmed" if h2["upper"] < 0.90 else "inconclusive",
+        }
+    for key, ps in [("H1_holm_reject", p_h1), ("H2_holm_reject", p_h2)]:
+        for m, rej in zip([m for m in MODELS if m in out["models"]], holm_correction(ps)):
+            out["models"][m][key] = rej
+            out["models"][m][key.replace("holm_reject", "bootstrap_p")] = ps[[x for x in MODELS if x in out["models"]].index(m)]
+    return out
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--exp", type=int, choices=[10, 11, 12], required=True)
+    ap.add_argument("--exp", type=int, choices=[10, 11, 12, 13], required=True)
     exp = ap.parse_args().exp
-    out = {10: exp010, 11: exp011, 12: exp012}[exp]()
+    out = {10: exp010, 11: exp011, 12: exp012, 13: exp013}[exp]()
     Path(f"results/exp0{exp}_analysis.json").write_text(json.dumps(out, indent=1, default=list), encoding="utf-8")
     print(json.dumps(out, indent=1, default=list))
 

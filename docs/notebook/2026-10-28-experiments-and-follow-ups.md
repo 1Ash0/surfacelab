@@ -50,3 +50,10 @@ ADR-023 (proposed): follow-ups EXP-009–012 on near-duplicate surfaces with 32 
 - A returned gold sheet had been filled without the tool descriptions (it invented names such as `browser_go_back`); discarded. The new sheet puts each candidate tool's description next to the request.
 - Redesign around the replicated finding: on requests two real servers can both serve, does list order pick the server? Added DuckDuckGo (keyless search, 3 tools) and Git (with an empty repo at /repo so it starts); Desktop Commander (~10K tokens, no tool filter) does not fit.
 - All four loadouts measured under 6,500 provider tokens for every model (largest: workspace, 6,277 on Qwen).
+
+## EXP-013 results
+- 396 trials, 0 errors; free-tier limits held all day with the 3 s per-key interval.
+- H1 inconclusive for all three models: on real ties the first-listed server wins only 0 to +7 pp above chance, and 16 shared families cannot rule out a +10 pp effect.
+- Models keep fixed server preferences (Qwen: Playwright 10/10; 120b: Brave 11, DuckDuckGo 7, Tavily 0); the chosen server changes with order in 19-25% of shared families.
+- H2 not confirmed for gpt-oss (0.77-0.78 on unique cases) vs 0.99+ on our surfaces; inconclusive for Qwen (0.91).
+- Unexpected: with Chrome DevTools co-loaded, gpt-oss-120b opens 14/24 browser requests with `list_pages`, even for Playwright-only jobs. Recorded as exploratory; first-call scoring counts it wrong.
