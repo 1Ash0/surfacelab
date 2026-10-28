@@ -28,12 +28,13 @@ def third(idx: int, n: int) -> int:
     return idx * 3 // n  # n=5 -> {0,1},{2,3},{4}; n=4 -> {0,1},{2},{3}
 
 
-def collect() -> list[dict]:
+def collect(surfaces=SURFACES, temperature: float | None = None) -> list[dict]:
     store = CassetteStore(Path("cassettes"), mode="replay")
     rows: list[dict] = []
     for model in MODELS:
-        prov = OpenAICompatProvider(provider_slug="groq", model_id=model, cassette_store=store)
-        for surface_name, cases_path, k in SURFACES:
+        prov = OpenAICompatProvider(provider_slug="groq", model_id=model, cassette_store=store,
+                                    temperature=temperature)
+        for surface_name, cases_path, k in surfaces:
             variants = balanced_permutations(load_fixture_surface(surface_name), k)
             for case in load_cases(Path(cases_path)):
                 if case.kind == CaseKind.abstain:
@@ -86,6 +87,25 @@ def flip_rate(trials: list[dict]) -> float:
     return sum(a != b for a, b in pairs) / len(pairs)
 
 
+def main_siblings_t0() -> None:
+    """Follow-up: siblings only, temperature 0. Same gap statistic; H2 is n/a (goodserver not rerun)."""
+    rows = collect(surfaces=[SURFACES[1]], temperature=0.0)
+    out: dict = {"temperature": 0.0, "surface": "siblings", "n_trials": len(rows),
+                 "n_resamples": N_RESAMPLES, "seed": SEED, "per_model": {}}
+    for m in MODELS:
+        fams = families(rows, model=m)
+        out["per_model"][m] = {
+            "accuracy": acc([t for f in fams.values() for t in f]),
+            "bin_accuracy": {b: acc([t for f in fams.values() for t in f if third(t["pos"], t["n"]) == b]) for b in range(3)},
+            "gap_first_minus_last_third": boot(gap, [fams]),
+            "gap_first_minus_last_slot": boot(lambda f: gap(f, 0, 1, key=lambda t: 0 if t["pos"] == 0 else 1 if t["pos"] == t["n"] - 1 else -1), [fams]),
+            "flip_rate_per_case": {c: flip_rate(f) for c, f in fams.items()},
+        }
+    out["H3_gap_20b_minus_120b"] = boot(lambda x, y: gap(x) - gap(y), [families(rows, model=MODELS[0]), families(rows, model=MODELS[1])])
+    Path("results/exp001_siblings_t0_analysis.json").write_text(json.dumps(out, indent=2), encoding="utf-8")
+    print(json.dumps(out, indent=1))
+
+
 def main() -> None:
     rows = collect()
     out: dict = {"n_trials": len(rows), "n_resamples": N_RESAMPLES, "seed": SEED, "per_model": {}}
@@ -127,4 +147,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    main_siblings_t0() if "--siblings-t0" in sys.argv else main()
