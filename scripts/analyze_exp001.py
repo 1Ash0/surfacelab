@@ -7,6 +7,7 @@ Writes results/exp001_analysis.json.
 from __future__ import annotations
 
 import json
+import os
 import random
 from itertools import combinations
 from pathlib import Path
@@ -19,7 +20,7 @@ from surfacelab.stats import cochrans_q, mcnemar_test
 from surfacelab.surface import load_fixture_surface
 from surfacelab.variants import balanced_permutations
 
-MODELS = ["openai/gpt-oss-20b", "openai/gpt-oss-120b"]
+MODELS = os.environ.get("SURFACELAB_MODELS", "openai/gpt-oss-20b,openai/gpt-oss-120b").split(",")  # EXP-014 adds qwen
 SURFACES = [("goodserver", "fixtures/cases/core.jsonl", 120), ("siblings", "fixtures/cases/siblings.jsonl", 24)]
 N_RESAMPLES, SEED = 10_000, 42
 

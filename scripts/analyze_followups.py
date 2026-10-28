@@ -20,7 +20,7 @@ from surfacelab.render import render
 from surfacelab.stats import holm_correction, mcnemar_test, wilson_interval
 from surfacelab.surface import load_fixture_surface
 
-MODELS = ["20b", "120b"]
+MODELS = ["20b", "120b", "27b"]  # 27b = qwen/qwen3.8-27b (EXP-014); missing files are skipped
 N_RESAMPLES, SEED = 10_000, 42
 
 
@@ -77,7 +77,7 @@ def exp010() -> dict:
     ho, out = held_out(), {"held_out": sorted(ho), "models": {}}
     rise = {e: sum(tokens(f"{s}_{e}") for s in ND) / sum(tokens(s) for s in ND) - 1 for e in ["contrast", "negation"]}
     out["description_token_rise"] = rise
-    for m in MODELS:
+    for m in MODELS[:2]:
         rows = load(10, m)
         if rows is None:
             out["models"][m] = "not run (ceiling check, see EXP-010.md)"

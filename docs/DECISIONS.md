@@ -118,7 +118,7 @@ Decision:
 Consequences: about 3,200 trials, estimated at roughly 1.1–1.3M tokens from measured per-call sizes (vs about 2.3M recorded for EXP-001–005), within a day of the 7-org free-tier budget. Gold validation is a human step and gates every run.
 Revisit: if gold validation shows the near-duplicate cases are too ambiguous to have a single right answer, the order and edit questions should be asked as "which of the acceptable tools" rather than "right vs wrong".
 
-**ADR-024 Real-server surfaces and a second model family (EXP-006 targets, EXP-013, EXP-014)** — proposed (2026-10-28)
+**ADR-024 Real-server surfaces and a second model family (EXP-006 targets, EXP-013, EXP-014)** — accepted (2026-10-28)
 Context: EXP-009–012 closed under the ADR-023 stop rule: on surfaces we wrote, with distinct scopes, gpt-oss selects almost perfectly; the only order effect is synonym tie-breaking. Two gaps remain: all surfaces are ours, and all models are one family.
 Decision (if accepted):
 1. EXP-006 uses the curated list in `fixtures/targets/exp006_targets.json`: 19 open-source servers from the MCP steering group and named vendors, chosen to be recognisable and to include servers that overlap (two browser servers, four web/search servers, three databases). Probes stay inside `probe_docker()`; only `initialize` and `tools/list` are sent. Servers that demand a credential get the literal placeholder `surfacelab-placeholder` in a `--network=none` container.

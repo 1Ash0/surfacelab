@@ -1,0 +1,394 @@
+loadout,server,tool,description
+real_browser,playwright,browser_close,Close the page
+real_browser,playwright,browser_resize,Resize the browser window
+real_browser,playwright,browser_console_messages,Returns all console messages
+real_browser,playwright,browser_handle_dialog,Handle a dialog
+real_browser,playwright,browser_emulate_media,"Emulate CSS media features for the page, for example switch between the light and dark color scheme. Omitted parameters are left unchanged; null clears an override."
+real_browser,playwright,browser_evaluate,Evaluate JavaScript expression on page or element
+real_browser,playwright,browser_file_upload,Upload one or multiple files
+real_browser,playwright,browser_drop,"Drop files or MIME-typed data onto an element, as if dragged from outside the page. At least one of ""paths"" or ""data"" must be provided."
+real_browser,playwright,browser_find,"Search the accessibility snapshot of the current page for text or a regular expression. Returns matching snapshot nodes with a few lines of surrounding context (like search snippets), each shown under its path from the root of the tree, which is cheaper than capturing the whole snapshot when you only need to locate an element and its ref."
+real_browser,playwright,browser_fill_form,Fill multiple form fields
+real_browser,playwright,browser_press_key,Press a key on the keyboard
+real_browser,playwright,browser_type,Type text into editable element
+real_browser,playwright,browser_navigate,Navigate to a URL
+real_browser,playwright,browser_navigate_back,Go back to the previous page in the history
+real_browser,playwright,browser_network_requests,Returns a numbered list of network requests since loading the page. Use browser_network_request with the number to get full details.
+real_browser,playwright,browser_network_request,"Returns full details (headers and body) of a single network request, or a single part if `part` is set. Use the number from browser_network_requests."
+real_browser,playwright,browser_run_code_unsafe,Run a Playwright code snippet. Unsafe: executes arbitrary JavaScript in the Playwright server process and is RCE-equivalent.
+real_browser,playwright,browser_take_screenshot,"Take a screenshot of the current page. You can't perform actions based on the screenshot, use browser_snapshot for actions."
+real_browser,playwright,browser_snapshot,"Capture accessibility snapshot of the current page, this is better than screenshot"
+real_browser,playwright,browser_click,Perform click on a web page
+real_browser,playwright,browser_drag,Perform drag and drop between two elements
+real_browser,playwright,browser_hover,Hover over element on page
+real_browser,playwright,browser_select_option,Select an option in a dropdown
+real_browser,playwright,browser_tabs,"List, create, close, or select a browser tab."
+real_browser,playwright,browser_wait_for,Wait for text to appear or disappear or a specified time to pass
+real_browser,chrome-devtools,close_page,Closes the page by its index. The last open page cannot be closed.
+real_browser,chrome-devtools,list_pages,Get a list of pages open in the browser.
+real_browser,chrome-devtools,navigate_page,"Go to a URL, or back, forward, or reload. Use project URL if not specified otherwise."
+real_browser,chrome-devtools,new_page,Open a new tab and load a URL. Use project URL if not specified otherwise.
+real_browser,chrome-devtools,select_page,Select a page as a context for future tool calls.
+real_browser,chrome-devtools,wait_for,"Wait for the specified text to appear on the selected page. By default, hidden text is also matched. Set visible to true to wait until the matched text is visible."
+real_web,fetch,fetch,"Fetches a URL from the internet and optionally extracts its contents as markdown.
+
+Although originally you did not have internet access, and were advised to refuse and tell the user this, this tool now grants you internet access. Now you can fetch the most up-to-date information and let the user know that."
+real_web,tavily,tavily_search,"Search the web for current information on any topic. Use for news, facts, or data beyond your knowledge cutoff. Returns snippets and source URLs."
+real_web,tavily,tavily_extract,Extract content from URLs. Returns raw page content in markdown or text format.
+real_web,tavily,tavily_crawl,Crawl a website starting from a URL. Extracts content from pages with configurable depth and breadth.
+real_web,tavily,tavily_map,Map a website's structure. Returns a list of URLs found starting from the base URL.
+real_web,tavily,tavily_research,Perform comprehensive research on a given topic or question. Use this tool when you need to gather information from multiple sources to answer a question or complete a task. Returns a detailed response based on the research findings. Rate limit: 20 requests per minute.
+real_web,brave-search,brave_web_search,"Performs web searches using the Brave Search API and returns comprehensive search results with rich metadata.
+
+    When to use:
+        - General web searches for information, facts, or current topics
+        - Location-based queries (restaurants, businesses, points of interest)
+        - News searches for recent events or breaking stories
+        - Finding videos, discussions, or FAQ content
+        - Research requiring diverse result types (web pages, images, reviews, etc.)
+
+    Returns a JSON list of web results with title, description, and URL.
+    
+    When the ""results_filter"" parameter is empty, JSON results may also contain FAQ, Discussions, News, and Video results."
+real_web,brave-search,brave_image_search,"Performs an image search using the Brave Search API. Helpful for when you need pictures of people, places, things, graphic design ideas, art inspiration, and more. When relaying results in a markdown environment, it may be helpful to include images in the results (e.g., ![image.title](image.properties.url))."
+real_web,brave-search,brave_news_search,"This tool searches for news articles using Brave's News Search API based on the user's query. Use it when you need current news information, breaking news updates, or articles about specific topics, events, or entities.
+    
+    When to use:
+        - Finding recent news articles on specific topics
+        - Getting breaking news updates
+        - Researching current events or trending stories
+        - Gathering news sources and headlines for analysis
+
+    Returns a JSON list of news-related results with title, url, and description. Some results may contain snippets of text from the article.
+    
+    When relaying results in markdown-supporting environments, always cite sources with hyperlinks.
+    
+    Examples:
+        - ""According to [Reuters](https://www.reuters.com/technology/china-bans/), China bans uncertified and recalled power banks on planes"".
+        - ""The [New York Times](https://www.nytimes.com/2025/06/27/us/technology/ev-sales.html) reports that Tesla's EV sales have increased by 20%"".
+        - ""According to [BBC News](https://www.bbc.com/news/world-europe-65910000), the UK government has announced a new policy to support renewable energy""."
+real_workspace,filesystem,read_file,Read the complete contents of a file as text. DEPRECATED: Use read_text_file instead.
+real_workspace,filesystem,read_text_file,"Read the complete contents of a file from the file system as text. Handles various text encodings and provides detailed error messages if the file cannot be read. Use this tool when you need to examine the contents of a single file. Use the 'head' parameter to read only the first N lines of a file, or the 'tail' parameter to read only the last N lines of a file. Operates on the file as text regardless of extension. Only works within allowed directories."
+real_workspace,filesystem,read_media_file,Read a file and return it as a base64-encoded content block with its MIME type. Image and audio files are returned as image/audio content; any other file type is returned as an embedded resource. Only works within allowed directories.
+real_workspace,filesystem,read_multiple_files,Read the contents of multiple files simultaneously. This is more efficient than reading files one by one when you need to analyze or compare multiple files. Each file's content is returned with its path as a reference. Failed reads for individual files won't stop the entire operation. Only works within allowed directories.
+real_workspace,filesystem,write_file,Create a new file or completely overwrite an existing file with new content. Use with caution as it will overwrite existing files without warning. Handles text content with proper encoding. Only works within allowed directories.
+real_workspace,filesystem,edit_file,Make line-based edits to a text file. Each edit replaces exact line sequences with new content. Returns a git-style diff showing the changes made. Only works within allowed directories.
+real_workspace,filesystem,create_directory,"Create a new directory or ensure a directory exists. Can create multiple nested directories in one operation. If the directory already exists, this operation will succeed silently. Perfect for setting up directory structures for projects or ensuring required paths exist. Only works within allowed directories."
+real_workspace,filesystem,list_directory,Get a detailed listing of all files and directories in a specified path. Results clearly distinguish between files and directories with [FILE] and [DIR] prefixes. This tool is essential for understanding directory structure and finding specific files within a directory. Only works within allowed directories.
+real_workspace,filesystem,list_directory_with_sizes,"Get a detailed listing of all files and directories in a specified path, including sizes. Results clearly distinguish between files and directories with [FILE] and [DIR] prefixes. This tool is useful for understanding directory structure and finding specific files within a directory. Only works within allowed directories."
+real_workspace,filesystem,directory_tree,"Get a recursive tree view of files and directories as a JSON structure. Each entry includes 'name', 'type' (file/directory), and 'children' for directories. Files have no children array, while directories always have a children array (which may be empty). The output is formatted with 2-space indentation for readability. Only works within allowed directories."
+real_workspace,filesystem,move_file,"Move or rename files and directories. Can move files between directories and rename them in a single operation. If the destination exists, the operation will fail. Works across different directories and can be used for simple renaming within the same directory. Both source and destination must be within allowed directories."
+real_workspace,filesystem,search_files,"Recursively search for files and directories matching a pattern. The patterns should be glob-style patterns that match paths relative to the working directory. Use pattern like '*.ext' to match files in current directory, and '**/*.ext' to match files in all subdirectories. Returns full paths to all matching items. Great for finding files when you don't know their exact location. Only searches within allowed directories."
+real_workspace,filesystem,get_file_info,"Retrieve detailed metadata about a file or directory. Returns comprehensive information including size, creation time, last modified time, permissions, and type. This tool is perfect for understanding file characteristics without reading the actual content. Only works within allowed directories."
+real_workspace,filesystem,list_allowed_directories,Returns the list of directories that this server is allowed to access. Subdirectories within these allowed directories are also accessible. Use this to understand which directories and their nested paths are available before trying to access files.
+real_workspace,github,create_branch,Create a new branch in a GitHub repository
+real_workspace,github,create_or_update_file,"Create or update a single file in a GitHub repository. 
+If updating, you should provide the SHA of the file you want to update. Use this tool to create or update a file in a GitHub repository remotely; do not use it for local file operations.
+
+To obtain the current blob SHA before updating, call the get_file_contents tool with the same owner, repo, and path, and set its ref parameter to this tool's branch value. The first text result reports the blob SHA for the requested path.
+
+SHA MUST be provided for existing file updates."
+real_workspace,github,delete_file,Delete a file from a GitHub repository
+real_workspace,github,get_commit,Get details for a commit from a GitHub repository
+real_workspace,github,get_file_contents,Get the contents of a file or directory from a GitHub repository
+real_workspace,github,list_branches,List branches in a GitHub repository
+real_workspace,github,list_commits,"Get list of commits of a branch in a GitHub repository. Returns at least 30 results per page by default, but can return more if specified using the perPage parameter (up to 100)."
+real_workspace,github,push_files,Push multiple files to a GitHub repository in a single commit
+real_workspace,github,search_code,"Fast and precise code search across ALL GitHub repositories using GitHub's native search engine. Best for finding exact symbols, functions, classes, or specific code patterns."
+real_workspace,github,search_repositories,"Find GitHub repositories by name, description, readme, topics, or other metadata. Perfect for discovering projects, finding examples, or locating specific repositories across GitHub."
+real_docs,context7,resolve-library-id,"Resolves a package/product name to a Context7-compatible library ID and returns matching libraries.
+
+You MUST call this function before 'Query Documentation' tool to obtain a valid Context7-compatible library ID UNLESS the user explicitly provides a library ID in the format '/org/project' or '/org/project/version' in their query.
+
+Each result includes:
+- Library ID: Context7-compatible identifier (format: /org/project)
+- Name: Library or package name
+- Description: Short summary
+- Code Snippets: Number of available code examples
+- Source Reputation: Authority indicator (High, Medium, Low, or Unknown)
+- Benchmark Score: Quality indicator (100 is the highest score)
+- Versions: List of versions if available. Use one of those versions if the user provides a version in their query. The format of the version is /org/project/version.
+
+For best results, select libraries based on name match, source reputation, snippet coverage, benchmark score, and relevance to your use case.
+
+Selection Process:
+1. Analyze the query to understand what library/package the user is looking for
+2. Return the most relevant match based on:
+- Name similarity to the query (exact matches prioritized)
+- Description relevance to the query's intent
+- Documentation coverage (prioritize libraries with higher Code Snippet counts)
+- Source reputation (consider libraries with High or Medium reputation more authoritative)
+- Benchmark Score: Quality indicator (100 is the highest score)
+
+Response Format:
+- Return the selected library ID in a clearly marked section
+- Provide a brief explanation for why this library was chosen
+- If multiple good matches exist, acknowledge this but proceed with the most relevant one
+- If no good matches exist, clearly state this and suggest query refinements
+
+For ambiguous queries, request clarification before proceeding with a best-guess match.
+
+IMPORTANT: Do not call this tool more than 3 times per question. If you cannot find what you need after 3 calls, use the best result you have."
+real_docs,context7,query-docs,"Retrieves and queries up-to-date documentation and code examples from Context7 for any programming library or framework.
+
+You must call 'Resolve Context7 Library ID' tool first to obtain the exact Context7-compatible library ID required to use this tool, UNLESS the user explicitly provides a library ID in the format '/org/project' or '/org/project/version' in their query.
+
+Do not call this tool more than 3 times per question.
+
+If you know the programming language the user is working in, pass it as `language` so the results match their setup."
+real_docs,aws-documentation,read_documentation,"Fetch and convert an AWS documentation page to markdown format.
+
+    ## Usage
+
+    This tool retrieves the content of an AWS documentation page and converts it to markdown format.
+    For long documents, you can make multiple calls with different start_index values to retrieve
+    the entire content in chunks.
+
+    ## URL Requirements
+
+    - Must be from the docs.aws.amazon.com domain
+    - Must end with .html
+
+    ## Example URLs
+
+    - https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html
+    - https://docs.aws.amazon.com/lambda/latest/dg/lambda-invocation.html
+
+    ## Output Format
+
+    The output is formatted as markdown text with:
+    - Preserved headings and structure
+    - Code blocks for examples
+    - Lists and tables converted to markdown format
+
+    ## Large Tables
+
+    Tables with more than 20 rows are automatically truncated to show only the header and 5 sample rows,
+    along with a hint to use the `search_table` tool. Use `search_table` to filter and retrieve specific
+    rows from large tables (e.g., service quotas, IAM actions).
+
+    ## Handling Long Documents
+
+    If the response indicates the document was truncated, you have several options:
+
+    1. **Continue Reading**: Make another call with start_index set to the end of the previous response
+    2. **Stop Early**: For very long documents (>30,000 characters), if you've already found the specific information needed, you can stop reading
+
+    Args:
+        ctx: MCP context for logging and error handling
+        url: URL of the AWS documentation page to read
+        max_length: Maximum number of characters to return
+        start_index: On return output starting at this character index
+
+    Returns:
+        Markdown content of the AWS documentation"
+real_docs,aws-documentation,read_sections,"Extract specific sections from AWS documentation pages by title.
+
+    Retrieves a page, converts to markdown, and returns only matching sections.
+    Section matching is case-insensitive and handles whitespace differences.
+
+    ## URL Requirements
+    - Must end with .html
+
+    ## Large Tables
+
+    Tables with more than 20 rows are automatically truncated to show only the header and 5 sample rows,
+    along with a hint to use the `search_table` tool. Use `search_table` to filter and retrieve specific
+    rows from large tables (e.g., service quotas, IAM actions).
+
+    ## Read Sections Tips
+
+    - Use exact section titles from search results 'sections' field when available
+    - Section matching is case-insensitive and handles whitespace differences
+    - Include multiple related sections in one call for comprehensive coverage
+
+    ## Example Usage
+
+    ```
+    # If query is about S3 bucket naming rules:
+    # Available sections: ['General purpose buckets naming rules', 'Example general purpose bucket names', 'Best practices', 'Creating a bucket that uses a GUID in the bucket name']
+    # Read these specific sections:
+    read_sections(
+        url='https://docs.aws.amazon.com/s3/latest/userguide/bucketnamingrules.html',
+        section_titles=['General purpose buckets naming rules', 'Best practices'],
+    )
+
+    # If query is about Python Lambda function examples:
+    # Available sections: ['Example Python Lambda function code', 'Handler naming conventions', 'Using the Lambda event object', 'Accessing and using the Lambda context object'. 'Valid handler signatures for Python handlers', 'Returning a value', 'Using the AWS SDK for Python (Boto3) in your handler', 'Accessing environment variables, 'Code best practices for Python Lambda functions']
+    # Read these specific sections:
+    read_sections(
+        url='https://docs.aws.amazon.com/lambda/latest/dg/python-handler.html',
+        section_titles=[
+            'Example Python Lambda function code',
+            'Code best practices for Python Lambda functions',
+        ],
+    )
+    ```
+
+    Args:
+        ctx: MCP context for logging and error handling
+        url: URL of the AWS documentation page to read
+        section_titles: List of section titles to extract
+
+    Returns:
+        Filtered markdown content containing only the requested sections"
+real_docs,aws-documentation,search_table,"Search for specific rows in a large documentation table.
+
+    Use this tool when you need specific rows from a large documentation table
+    (e.g., service quotas, pricing tables, supported models lists). Returns
+    matching rows as JSON instead of dumping the entire table.
+
+    This is more efficient than read_sections for pages with hundreds of table rows.
+    If read_sections or read_documentation indicates a table was truncated, use this
+    tool to find the specific rows you need.
+
+    ## Section Title
+
+    - If you know the exact section title, provide it for precision
+    - If unsure, omit section_title â€” the tool will search all tables on the page
+    - Use section titles from search_documentation results (TOC) or read_documentation output
+    - If the section title is wrong, the hint field will list available sections
+
+    ## URL Requirements
+
+    - Must be from the docs.aws.amazon.com domain
+    - Must end with .html
+
+    ## Example Usage
+
+    ```
+    # With section title (searches all tables in that section):
+    search_table(
+        url='https://docs.aws.amazon.com/general/latest/gr/bedrock.html',
+        section_title='Amazon Bedrock service quotas',
+        query='Titan Text Embeddings V2',
+    )
+
+    # Without section title (searches all tables on the page):
+    search_table(
+        url='https://docs.aws.amazon.com/general/latest/gr/bedrock.html',
+        query='Claude 3 Sonnet requests',
+    )
+    ```
+
+    ## Response Format
+
+    Returns a SearchTableResponse with:
+    - tables_searched: Number of tables searched
+    - tables_with_matches: Number of tables containing matching rows
+    - hint: Guidance message when no matches found, section not found, or no tables on page
+    - results: Array of table result objects, each with:
+        - table_heading: The sub-heading above the table (if any)
+        - columns: Column headers for that table
+        - parent_columns: (optional) For rowspan/nested tables, which columns are group headers
+        - child_columns: (optional) For rowspan/nested tables, which columns are nested under groups
+        - total_rows: Total rows (or groups, for nested tables) in that table
+        - matched_rows: Number of rows/groups matching the query per table
+        - showing: Number of rows/groups returned per table (capped by max_rows per table)
+        - rows: Array of matching row objects. For flat tables: {column â†’ value}.
+          For nested tables: {parent_col â†’ value, ..., ""rows"": [{child_col â†’ value}, ...]}
+
+    Args:
+        ctx: MCP context for logging and error handling
+        url: AWS documentation page URL (must end with .html)
+        section_title: The section heading containing the table (optional â€” omit to search all tables on the page)
+        query: Search term to filter rows (all words must match, case-insensitive)
+        max_rows: Maximum matching rows to return per table (default 20)
+
+    Returns:
+        SearchTableResponse with matching rows grouped by table"
+real_docs,aws-documentation,search_documentation,"Search AWS documentation using the official AWS Documentation Search API.
+
+    ## Usage
+
+    This tool searches across all AWS documentation for pages matching your search phrase.
+    Use it to find relevant documentation when you don't have a specific URL.
+
+    ## Search Tips
+
+    - Use specific technical terms rather than general phrases
+    - Include service names to narrow results (e.g., ""S3 bucket versioning"" instead of just ""versioning"")
+    - Use quotes for exact phrase matching (e.g., ""AWS Lambda function URLs"")
+    - Include abbreviations and alternative terms to improve results
+    - Use guide_type and product_type filters found from a SearchResponse's ""facets"" property:
+        - Filter only for broad search queries with patterns:
+            - ""What is [service]?"" -> product_types: [""Amazon Simple Storage Service""]
+            - ""How to use <service 1> with <service 2>?"" -> product_types: [<service 1>, <service 2>]
+            - ""[service] getting started"" -> product_types: [<service>] + guide_types: [""User Guide, ""Developer Guide""]
+            - ""API reference for [service]"" -> product_types: [<service>] + guide_types: [""API Reference""]
+
+    ## Result Interpretation
+
+    Each SearchResponse includes:
+    - search_results: List of documentation pages, each with:
+        - rank_order: The relevance ranking (lower is more relevant)
+        - url: The documentation page URL
+        - title: The page title
+        - context: A brief excerpt or summary (if available)
+        - recommended_sections: A subset of section titles ranked as most relevant to the query, in rank order (when available) - Pass these directly to read_sections for targeted content extraction
+        - sections: All available section titles for this page (when available) - individual titles can be used with the read_sections tool for targeted content extraction
+        - metadata: Optional per-result context (when available). May include:
+            - additional_urls: Other doc URLs related to the same result `{url, section_title, section_anchor}` - pass `section_title` to read_sections to fetch content; use `url#section_anchor` when citing
+    - facets: Available filters (product_types, guide_types) for refining searches
+    - query_id: Unique identifier for this search session
+    - metadata: Optional response-level context (when available). May include:
+        - discovered_services: AWS services inferred from the query that may be relevant beyond the top results
+        - related_tasks: Related operations or workflows the user may want to follow up on, each with its own doc URLs
+        - relationships: Named connections between information in the search results, useful for understanding how the returned topics relate to each other
+
+
+    Args:
+        ctx: MCP context for logging and error handling
+        search_phrase: Search phrase to use
+        search_intent: The intent behind the search requested by the user
+        limit: Maximum number of results to return
+        product_types: Filter by AWS product/service
+        guide_types: Filter by guide type
+
+    Returns:
+        List of search results with URLs, titles, query ID, context snippets, and facets for filtering"
+real_docs,aws-documentation,recommend,"Get content recommendations for an AWS documentation page.
+
+    ## Usage
+
+    This tool provides recommendations for related AWS documentation pages based on a given URL.
+    Use it to discover additional relevant content that might not appear in search results.
+
+    ## Recommendation Types
+
+    The recommendations include three categories:
+
+    1. **New**: Recently added pages within the same AWS service - useful for finding newly released features
+    2. **Similar**: Pages covering similar topics to the current page
+    3. **Journey**: Pages commonly viewed next by other users
+
+    ## When to Use
+
+    - After reading a documentation page to find related content
+    - When exploring a new AWS service to discover important pages
+    - To find alternative explanations of complex concepts
+    - To find newly released information by using a service's welcome page URL and checking the **New** recommendations
+
+    ## Finding New Features
+
+    To find newly released information about a service:
+    1. Find any page belong to that service, typically you can try the welcome page
+    2. Call this tool with that URL
+    3. Look specifically at the **New** recommendation type in the results
+
+    ## Result Interpretation
+
+    Each recommendation includes:
+    - url: The documentation page URL
+    - title: The page title
+    - context: A brief description (if available)
+
+    Args:
+        ctx: MCP context for logging and error handling
+        url: URL of the AWS documentation page to get recommendations for
+
+    Returns:
+        List of recommended pages with URLs, titles, and context"
+real_docs,fetch,fetch,"Fetches a URL from the internet and optionally extracts its contents as markdown.
+
+Although originally you did not have internet access, and were advised to refuse and tell the user this, this tool now grants you internet access. Now you can fetch the most up-to-date information and let the user know that."

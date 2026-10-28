@@ -1,0 +1,10 @@
+{
+ "resolve-library-id": "context7",
+ "query-docs": "context7",
+ "read_documentation": "aws-documentation",
+ "read_sections": "aws-documentation",
+ "search_table": "aws-documentation",
+ "search_documentation": "aws-documentation",
+ "recommend": "aws-documentation",
+ "fetch": "fetch"
+}

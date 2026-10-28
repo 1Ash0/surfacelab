@@ -39,3 +39,9 @@ ADR-023 (proposed): follow-ups EXP-009–012 on near-duplicate surfaces with 32 
 - Drafted EXP-006 target list (19 servers), EXP-013 (real loadouts) and EXP-014 (Qwen replication), under proposed ADR-024. Nothing run.
 - Groq model list (2026-10-28): only `qwen/qwen3.8-27b` besides gpt-oss offers chat with tools; one probe call returned a correct forced tool call at T=0; limits 1,000 RPD / 8K TPM, same as gpt-oss.
 - Risk: large servers (GitHub, Playwright) may exceed the 8K TPM per request; EXP-013 fixes a 6,000-token loadout cap and uses servers' own toolset options rather than editing tools.
+
+## EXP-006 run, EXP-013 build, EXP-014 results
+- EXP-006: 15/19 servers listed tools in the sandbox. The first attempt hung on a silent server: the Windows path of `_recv` had no timeout. Fixed with a reader thread and a test before the counted run.
+- Real tool lists are big: Notion 21.7K, Firecrawl 16.6K, MongoDB 15.6K, GitHub 13.8K tokens (local count), each over one free-tier request. Groq counts gpt-oss prompts at about 0.6x and Qwen at about 1.05x the local count, so the Qwen 7K input limit binds.
+- EXP-013 loadouts cut to fit using only the servers' own options; Firecrawl, Notion, the data loadout and Chrome's screenshot tools are out (EXP-013 Deviations). 48 cases written; blind gold sheet `fixtures/cases/gold_validation_exp013.csv`, full tool descriptions in `gold_validation_exp013_tools.csv`.
+- EXP-014: all three findings replicated on Qwen (siblings gap +12.5 pp [+2.1, +25.0]; 768/768 on nd_*; 0 collisions in 48).
