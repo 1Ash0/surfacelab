@@ -44,6 +44,14 @@ Built from `scripts/build_observatory_data.py` (replay only) into `docs/design/o
 - **IX Your server:** drop a `tools/list` JSON; tools join the sky by TF-IDF similarity computed in the browser, with a token estimate (4 characters per token, labelled), the most alike pairs and the CLI to measure for real. Nothing is uploaded.
 - **Star chart** (HUD): sortable table of all 82 tools with recorded counts. **Capture** (HUD): a still of the current view with its headline and source burned in.
 
+## Real and shareable (2026-10-29)
+- **EXP-008 live.** Chapter X runs the preregistered perception check (`docs/experiments/EXP-008.md`): sky vs table, counterbalanced by user id, accuracy and time per task. Stored with the artifact's `db` capability: `exp008/<user id>`, written and read only by that participant (rule level `interact`, so participants need the page shared as "can interact"); only the owner reads the collection. Checked after publish: empty collection; a probe row written as owner was invisible at `interact` level, then deleted.
+- **Deep links.** Any eyepiece or chapter has a link: `#tool.<i>`, `#pair.<a>.<b>`, `#trial.<model>.<case>.<ordering>`, or a chapter id. "Copy link" in the HUD and in every eyepiece.
+- **Story.** The hero opens on a recorded failure (rb09: "Click the Sign up button" → `list_pages`), which recurs as the running example in chapters I, IV and V; chapter II explains clustered intervals in plain words; the coda is a maintainer checklist linked to the chapters that prove each point.
+- **Fly-through.** Scrolling the hero moves the camera on a Bézier path to the slit, up along the telescope and out above the sky.
+- **UMAP layout.** Star positions use UMAP (cosine, 10 neighbours, seed 42) when installed, PCA otherwise; the footer names the layout used. Mistakes are attributed to the accepted tool most similar to the wrong call, so the data file is identical on every build.
+- **Quality tiers** (auto/high/medium/low: pixel ratio, bloom, threads) and a recover banner on WebGL context loss.
+
 ## What the review kept from the rejected draft
 - State by shape as well as colour (ring / cross / dashed ring / stub).
 - The rail as a record: label as prominent as the number, source path, limit line.

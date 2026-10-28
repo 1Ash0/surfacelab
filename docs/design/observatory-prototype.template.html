@@ -241,6 +241,36 @@ canvas.hist{width:100%;height:auto;display:block;border:1px solid var(--panel-ed
 .chart td.num{font-family:var(--f-mono);text-align:right;font-variant-numeric:tabular-nums}
 .chart tr:hover td{background:color-mix(in srgb,var(--brass) 8%,transparent)}
 .capimg{width:100%;height:auto;display:block;border:1px solid var(--panel-edge)}
+.casefile{margin-top:26px;display:grid;gap:8px;max-width:520px;padding:14px 16px;border:1px solid var(--brass-2);background:var(--chip);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.casefile .row1{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;font-family:var(--f-mono);font-size:12.5px;color:var(--ink-2)}
+.casefile .q{font-family:var(--f-disp);font-size:1.45rem;line-height:1.15;color:var(--ink)}
+.casefile .ans{font-family:var(--f-mono);font-size:13px;color:var(--bad)}
+.casefile .ans b{font-weight:400;color:var(--ink)}
+.running{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--ink-2);padding:8px 10px;border-left:2px solid var(--brass)}
+.running .mono{color:var(--ink)}
+details.explain{border:1px solid var(--panel-edge);padding:10px 12px;font-size:14px;color:var(--ink-2)}
+details.explain summary{cursor:pointer;font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass)}
+details.explain p{margin-top:8px}
+.checks{display:grid;gap:10px}
+.check{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;padding:12px;border:1px solid var(--panel-edge)}
+.check i{width:22px;height:22px;border:1.5px solid var(--brass);display:grid;place-items:center;font-style:normal;color:var(--brass);font-family:var(--f-mono);font-size:12px}
+.check b{color:var(--ink);font-weight:600}
+.check a{color:var(--brass)}
+.study{display:grid;gap:14px}
+.ch.studysky{justify-content:flex-start}.ch.studysky .card{width:min(420px,100%)}.ch.studysky .card>.lede,.ch.studysky .card>h2{display:none}
+.study .stage{border:1px dashed var(--brass-2);padding:16px;display:grid;gap:10px}
+.study .big2{font-family:var(--f-disp);font-size:1.6rem;line-height:1.15}
+.ptable{width:100%;border-collapse:collapse;font-size:13px}
+.ptable th,.ptable td{text-align:left;padding:7px 9px;border-top:1px solid var(--panel-edge)}
+.ptable th{font-family:var(--f-mono);font-weight:400;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.ptable td.num{font-family:var(--f-mono);text-align:right}
+.ptable tr.pick{cursor:pointer} .ptable tr.pick:hover td{background:color-mix(in srgb,var(--brass) 10%,transparent)}
+.linkbtn{all:unset;cursor:pointer;font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);border-bottom:1px dashed var(--brass-2)}
+.linkbtn:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;background:var(--panel);border:1px solid var(--brass);padding:10px 14px;font-family:var(--f-mono);font-size:12px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+.glbanner{position:fixed;top:calc(52px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);z-index:41;background:var(--panel);border:1px solid var(--bad);padding:10px 14px;font-size:13px}
+@media (max-width:760px){.hud.tr{flex-wrap:wrap;justify-content:flex-end;max-width:62vw}.tod{padding:5px 8px;font-size:9.5px}.casefile .q{font-size:1.2rem}.eye-ring{max-height:92vh}}
 .foot{font-size:12.5px;color:var(--ink-3);text-align:center;padding:40px 22px 90px;max-width:760px;margin:0 auto}
 .nogl #gl{display:none}
 @media (prefers-reduced-motion: reduce){.cue i{animation:none}.slot .bar{transition:none}.card{transform:none;opacity:1;transition:none}}
@@ -255,11 +285,14 @@ canvas.hist{width:100%;height:auto;display:block;border:1px solid var(--panel-ed
   <button class="tod" id="todMorning" type="button" aria-pressed="false">Morning</button>
   <button class="tod" id="chartBtn" type="button">Star chart</button>
   <button class="tod" id="capBtn" type="button">Capture</button>
+  <button class="tod" id="linkBtn" type="button">Copy link</button>
+  <button class="tod" id="qBtn" type="button" aria-label="Graphics quality">Quality: auto</button>
 </div>
+<div class="toast" id="toast" role="status"></div>
 <div class="eye" id="eye" hidden role="dialog" aria-modal="true" aria-labelledby="eyeT"><div class="eye-ring" id="eyeRing"><div id="eyeBody"></div></div></div>
 <div class="hud bl" id="hudB">az 000.0° · alt 00.0°</div>
 <nav class="nav" id="nav" aria-label="Chapters"></nav>
-<details class="legend" id="legend" open>
+<details class="legend" id="legend">
   <summary>How to read the sky</summary>
   <ul>
     <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="var(--brass)"/><path d="M11 2v18M2 11h18" stroke="var(--brass)" stroke-width=".8" opacity=".6"/></svg><span>A real tool. Size = tokens, colour = server.</span></li>
@@ -278,6 +311,12 @@ canvas.hist{width:100%;height:auto;display:block;border:1px solid var(--panel-ed
       <p class="eyebrow">An evaluation of MCP tool choice · 12 experiments run · 3 models</p>
       <h1>Which tool does the agent <em>call?</em></h1>
       <p class="hero-sub">We trained an instrument on 82 tools from real MCP servers and recorded where each decision landed. Every point in this sky is a real tool. Every beam is a recorded call.</p>
+      <div class="casefile">
+        <div class="row1"><span class="eyebrow">Case file · rb09 · recorded</span><span>gpt-oss-120b · Groq · temperature 0</span></div>
+        <div class="q">“Click the Sign up button.”</div>
+        <div class="ans">First call: <b>list_pages</b> from Chrome DevTools, not <b>browser_click</b> from Playwright. In both orderings.</div>
+        <div class="row1"><button class="linkbtn" type="button" data-open="trial.120b.rb09.0">See exactly what it saw</button><span>Why did it do that? Scroll.</span></div>
+      </div>
       <div class="cue"><i></i>scroll to open the dome</div>
     </div>
   </section>
@@ -308,6 +347,7 @@ canvas.hist{width:100%;height:auto;display:block;border:1px solid var(--panel-ed
       <h2>Before it reads your message, the model reads <em>every tool</em> you installed.</h2>
       <div class="seg" id="l1Seg" role="group" aria-label="Which servers are installed"></div>
       <p class="look" id="l1look"></p>
+      <div class="running"><span>Running example:</span><span class="mono">browser_click</span><span>and</span><span class="mono">list_pages</span><span>sit in this list. Switch to Browser to find them.</span></div>
       <div class="hook">
         <label for="g1">Guess: how many tokens is this tool list?</label>
         <div class="rowh"><input id="g1" type="range" min="200" max="12000" step="100" value="1500"><span class="mono" id="g1v">1,500</span><button class="btn" id="g1b" type="button">Reveal</button></div>
@@ -322,6 +362,8 @@ canvas.hist{width:100%;height:auto;display:block;border:1px solid var(--panel-ed
       <p class="eyebrow">II · What didn't matter</p>
       <h2>When each tool has one clear job, almost <em>nothing</em> moves the choice.</h2>
       <p class="lede">Six interventions, each preregistered. A dot is the estimate, the bar its 95% interval, counted over families of cases. Each tile has its own scale.</p>
+      <details class="explain"><summary>What does “95% interval, clustered over families” mean?</summary>
+        <p>A family is one request and all its variants (orderings, wordings). Variants of one request are not independent: if the model is confused by a request, it tends to be confused in every ordering. So we resample whole families, recompute the number thousands of times, and report the middle 95% of those results. Chapter VIII lets you watch it happen.</p></details>
       <div class="wall" id="wall"></div>
       <p class="not">These surfaces were written by us, with one distinct job per tool. Chapter IV asks what happens on real servers.</p>
     </div>
@@ -358,6 +400,7 @@ canvas.hist{width:100%;height:auto;display:block;border:1px solid var(--panel-ed
     <div class="card">
       <p class="eyebrow">IV · Real servers</p>
       <h2>On real servers, misses land on <em>look-alikes.</em></h2>
+      <div class="running"><span>Running example:</span><button class="linkbtn" type="button" data-open="pair.BC.LP">browser_click → list_pages</button><span>is one of these threads.</span></div>
       <p class="look"><b>Threads</b> join a wrong call to the right tool; brighter means more trials made that mistake. Most join near neighbours: tools whose descriptions read alike.</p>
       <div class="hook">
         <label for="g4">Guess: when only one tool can do the job, how often does gpt-oss find it?</label>
@@ -479,14 +522,25 @@ uv run surfacelab inspect &lt;surface&gt;</div>
     </div>
   </section>
 
+  <section class="ch wide" data-cam="study" data-name="Test this page" id="c11">
+    <div class="card">
+      <p class="eyebrow">X · Test this page · EXP-008</p>
+      <h2>Does the 3D sky actually help? <em>Help us measure it.</em></h2>
+      <p class="lede">Two short tasks, about a minute. In one you use the sky, in the other a plain table; which comes first is decided for you. We record whether you answered right and how long it took. Nothing else is stored, and the result is published whatever it shows.</p>
+      <div class="study" id="study"></div>
+      <p class="not">Preregistered in docs/experiments/EXP-008.md. Exploratory: a small sample of peers, not generalisable. Answers are stored per person; only the page owner can read them.</p>
+    </div>
+  </section>
+
   <section class="ch" data-cam="coda" data-name="What it means" id="c7">
     <div class="card">
       <p class="eyebrow">Coda · What it means</p>
       <h2>Tools fail where their descriptions <em>blur together.</em></h2>
-      <div class="takeaways">
-        <div><span><b>Write tools that read differently.</b> With one clear job per tool, order, wording and extra tools barely mattered (chapter II). Misses on real servers landed on look-alikes (chapter IV).</span></div>
-        <div><span><b>Test the servers people install together.</b> Hand-written surfaces scored 99%+; real loadouts dropped gpt-oss to 77–78% on requests only one tool could serve.</span></div>
-        <div><span><b>Watch the first action, not just the answer.</b> Which server handles a shared job is a model habit; list order moved it in only 19–25% of shared requests.</span></div>
+      <div class="checks">
+        <div class="check"><i>1</i><span><b>Make each tool's description say what makes it different.</b> With one clear job per tool, order, wording and extra tools barely mattered; on real servers, misses landed on look-alikes. <a href="#c2">Chapter II</a> · <a href="#c4">IV</a></span></div>
+        <div class="check"><i>2</i><span><b>Test the servers your users install together.</b> Hand-written surfaces scored 99%+; real loadouts dropped gpt-oss to 77–78% when only one tool could do the job. <a href="#c4">Chapter IV</a></span></div>
+        <div class="check"><i>3</i><span><b>Check what the agent does first.</b> A second server changed the first move, and which server handles a shared job is a model habit. <a href="#c5">Chapter V</a></span></div>
+        <div class="check"><i>→</i><span><b>Run the checks on your own tool list</b> in <a href="#c10">chapter IX</a>, or with the CLI below.</span></div>
       </div>
       <div class="rail">
         <div class="row"><span class="k">Order effect</span><span class="ci">20b +2.7 pp [−10.8, +15.8] · 120b +0.0 [−7.1, +7.9] · qwen +7.3 [−3.3, +17.4]</span></div>
@@ -502,7 +556,7 @@ PYTHONPATH=scripts uv run python scripts/analyze_followups.py --exp 13
 uv run surfacelab probe --server-name mine --snapshots-dir runs/mine -- &lt;your server command&gt;</div>
     </div>
   </section>
-  <p class="foot">Every number on this page traces to a file in <span class="mono">results/</span> (see <span class="mono">docs/FINDINGS.md</span>). Star positions are a 3D projection of description embeddings (text-embedding-3-small): similarity, not confusion. The sky, horizon and dome are scenery and carry no data.</p>
+  <p class="foot">Every number on this page traces to a file in <span class="mono">results/</span> (see <span class="mono">docs/FINDINGS.md</span>). Star positions are a 3D projection (<span id="layoutName">pca</span>) of description embeddings (text-embedding-3-small): similarity, not confusion. The sky, horizon and dome are scenery and carry no data.</p>
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -709,7 +763,7 @@ function init(){
   /* THREADS: recorded confusions (right tool -> wrong pick), opacity by trial count */
   edgesGroup=new THREE.Group(); edgesGroup.visible=false; scene.add(edgesGroup);
   const pairs={};
-  for(const [m,cid,rot,e,ok] of TR){ if(ok||e===null||e===undefined) continue; const gt=CASES[cid].g[0]; const k=gt+"-"+e; pairs[k]=(pairs[k]||0)+1; }
+  for(const [m,cid,rot,e,ok,ga] of TR){ if(ok||e==null) continue; const k=ga+"-"+e; pairs[k]=(pairs[k]||0)+1; } /* ga: accepted tool most similar to the wrong call */
   for(const k in pairs){ const [a,b]=k.split("-").map(Number), n=pairs[k];
     const A=starPos[a],B=starPos[b],mid=A.clone().add(B).multiplyScalar(.5); mid.y+=A.distanceTo(B)*.2;
     const curve=new THREE.QuadraticBezierCurve3(A,mid,B);
@@ -846,9 +900,9 @@ function setupPointer(){
   addEventListener("pointermove",e=>{ pointer.x=(e.clientX/innerWidth)*2-1; pointer.y=(e.clientY/innerHeight)*2-1; mouse.set(pointer.x,-pointer.y);
     if(drag){ drag.moved=drag.moved||Math.abs(e.clientX-drag.x)+Math.abs(e.clientY-drag.y)>3; orbit.az+=(e.clientX-drag.x)*.005; orbit.el=Math.max(-.6,Math.min(.6,orbit.el+(e.clientY-drag.y)*.004)); drag={x:e.clientX,y:e.clientY}; }
     tip.style.left=Math.min(innerWidth-350,e.clientX+16)+"px"; tip.style.top=Math.min(innerHeight-140,e.clientY+16)+"px"; });
-  addEventListener("pointerdown",e=>{ if(state.key==="lab"&&!e.target.closest(".card,.legend,.hud,.nav")) drag={x:e.clientX,y:e.clientY}; });
+  addEventListener("pointerdown",e=>{ if((state.key==="lab"||state.key==="study")&&!e.target.closest(".card,.legend,.hud,.nav,.eye")) drag={x:e.clientX,y:e.clientY}; });
   addEventListener("pointerup",e=>{ const moved=drag&&drag.moved; drag=null;
-    if(!moved && hoverIdx>=0 && !e.target.closest(".card,.legend,.hud,.nav,.eye")) openTool(hoverIdx); });
+    if(!moved && hoverIdx>=0 && !e.target.closest(".card,.legend,.hud,.nav,.eye")){ if(study.waitingStar&&state.key==="study") answerStudy(hoverIdx); else openTool(hoverIdx); } });
   addEventListener("pointerdown",e=>{ if(e.pointerType!=="mouse"){ mouse.set((e.clientX/innerWidth)*2-1,-(e.clientY/innerHeight)*2+1); tip.style.left=Math.min(innerWidth-350,e.clientX+12)+"px"; tip.style.top=Math.min(innerHeight-140,e.clientY+12)+"px"; } });
 }
 
@@ -861,13 +915,14 @@ const KEY={
   request:{pos:C_b.clone().add(V(-6.5,.5,8)), tgt:C_b.clone().add(V(-4.6,0,0))},
   wide:   {pos:CLOUD.clone().add(V(0,4,34)), tgt:CLOUD.clone().add(V(0,-2,0))},
   wide2:  {pos:RACK.clone().add(V(10.8,.4,24)), tgt:RACK.clone().add(V(10.8,-1.6,0))},
-  real:   {pos:CLOUD.clone().add(V(6,1,23)), tgt:CLOUD.clone().add(V(-8,3,0))},
+  real:   {pos:CLOUD.clone().add(V(6,4,24)), tgt:CLOUD.clone().add(V(-8,6.5,0))},
   serve:  {pos:V(14,10,22), tgt:V(0,18,-10)},
   lab:    {pos:CLOUD.clone().add(V(0,-9,27)), tgt:CLOUD.clone().add(V(0,-3,0))},
   coda:   {pos:V(-4,5,38), tgt:V(-2,12,-4)},
   archive:{pos:CLOUD.clone().add(V(-6,10,36)), tgt:CLOUD.clone().add(V(0,2,0))},
   intervals:{pos:CLOUD.clone().add(V(10,-4,34)), tgt:CLOUD.clone().add(V(0,-2,0))},
   bench:  {pos:V(30,14,17), tgt:V(30,12.5,-4)},
+  study:  {pos:CLOUD.clone().add(V(0,4,34)), tgt:CLOUD.clone()},
 };
 let state={key:null};
 const litTarget=new Float32Array(TOOLS.length).fill(1);
@@ -882,6 +937,7 @@ function enter(key){
   if(key!=="wide2"){ play3(false); }
   if(key==="hero"||key==="coda"||key==="wide"||key==="problem"||key==="archive"||key==="intervals") setLit(()=>true);
   if(key==="intervals") runBS();
+  if(key==="study"){ setLit(()=>true); }
   if(key==="bench"){ setLit(()=>false); if(!benchTools.length) $("#benchEx").click(); else benchLabels(); }
   if(key==="wide2"){ setLit(()=>false); $("#legend").open=false; rackLabels(); setOrdering(0,true); if(REDUCE) setOrdering(23,true); else play3(true); }
   listTarget = key==="request"?1:0;
@@ -901,7 +957,14 @@ function scrollState(){
   const raw=t<.5?(.5-t)*2:(t-.5)*2, u=Math.max(0,(raw-.35)/.65), e=u*u*(3-2*u)*.5;
   wantPos.copy(A.pos).lerp(B.pos,e); wantTgt.copy(A.tgt).lerp(B.tgt,e);
   wantPos.y+=Math.sin(Math.PI*e)*3.2;
-  if(s.dataset.cam==="hero"){ const h=innerHeight>0?Math.min(1,scrollY/innerHeight):0; wantPos.y+=h*7; wantPos.z-=h*7; wantTgt.y+=h*9; }
+  if(s.dataset.cam==="hero"){
+    /* through the slit: approach the dome face, rise along the telescope, emerge above the sky of tools */
+    const h=innerHeight>0?Math.min(1,scrollY/(r.height||innerHeight)):0, k=h*h*(3-2*h);
+    const P0=KEY.hero.pos, P1=V(0,7.5,13), P2=V(0,10.5,1.5), P3=KEY.problem.pos;
+    const bez=(a,b,c,d,u)=>a.clone().multiplyScalar((1-u)**3).add(b.clone().multiplyScalar(3*(1-u)**2*u)).add(c.clone().multiplyScalar(3*(1-u)*u*u)).add(d.clone().multiplyScalar(u**3));
+    wantPos.copy(bez(P0,P1,P2,P3,k));
+    wantTgt.copy(KEY.hero.tgt).lerp(V(0,18,-12),Math.min(1,k*1.4)).lerp(KEY.problem.tgt,Math.max(0,k-.6)/.4);
+  }
 }
 addEventListener("scroll",scrollState,{passive:true});
 
@@ -980,7 +1043,7 @@ function openTool(i){
   const asCall=TR.filter(r=>r[3]===i), right=asCall.filter(r=>r[4]).length;
   const asGold=TR.filter(r=>CASES[r[1]].g.includes(i)), won=asGold.filter(r=>r[3]===i).length;
   const lost={}; asGold.forEach(r=>{ if(!r[4]&&r[3]!=null&&r[3]!==i){ lost[r[3]]=(lost[r[3]]||0)+1; } });
-  const stole={}; asCall.forEach(r=>{ if(!r[4]){ const g=CASES[r[1]].g[0]; stole[g]=(stole[g]||0)+1; } });
+  const stole={}; asCall.forEach(r=>{ if(!r[4]&&r[5]!=null){ stole[r[5]]=(stole[r[5]]||0)+1; } });
   const chipT=(j,n,pairKey)=>`<button class="chip-b" type="button" ${pairKey?`data-pair="${pairKey}"`:`data-tool="${j}"`}>${esc(TOOLS[j].n)} <small>${n}</small></button>`;
   const trials=[...new Set([...asCall,...asGold])].slice(0,24);
   openEye(eyeTop(esc(t.n),`${esc(t.s)} · ${LOADOUT_NAME[t.l]} · ${t.k} tokens in the request`)+`<div class="eye-grid">
@@ -1151,6 +1214,94 @@ const dropEl=$("#drop");
 dropEl.addEventListener("drop",e=>{ const f=e.dataTransfer.files[0]; if(f) f.text().then(s=>{ try{ loadBench(parseTools(JSON.parse(s)),f.name); }catch(err){ $("#benchMsg").textContent="Couldn't read that file: "+err.message; } }); });
 $("#benchEx").onclick=()=>loadBench(TOOLS.filter(t=>t.l==="docs").map(t=>({name:t.n,description:t.d,schema:{}})),"the docs loadout (Context7, AWS Documentation, Fetch) — an example, schemas omitted");
 
+/* ===================== shareable links ===================== */
+const ART_URL="https://claude.ai/artifact/CbNJXKuyk3cxnMGAEDsMwJ";
+const BC=TOOLS.findIndex(t=>t.n==="browser_click"), LPi=TOOLS.findIndex(t=>t.n==="list_pages");
+function toast(msg){ const el=$("#toast"); el.textContent=msg; el.classList.add("on"); clearTimeout(toast._t); toast._t=setTimeout(()=>el.classList.remove("on"),2200); }
+function copyLink(token){ const url=ART_URL+(token?"#"+token:""); const ok=()=>toast("Link copied: "+(token||"top of page"));
+  try{ navigator.clipboard.writeText(url).then(ok,()=>{ prompt0(url); }); }catch(e){ prompt0(url); } }
+function prompt0(url){ openEye(eyeTop("Link","copy this address")+`<input class="mono" style="width:100%;padding:10px;background:var(--code-bg);color:var(--ink);border:1px solid var(--brass-2)" value="${esc(url)}" onfocus="this.select()" readonly>`); }
+function openToken(tok){
+  if(!tok) return false;
+  let m;
+  if((m=tok.match(/^tool\.(\d+)$/))&&TOOLS[+m[1]]){ openTool(+m[1]); return true; }
+  if((m=tok.match(/^pair\.(\d+)\.(\d+)$/))){ openPair(+m[1],+m[2]); return true; }
+  if((m=tok.match(/^trial\.(20b|120b|27b)\.([a-z]{2}\d{2})\.(\d)$/))&&CASES[m[2]]){ openTrial(m[1],m[2],+m[3]); return true; }
+  if(tok==="pair.BC.LP"){ openPair(BC,LPi); return true; }
+  if(tok==="trial.120b.rb09.0"){ openTrial("120b","rb09",0); return true; }
+  const sec=document.getElementById(tok); if(sec){ sec.scrollIntoView({block:"start"}); return true; }
+  return false; }
+document.addEventListener("click",e=>{ const b=e.target.closest("[data-open]"); if(b){ e.preventDefault(); openToken(b.dataset.open); } });
+let currentToken="";
+const _openTool=openTool, _openPair=openPair, _openTrial=openTrial;
+function withLink(tok){ currentToken=tok; const top=eyeBody.querySelector(".eye-top div"); if(top&&!top.querySelector(".linkbtn")){ const b=document.createElement("button"); b.className="linkbtn"; b.type="button"; b.textContent="Copy link to this view"; b.style.marginTop="8px"; b.onclick=()=>copyLink(tok); top.appendChild(b); } }
+openTool=function(i){ _openTool(i); withLink("tool."+i); };
+openPair=function(a,b){ _openPair(a,b); withLink("pair."+a+"."+b); };
+openTrial=function(m,c,r){ _openTrial(m,c,r); withLink(`trial.${m}.${c}.${r}`); };
+const _closeEye=closeEye; closeEye=function(){ currentToken=""; _closeEye(); }; window.closeEye=closeEye;
+$("#linkBtn").onclick=()=>{ if(!eye.hidden&&currentToken) return copyLink(currentToken); const sec=sections.find(x=>x.dataset.cam===state.key); copyLink(sec?sec.id:""); };
+addEventListener("load",()=>setTimeout(()=>openToken(decodeURIComponent((location.hash||"").slice(1))),600));
+
+/* ===================== graphics quality and context loss ===================== */
+const TIERS=["auto","high","medium","low"]; let tier="auto";
+try{ const s=localStorage.getItem("obsQ"); if(TIERS.includes(s)) tier=s; }catch(e){}
+function applyTier(){ if(!renderer) return; const eff=tier==="auto"?(SMALL?"low":"high"):tier;
+  renderer.setPixelRatio(Math.min(devicePixelRatio,eff==="high"?1.75:eff==="medium"?1.3:1));
+  renderer.setSize(innerWidth,innerHeight); composer&&composer.setSize(innerWidth,innerHeight);
+  window._useBloom = eff==="high"; if(edgesGroup) edgesGroup.userData.low = eff==="low";
+  $("#qBtn").textContent="Quality: "+tier+(tier==="auto"?" ("+eff+")":""); }
+$("#qBtn").onclick=()=>{ tier=TIERS[(TIERS.indexOf(tier)+1)%TIERS.length]; try{ localStorage.setItem("obsQ",tier); }catch(e){} applyTier(); };
+canvas.addEventListener("webglcontextlost",e=>{ e.preventDefault(); if(!document.querySelector(".glbanner")) document.body.insertAdjacentHTML("beforeend",`<div class="glbanner" role="alert">The 3D view paused (the browser reclaimed graphics memory). <button class="btn" type="button" onclick="location.reload()">Restore</button> Every number on the page still reads normally.</div>`); });
+
+/* ===================== EXP-008 perception check ===================== */
+const STUDY_LOADOUTS=["browser","docs"];
+const answerKey=L=>{ const w={}; TR.forEach(r=>{ if(!r[4]&&r[3]!=null&&CASES[r[1]].l===L) w[r[3]]=(w[r[3]]||0)+1; }); return +Object.entries(w).sort((a,b)=>b[1]-a[1])[0][0]; };
+const study={db:null,user:null,uid:null,step:0,order:null,trials:[],t0:0,active:null};
+(async()=>{ if(!window.claude||!claude.use){ renderStudy(); return; }
+  try{ study.db=await claude.use("db"); study.user=await claude.use("user"); if(study.user) study.uid=await study.user.id(); }catch(e){}
+  renderStudy(); })();
+function hashParity(s){ let h=0; for(const c of String(s||Math.random())) h=(h*31+c.charCodeAt(0))|0; return Math.abs(h)%2; }
+function renderStudy(){
+  const el=$("#study");
+  if(!study.db||!study.uid){ el.innerHTML=`<div class="stage"><p>Sign in to claude.ai and open this page from its link to take part; your answers are saved to your own row. You can still try the tasks below, but nothing will be recorded.</p><button class="btn" type="button" id="stTry">Try the tasks (not recorded)</button></div>${ownerPanel()}`; $("#stTry").onclick=()=>startStudy(false); loadOwner(); return; }
+  el.innerHTML=`<div class="stage"><p class="big2">Task: find the tool that models called <em>by mistake</em> most often.</p><p>You'll do it twice: once with the 3D sky (threads and the star you click), once with a table. Answer as fast as you can while being right.</p><div class="seg"><button class="btn on" type="button" id="stGo">Start</button></div></div>${ownerPanel()}`;
+  $("#stGo").onclick=()=>startStudy(true); loadOwner(); }
+function ownerPanel(){ return `<div id="ownerPanel"></div>`; }
+async function loadOwner(){ if(!study.user||!study.db) return; let own=false; try{ own=await study.user.isOwner(); }catch(e){} if(!own) return;
+  try{ const snap=await study.db.collection("exp008").get(); const rows=snap.docs.map(d=>d.data());
+    const done=rows.filter(r=>Array.isArray(r.trials)&&r.trials.length===2);
+    const agg=c=>{ const ts=done.flatMap(r=>r.trials.filter(x=>x.cond===c)); const ok=ts.filter(x=>x.correct).length; const ms=ts.map(x=>x.ms).sort((a,b)=>a-b); return `${ok}/${ts.length} right · median ${ms.length?(ms[Math.floor(ms.length/2)]/1000).toFixed(1)+" s":"—"}`; };
+    $("#ownerPanel").innerHTML=`<div class="rail"><div class="row"><span class="k">Owner view</span><span class="ci">${done.length} complete responses · sky ${agg("sky")} · table ${agg("table")}</span></div><p class="not">Visible only to you. Analysis as preregistered: paired, intervals not just p, reported either way.</p></div>`; }catch(e){} }
+function startStudy(record){ study.record=record; study.trials=[]; study.step=0;
+  const p=hashParity(study.uid); study.order = p? ["sky","table"] : ["table","sky"]; nextTask(); }
+function nextTask(){
+  const el=$("#study"); if(study.step>=2){ finishStudy(); return; }
+  const cond=study.order[study.step], L=STUDY_LOADOUTS[study.step], key=answerKey(L);
+  study.active={cond,L,key};
+  if(cond==="sky"){
+    el.innerHTML=`<div class="stage"><p class="eyebrow">Task ${study.step+1} of 2 · the sky · ${LOADOUT_NAME[L]} servers</p><p class="big2">Click the star that was called by mistake most often.</p><p>Red threads run from the right tool to the tool called by mistake; brighter means more trials. Close-up of the ${LOADOUT_NAME[L]} servers is shown; drag to orbit.</p><div class="reveal" id="stMsg"></div></div>`;
+    setLit(t=>t.l===L); edgesGroup.visible=true; setLabels([]);
+    $("#c11").classList.add("studysky"); const c=centroid(t=>t.l===L); KEY.study={pos:c.clone().add(V(-6,2,15)), tgt:c.clone().add(V(-6,0,0))}; scrollState();
+    study.t0=performance.now(); study.waitingStar=true;
+  } else {
+    const ids=TOOLS.map((t,i)=>i).filter(i=>TOOLS[i].l===L);
+    const rows=ids.map(i=>{ const c=TR.filter(r=>r[3]===i); return {i,n:TOOLS[i].n,s:TOOLS[i].s,c:c.length,w:c.filter(r=>!r[4]).length}; }).sort((a,b)=>a.n<b.n?-1:1);
+    el.innerHTML=`<div class="stage"><p class="eyebrow">Task ${study.step+1} of 2 · the table · ${LOADOUT_NAME[L]} servers</p><p class="big2">Click the row of the tool called by mistake most often.</p>
+      <div style="overflow-x:auto;max-height:340px"><table class="ptable"><thead><tr><th>Tool</th><th>Server</th><th>Called first</th><th>…of which wrong</th></tr></thead><tbody>${rows.map(r=>`<tr class="pick" tabindex="0" data-i="${r.i}"><td class="mono">${esc(r.n)}</td><td>${esc(r.s)}</td><td class="num">${r.c}</td><td class="num">${r.w}</td></tr>`).join("")}</tbody></table></div></div>`;
+    $("#c11").classList.remove("studysky"); edgesGroup.visible=false; setLit(()=>false);
+    study.t0=performance.now();
+    el.querySelectorAll("tr.pick").forEach(tr=>{ const go=()=>answerStudy(+tr.dataset.i); tr.onclick=go; tr.onkeydown=e=>{ if(e.key==="Enter") go(); }; });
+  } }
+function answerStudy(i){ if(!study.active) return; const a=study.active, ms=Math.round(performance.now()-study.t0);
+  study.trials.push({cond:a.cond,loadout:a.L,answer:TOOLS[i].n,correct:i===a.key,ms}); study.active=null; study.waitingStar=false; study.step++; nextTask(); }
+async function finishStudy(){
+  const el=$("#study"), s=study.trials;
+  let saved="";
+  if(study.record&&study.db&&study.uid){ try{ await study.db.doc("exp008/"+study.uid).set({order:study.order,trials:s,page:"observatory-v6",at:new Date().toISOString()}); saved="Saved. Thank you."; }catch(e){ saved="Couldn't save ("+(e.code||e.message)+"); your answers are shown below."; } }
+  else saved="Not recorded (not signed in).";
+  el.innerHTML=`<div class="stage"><p class="big2">Done. ${saved}</p>${s.map(x=>`<p class="mono" style="font-size:13px">${x.cond==="sky"?"Sky":"Table"} · ${LOADOUT_NAME[x.loadout]}: ${esc(x.answer)} ${x.correct?"✓ right":"✕ (recorded answer: "+esc(TOOLS[answerKey(x.loadout)].n)+")"} · ${(x.ms/1000).toFixed(1)} s</p>`).join("")}<p class="not">The study result will be published in the plate archive under EXP-008, whatever it shows.</p></div>${ownerPanel()}`;
+  KEY.study={pos:CLOUD.clone().add(V(0,4,34)), tgt:CLOUD.clone()}; scrollState(); setLit(()=>true); loadOwner(); }
+
 /* ---------- lab ---------- */
 const lab={m:"120b",l:"web",c:"rw04",rot:0,all:false,guess:false,picked:null};
 function labRender(){
@@ -1224,7 +1375,7 @@ function loop(){
   if(!isFinite(camPos.y+camPos.z)) camPos.copy(wantPos); if(!isFinite(camTgt.y+camTgt.z)) camTgt.copy(wantTgt);
   const damp=REDUCE?1:.045; camPos.lerp(wantPos,damp); camTgt.lerp(wantTgt,damp);
   let p=camPos.clone().add(V(pointer.x*.9,-pointer.y*.5,0));
-  if(state.key==="lab"){ const rel=p.clone().sub(camTgt), s=new THREE.Spherical().setFromVector3(rel); s.theta+=orbit.az; s.phi=Math.max(.3,Math.min(2.7,s.phi-orbit.el)); p=camTgt.clone().add(V(0,0,0).setFromSpherical(s)); }
+  if(state.key==="lab"||state.key==="study"){ const rel=p.clone().sub(camTgt), s=new THREE.Spherical().setFromVector3(rel); s.theta+=orbit.az; s.phi=Math.max(.3,Math.min(2.7,s.phi-orbit.el)); p=camTgt.clone().add(V(0,0,0).setFromSpherical(s)); }
   else if(!REDUCE&&(state.key==="wide"||state.key==="problem"||state.key==="archive"||state.key==="intervals")){ const rel=p.clone().sub(camTgt); rel.applyAxisAngle(V(0,1,0),Math.sin(t*.07)*.22); p=camTgt.clone().add(rel); }
   camera.position.copy(p); camera.lookAt(camTgt);
   for(const b of beams){ const u=Math.max(0,Math.min(1,(now-b.t0)/(REDUCE?1:950))); b.mat.uniforms.uP.value=u; b.mat.uniforms.uT.value=t; b.mat.uniforms.uDay.value=b.mat.uniforms.uDay.value>.99&&!b.ret?1:day;
@@ -1248,13 +1399,15 @@ function loop(){
   for(const L of labels){ v3.copy(L.pos).project(camera); const vis=v3.z<1&&Math.abs(v3.x)<1.05&&Math.abs(v3.y)<1.05; L.d.style.opacity=vis?1:0; L.d.style.left=((v3.x+1)/2*innerWidth)+"px"; L.d.style.top=((1-v3.y)/2*innerHeight)+"px"; }
   const d=camTgt.clone().sub(camera.position).normalize();
   $("#hudB").textContent=`az ${(((Math.atan2(d.x,-d.z)*180/Math.PI)+360)%360).toFixed(1).padStart(5,"0")}° · alt ${(Math.asin(d.y)*180/Math.PI).toFixed(1)}° · ${TOOLS.length} tools · ${TR.length} calls`;
-  composer&&day<.5? composer.render() : renderer.render(scene,camera);
+  if(edgesGroup&&edgesGroup.userData.low&&state.key!=="real"&&state.key!=="study") edgesGroup.visible=false;
+  (composer&&day<.5&&window._useBloom!==false)? composer.render() : renderer.render(scene,camera);
 }
 if(SMALL) $("#legend").removeAttribute("open");
 (function(){ const cards=document.querySelectorAll(".card");
   if(REDUCE||!("IntersectionObserver" in window)){ cards.forEach(c=>c.classList.add("in")); return; }
   const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("in"); }),{threshold:.12});
   cards.forEach(c=>io.observe(c)); })();
-if(renderer) buildRack();
+if(renderer){ buildRack(); applyTier(); }
+if(DATA.layout) $("#layoutName").textContent=DATA.layout;
 scrollState();
 </script>
