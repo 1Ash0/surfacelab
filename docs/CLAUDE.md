@@ -16,6 +16,7 @@ Working name: a lab and tool for measuring MCP tool-choice robustness to tool or
 - `docs/understanding/` — explain-backs, `LEDGER.md`
 - `docs/notebook/` — lab notebook, including failures
 - `docs/experiments/` — preregistrations
+- `docs/FINDINGS.md` — one-page synthesis of every result, with sources
 
 ## Commands
 - `make check` — offline lint, types, tests, schema-drift checks
