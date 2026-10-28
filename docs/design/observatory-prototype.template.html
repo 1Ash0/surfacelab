@@ -174,6 +174,73 @@ input[type=range]{flex:1;min-width:150px;accent-color:var(--brass)}
 .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
 .cli{font-family:var(--f-mono);font-size:13px;background:var(--code-bg);border:1px solid var(--panel-edge);padding:12px 14px;overflow-x:auto;white-space:pre;color:var(--ink)}
 .cli .c{color:var(--ink-3)}
+/* eyepiece overlay */
+.eye{position:fixed;inset:0;z-index:30;display:grid;place-items:center;padding:16px;background:radial-gradient(circle at 50% 50%,rgba(2,3,8,.55),rgba(2,3,8,.9))}
+:root[data-theme="light"] .eye{background:radial-gradient(circle at 50% 50%,rgba(60,40,20,.25),rgba(40,28,14,.62))}
+.eye[hidden]{display:none!important}
+.eye-ring{position:relative;width:min(940px,100%);max-height:min(88vh,980px);overflow:auto;background:var(--panel);border:1px solid var(--brass);border-radius:30px;padding:30px 32px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:inset 0 0 90px rgba(0,0,0,.35),0 40px 120px -30px rgba(0,0,0,.7)}
+.eye-ring::before{content:"";position:absolute;inset:10px;border-radius:22px;border:1px dashed var(--brass-2);pointer-events:none}
+.eye-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}
+.eye h3{font-size:clamp(1.7rem,3.4vw,2.4rem);line-height:1.05}
+.eye .sub{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;color:var(--ink-3);margin-top:6px}
+.eye-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:22px}
+@media (max-width:760px){.eye-grid{grid-template-columns:minmax(0,1fr)}.eye-ring{padding:22px 18px;border-radius:18px}}
+.eye h4{margin:0 0 8px;font-family:var(--f-mono);font-weight:400;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--brass)}
+.eye section{display:grid;gap:8px;margin-bottom:18px}
+.spec{display:flex;height:34px;border:1px solid var(--panel-edge);overflow:hidden}
+.spec span{min-width:2px;border-right:1px solid var(--bg);background:var(--brass);opacity:.35}
+.spec span:nth-child(odd){opacity:.62}
+.spec span.schema{background:var(--ink-3);opacity:.5}
+.seglist{display:grid;gap:4px;font-size:13px;color:var(--ink-2);max-height:180px;overflow:auto}
+.seglist div{display:grid;grid-template-columns:44px minmax(0,1fr);gap:8px}
+.seglist b{font-family:var(--f-mono);font-weight:400;color:var(--ink);font-size:12px;text-align:right}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip-b{all:unset;cursor:pointer;font-family:var(--f-mono);font-size:12px;padding:7px 10px;border:1px solid var(--brass-2);min-height:20px;color:var(--ink)}
+.chip-b:hover,.chip-b:focus-visible{border-color:var(--brass);color:var(--brass);outline:none}
+.chip-b small{color:var(--ink-3)}
+.kv{display:grid;grid-template-columns:120px minmax(0,1fr);gap:6px 12px;font-size:13.5px}
+.kv .k{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);padding-top:3px}
+.desc{font-size:14px;color:var(--ink-2);line-height:1.55;max-height:220px;overflow:auto;padding-right:6px}
+.desc mark{background:color-mix(in srgb,var(--brass) 28%,transparent);color:var(--ink);padding:0 2px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px} @media (max-width:760px){.two{grid-template-columns:1fr}}
+.olist{list-style:none;margin:0;padding:0;display:grid;gap:3px;font-family:var(--f-mono);font-size:12px;max-height:320px;overflow:auto}
+.olist li{display:grid;grid-template-columns:26px 12px minmax(0,1fr) auto;gap:8px;align-items:center;padding:3px 6px;border:1px solid transparent}
+.olist li.g{border-color:var(--ok)} .olist li.e{background:color-mix(in srgb,var(--brass) 14%,transparent)} .olist li.e.g{border-color:var(--ok)}
+.olist li .n{color:var(--ink-3);text-align:right}
+.olist li .sw{width:10px;height:10px;border-radius:50%}
+.olist li .f{color:var(--brass)}
+pre.json{font-family:var(--f-mono);font-size:12.5px;background:var(--code-bg);border:1px solid var(--panel-edge);padding:12px;margin:0;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--ink)}
+/* archive */
+.plates{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
+.plate-b{all:unset;cursor:pointer;display:grid;gap:6px;padding:12px;border:1px solid var(--panel-edge);background:var(--chip);min-height:88px;align-content:start}
+.plate-b:hover,.plate-b:focus-visible{border-color:var(--brass);outline:none}
+.plate-b.on{border-color:var(--brass);background:color-mix(in srgb,var(--brass) 12%,transparent)}
+.plate-b .id{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;color:var(--brass)}
+.plate-b .tt{font-family:var(--f-disp);font-size:1.2rem;line-height:1.1}
+.plate-detail{border-top:1px solid var(--panel-edge);padding-top:14px;display:grid;gap:10px}
+.plate-detail .q{font-family:var(--f-disp);font-size:1.5rem;line-height:1.15}
+/* intervals room */
+.room{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:22px} @media (max-width:860px){.room{grid-template-columns:1fr}}
+canvas.hist{width:100%;height:auto;display:block;border:1px solid var(--panel-edge);background:var(--chip)}
+.badge{display:inline-block;font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--possible);color:var(--possible)}
+.seeing{display:grid;gap:5px}
+.seeing .rowv{display:grid;grid-template-columns:96px repeat(5,16px) minmax(0,1fr);gap:6px;align-items:center;font-family:var(--f-mono);font-size:11px;color:var(--ink-3)}
+.seeing .rowv i{width:14px;height:14px;border-radius:50%;display:block}
+.seeing .rowv.u{color:var(--bad)}
+/* bench */
+.drop{border:1.5px dashed var(--brass-2);padding:22px;text-align:center;display:grid;gap:10px;place-items:center;cursor:pointer}
+.drop.over{border-color:var(--brass);background:color-mix(in srgb,var(--brass) 10%,transparent)}
+.pairs{display:grid;gap:8px}
+.pair{border:1px solid var(--panel-edge);padding:10px;display:grid;gap:4px;font-size:13px}
+.pair b{font-family:var(--f-mono);font-weight:400;color:var(--ink)}
+.pair .w{color:var(--ink-3);font-family:var(--f-mono);font-size:11.5px}
+/* chart table */
+.chart{width:100%;border-collapse:collapse;font-size:13px}
+.chart th,.chart td{text-align:left;padding:7px 9px;border-top:1px solid var(--panel-edge)}
+.chart th{font-family:var(--f-mono);font-weight:400;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);cursor:pointer;position:sticky;top:-30px;background:var(--panel)}
+.chart td.num{font-family:var(--f-mono);text-align:right;font-variant-numeric:tabular-nums}
+.chart tr:hover td{background:color-mix(in srgb,var(--brass) 8%,transparent)}
+.capimg{width:100%;height:auto;display:block;border:1px solid var(--panel-edge)}
 .foot{font-size:12.5px;color:var(--ink-3);text-align:center;padding:40px 22px 90px;max-width:760px;margin:0 auto}
 .nogl #gl{display:none}
 @media (prefers-reduced-motion: reduce){.cue i{animation:none}.slot .bar{transition:none}.card{transform:none;opacity:1;transition:none}}
@@ -186,7 +253,10 @@ input[type=range]{flex:1;min-width:150px;accent-color:var(--brass)}
 <div class="hud tr" role="group" aria-label="Time of day">
   <button class="tod" id="todDusk" type="button" aria-pressed="true">Dusk</button>
   <button class="tod" id="todMorning" type="button" aria-pressed="false">Morning</button>
+  <button class="tod" id="chartBtn" type="button">Star chart</button>
+  <button class="tod" id="capBtn" type="button">Capture</button>
 </div>
+<div class="eye" id="eye" hidden role="dialog" aria-modal="true" aria-labelledby="eyeT"><div class="eye-ring" id="eyeRing"><div id="eyeBody"></div></div></div>
 <div class="hud bl" id="hudB">az 000.0° · alt 00.0°</div>
 <nav class="nav" id="nav" aria-label="Chapters"></nav>
 <details class="legend" id="legend" open>
@@ -198,6 +268,7 @@ input[type=range]{flex:1;min-width:150px;accent-color:var(--brass)}
     <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="7" stroke="var(--ok)" stroke-width="2" fill="none"/></svg><span>Ring: the right tool was called.</span></li>
     <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="7" stroke="var(--bad)" stroke-width="2" fill="none"/><path d="M7 7l8 8M15 7l-8 8" stroke="var(--bad)" stroke-width="2"/></svg><span>Cross: wrong tool. A dashed ring marks the right one.</span></li>
     <li><svg width="22" height="22" viewBox="0 0 22 22"><path d="M2 16 Q11 2 20 16" stroke="var(--bad)" stroke-width="1.4" fill="none" opacity=".8"/></svg><span>Thread: a mistake that trials actually made.</span></li>
+    <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" stroke="var(--brass)" stroke-width="1.4" fill="none"/><circle cx="11" cy="11" r="2" fill="var(--brass)"/></svg><span>Click a star to look through the eyepiece.</span></li>
   </ul>
 </details>
 
@@ -337,10 +408,72 @@ input[type=range]{flex:1;min-width:150px;accent-color:var(--brass)}
           <div class="caselist" id="caseList" role="listbox" aria-label="Requests"></div>
         </div>
         <div class="result">
+          <div class="seg" role="group" aria-label="Lab modes"><button class="btn" id="allM" type="button" aria-pressed="false">All three models</button><button class="btn" id="guessM" type="button" aria-pressed="false">Guess first</button><button class="btn" id="openTrial" type="button">Open this call</button></div>
           <div class="seg" id="rSeg" role="group" aria-label="Which server is listed first"></div>
           <div class="q" id="rq"></div>
           <div class="verdict" id="rv"></div>
           <div class="rail" id="rrail"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch wide" data-cam="archive" data-name="Plate archive" id="c8">
+    <div class="card">
+      <p class="eyebrow">VII · The plate archive</p>
+      <h2>Every experiment, <em>including</em> the ones that found nothing.</h2>
+      <p class="lede">Fourteen preregistered experiments. Each plate has its question, sample, verdict, key number, source file and what it taught us. Nulls and experiments we chose not to run are kept beside the effects.</p>
+      <div class="plates" id="plates"></div>
+      <div class="plate-detail" id="plateDetail"></div>
+    </div>
+  </section>
+
+  <section class="ch wide" data-cam="intervals" data-name="How sure we are" id="c9">
+    <div class="card">
+      <p class="eyebrow">VIII · How sure we are</p>
+      <h2>Where the intervals come from, and why one run is <em>never enough.</em></h2>
+      <div class="room">
+        <div style="display:grid;gap:12px">
+          <h4 class="eyebrow" style="color:var(--ink-2)">The bootstrap, live <span class="badge">simulated · resampling recorded families in your browser</span></h4>
+          <p class="lede" style="font-size:.95rem">The synonym test has 8 request families. We draw 8 families with replacement, recompute the first − last third gap, and repeat. The spread of those gaps is the interval. Repeated trials of one family are never counted as independent.</p>
+          <div class="seg" id="bsSeg"></div>
+          <canvas class="hist" id="hist" width="760" height="260" aria-label="Histogram of resampled gaps"></canvas>
+          <div class="rowh" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" id="bsRun" type="button">Resample 2,000 times</button><span class="mono" id="bsTxt" style="font-size:12.5px;color:var(--ink-2)"></span></div>
+        </div>
+        <div style="display:grid;gap:12px;align-content:start">
+          <h4 class="eyebrow" style="color:var(--ink-2)">Seeing conditions</h4>
+          <p class="lede" style="font-size:.95rem">Astronomers call a steady sky good seeing. We asked the same question 5 times at temperature 0. Each row is one request and ordering; each dot one answer, coloured by tool.</p>
+          <div class="seg" id="seeSeg"></div>
+          <div class="seeing" id="seeing"></div>
+          <div class="rail">
+            <div class="row"><span class="k">Unstable</span><span class="ci" id="seeTxt"></span></div>
+            <div class="row"><span class="k">Source</span><code>results/determinism_probe.json</code></div>
+            <p class="not">Why we fix temperature, record every answer and count over families.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch wide" data-cam="bench" data-name="Your server" id="c10">
+    <div class="card">
+      <p class="eyebrow">IX · Your server</p>
+      <h2>Point the instrument at <em>your own</em> tools.</h2>
+      <p class="lede">Drop a <span class="mono">tools/list</span> JSON (or a surfacelab snapshot). Your tools join the sky, placed by how alike their descriptions read, with the token cost and the pairs most likely to be confused. The file never leaves your browser.</p>
+      <div class="room">
+        <div style="display:grid;gap:12px;align-content:start">
+          <label class="drop" id="drop" for="benchFile"><span class="eyebrow">Drop tools/list JSON here</span><span class="not">or click to choose a file</span></label>
+          <input type="file" id="benchFile" accept=".json,application/json" hidden>
+          <div class="seg"><button class="btn" id="benchEx" type="button">Try an example: real docs loadout</button></div>
+          <div class="reveal" id="benchMsg"></div>
+          <div class="rail" id="benchRail"></div>
+        </div>
+        <div style="display:grid;gap:10px;align-content:start">
+          <h4 class="eyebrow" style="color:var(--ink-2)">Pairs that read most alike</h4>
+          <div class="pairs" id="benchPairs"><p class="not">Load a file to see them.</p></div>
+          <p class="not">Similarity here is lexical (TF-IDF over description words), computed in your browser; the sky above uses an embedding model. To measure real confusion, run the CLI below on your server.</p>
+          <div class="cli">uv run surfacelab probe --server-name mine --snapshots-dir runs/mine -- &lt;your server command&gt;
+uv run surfacelab inspect &lt;surface&gt;</div>
         </div>
       </div>
     </div>
@@ -381,6 +514,7 @@ uv run surfacelab probe --server-name mine --snapshots-dir runs/mine -- &lt;your
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
 <script>
 const DATA = __DATA__;
+let TIPS = {};
 const SIB = __SIB__;
 const GAP3 = {"120b":["+10.4","[+2.1, +19.8]"],"20b":["+13.5","[−1.0, +31.3]"],"27b":["+12.5","[+2.1, +25.0]"]};
 const rack = {m:"120b", i:0, playing:false, timer:null};
@@ -420,8 +554,7 @@ const HUE = {"playwright":["#F4B860","#9A5A0E"],"chrome-devtools":["#62D6C8","#1
 (function slots(){
   const el=$("#slots"), cap=["first third","middle","last third"];
   let shown=false;
-  window._drawSlots=()=>{ const m={"20b":"openai/gpt-oss-20b","120b":"openai/gpt-oss-120b"}[rack.m];
-    const b=m?DATA.sib[m]:null; el.innerHTML="";
+  window._drawSlots=()=>{ const b=(DATA.sib_t0||{})[rack.m]||null; el.innerHTML="";
     if(!b){ el.innerHTML=`<p class="not" style="align-self:center;grid-column:1/-1">Thirds for qwen are in results/exp014_analysis.json (gap shown below); per-slot accuracy is in the 3D strip.</p>`; return; }
     for(let i=0;i<3;i++) el.insertAdjacentHTML("beforeend",`<div class="slot"><div class="bar" data-v="${b[i]}" style="height:${shown?b[i]*150:0}px"><span>${Math.round(b[i]*100)}%</span></div><div class="cap">${cap[i]}</div></div>`); };
   const show=()=>{ if(shown) return; shown=true; el.querySelectorAll(".bar").forEach(x=>x.style.height=(parseFloat(x.dataset.v)*150)+"px"); };
@@ -545,6 +678,9 @@ function init(){
   tel.position.set(0,4.2,-1.2); dome.add(tel);
   const aim=CLOUD.clone().sub(tel.position).normalize(); tel.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),aim);
   tipPos=tel.position.clone().add(aim.clone().multiplyScalar(5.5));
+  TIPS={"120b":tipPos.clone()};
+  [["20b",-1.05],["27b",1.05]].forEach(([m,dx])=>{ const t2=tel.clone(); t2.position.x+=dx; t2.position.y-=.5; t2.scale.setScalar(.78); dome.add(t2);
+    const a2=CLOUD.clone().sub(t2.position).normalize(); t2.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),a2); TIPS[m]=t2.position.clone().add(a2.multiplyScalar(5.5*.78)); });
 
   /* STARS: one per real tool. position = embedding projection; size = tokens; hue = server.
      Dusk: glowing cores with diffraction spikes. Morning: ink marks. */
@@ -671,8 +807,8 @@ function beamMat(ok){ return new THREE.ShaderMaterial({transparent:true,depthWri
       vec3 c=mix(dusk,ink,uDay); float a=mix(.55+.45*head+pulse,.75+.25*head,uDay);
       gl_FragColor=vec4(c*a*(1.-uDay)+c*uDay,a); }`}); }
 function addBeam(target,ok,gold,delay){ addBeamP(starPos[target].clone(),ok,gold.map(i=>starPos[i]),delay); }
-function addBeamP(B,ok,goldPts,delay){
-  const A=tipPos.clone(),mid=A.clone().lerp(B,.5); mid.y+=1.6;
+function addBeamP(B,ok,goldPts,delay,origin){
+  const A=(origin||tipPos).clone(),mid=A.clone().lerp(B,.5); mid.y+=1.6;
   const curve=new THREE.QuadraticBezierCurve3(A,mid,B), mat=beamMat(ok); beamMats.push(mat);
   beamGroup.add(new THREE.Mesh(new THREE.TubeGeometry(curve,72,.045,6,false),mat));
   const col=day<.5?(ok?0x8FE3C0:0xFF7A66):(ok?0x1F7A58:0xB53A2A);
@@ -708,10 +844,11 @@ const ray=new THREE.Raycaster(); ray.params.Points={threshold:.5};
 const mouse=new THREE.Vector2(-9,-9); let pointer={x:0,y:0}, hoverIdx=-1, drag=null, orbit={az:0,el:0};
 function setupPointer(){
   addEventListener("pointermove",e=>{ pointer.x=(e.clientX/innerWidth)*2-1; pointer.y=(e.clientY/innerHeight)*2-1; mouse.set(pointer.x,-pointer.y);
-    if(drag){ orbit.az+=(e.clientX-drag.x)*.005; orbit.el=Math.max(-.6,Math.min(.6,orbit.el+(e.clientY-drag.y)*.004)); drag={x:e.clientX,y:e.clientY}; }
+    if(drag){ drag.moved=drag.moved||Math.abs(e.clientX-drag.x)+Math.abs(e.clientY-drag.y)>3; orbit.az+=(e.clientX-drag.x)*.005; orbit.el=Math.max(-.6,Math.min(.6,orbit.el+(e.clientY-drag.y)*.004)); drag={x:e.clientX,y:e.clientY}; }
     tip.style.left=Math.min(innerWidth-350,e.clientX+16)+"px"; tip.style.top=Math.min(innerHeight-140,e.clientY+16)+"px"; });
   addEventListener("pointerdown",e=>{ if(state.key==="lab"&&!e.target.closest(".card,.legend,.hud,.nav")) drag={x:e.clientX,y:e.clientY}; });
-  addEventListener("pointerup",()=>drag=null);
+  addEventListener("pointerup",e=>{ const moved=drag&&drag.moved; drag=null;
+    if(!moved && hoverIdx>=0 && !e.target.closest(".card,.legend,.hud,.nav,.eye")) openTool(hoverIdx); });
   addEventListener("pointerdown",e=>{ if(e.pointerType!=="mouse"){ mouse.set((e.clientX/innerWidth)*2-1,-(e.clientY/innerHeight)*2+1); tip.style.left=Math.min(innerWidth-350,e.clientX+12)+"px"; tip.style.top=Math.min(innerHeight-140,e.clientY+12)+"px"; } });
 }
 
@@ -728,6 +865,9 @@ const KEY={
   serve:  {pos:V(14,10,22), tgt:V(0,18,-10)},
   lab:    {pos:CLOUD.clone().add(V(0,-9,27)), tgt:CLOUD.clone().add(V(0,-3,0))},
   coda:   {pos:V(-4,5,38), tgt:V(-2,12,-4)},
+  archive:{pos:CLOUD.clone().add(V(-6,10,36)), tgt:CLOUD.clone().add(V(0,2,0))},
+  intervals:{pos:CLOUD.clone().add(V(10,-4,34)), tgt:CLOUD.clone().add(V(0,-2,0))},
+  bench:  {pos:V(30,14,17), tgt:V(30,12.5,-4)},
 };
 let state={key:null};
 const litTarget=new Float32Array(TOOLS.length).fill(1);
@@ -740,7 +880,9 @@ function enter(key){
   waveTimers.forEach(clearTimeout); waveTimers=[];
   clearBeams(); edgesGroup.visible=false; setLabels([]);
   if(key!=="wide2"){ play3(false); }
-  if(key==="hero"||key==="coda"||key==="wide"||key==="problem") setLit(()=>true);
+  if(key==="hero"||key==="coda"||key==="wide"||key==="problem"||key==="archive"||key==="intervals") setLit(()=>true);
+  if(key==="intervals") runBS();
+  if(key==="bench"){ setLit(()=>false); if(!benchTools.length) $("#benchEx").click(); else benchLabels(); }
   if(key==="wide2"){ setLit(()=>false); $("#legend").open=false; rackLabels(); setOrdering(0,true); if(REDUCE) setOrdering(23,true); else play3(true); }
   listTarget = key==="request"?1:0;
   if(key==="request"){ setLit(t=>t.l===l1); listLabels(); }
@@ -823,8 +965,194 @@ function sharesRender(){
 function retarget5(){ const c=centroid(t=>t.l===l5); KEY.serve={pos:c.clone().add(V(-4,4,19)), tgt:c.clone().add(V(5.5,0,0))}; }
 retarget5(); sharesRender();
 
+/* ===================== eyepieces ===================== */
+const eye=$("#eye"), eyeBody=$("#eyeBody"); let eyeReturn=null;
+function openEye(html){ eyeReturn=document.activeElement; eyeBody.innerHTML=html; eye.hidden=false; $("#eyeRing").scrollTop=0; const x=eyeBody.querySelector(".eye-x"); x&&x.focus(); }
+function closeEye(){ eye.hidden=true; eyeBody.innerHTML=""; eyeReturn&&eyeReturn.focus&&eyeReturn.focus(); }
+eye.addEventListener("click",e=>{ if(e.target===eye) closeEye(); const b=e.target.closest("[data-tool],[data-pair],[data-trial]"); if(!b) return;
+  if(b.dataset.tool) openTool(+b.dataset.tool); else if(b.dataset.pair){ const [a,c]=b.dataset.pair.split("-").map(Number); openPair(a,c); } else { const [m,cid,rot]=b.dataset.trial.split("|"); openTrial(m,cid,+rot); } });
+addEventListener("keydown",e=>{ if(e.key==="Escape"&&!eye.hidden) closeEye(); });
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const eyeTop=(title,sub)=>`<div class="eye-top"><div><p class="eyebrow">Eyepiece</p><h3 id="eyeT">${title}</h3><div class="sub">${sub}</div></div><button class="btn eye-x" type="button" onclick="closeEye()">Close</button></div>`;
+const PAIRS={}; DATA.pairs.forEach(pr=>PAIRS[pr.a+"-"+pr.b]=pr);
+function openTool(i){
+  const t=TOOLS[i], segs=t.seg, tot=segs.reduce((a,s)=>a+s[1],0);
+  const asCall=TR.filter(r=>r[3]===i), right=asCall.filter(r=>r[4]).length;
+  const asGold=TR.filter(r=>CASES[r[1]].g.includes(i)), won=asGold.filter(r=>r[3]===i).length;
+  const lost={}; asGold.forEach(r=>{ if(!r[4]&&r[3]!=null&&r[3]!==i){ lost[r[3]]=(lost[r[3]]||0)+1; } });
+  const stole={}; asCall.forEach(r=>{ if(!r[4]){ const g=CASES[r[1]].g[0]; stole[g]=(stole[g]||0)+1; } });
+  const chipT=(j,n,pairKey)=>`<button class="chip-b" type="button" ${pairKey?`data-pair="${pairKey}"`:`data-tool="${j}"`}>${esc(TOOLS[j].n)} <small>${n}</small></button>`;
+  const trials=[...new Set([...asCall,...asGold])].slice(0,24);
+  openEye(eyeTop(esc(t.n),`${esc(t.s)} · ${LOADOUT_NAME[t.l]} · ${t.k} tokens in the request`)+`<div class="eye-grid">
+    <div><section><h4>Spectrum: where its ${tot} tokens go</h4><div class="spec">${segs.map((s,k)=>`<span class="${k===segs.length-1?"schema":""}" style="flex-grow:${s[1]}" title="${esc(s[0])}: ${s[1]} tokens"></span>`).join("")}</div>
+      <div class="seglist">${segs.map(s=>`<div><b>${s[1]}</b><span>${esc(s[0])}</span></div>`).join("")}</div></section>
+      <section><h4>Nearest descriptions</h4><div class="chips">${t.nb.map(([j,c])=>`<button class="chip-b" type="button" data-tool="${j}">${esc(TOOLS[j].n)} <small>cos ${c.toFixed(2)}</small></button>`).join("")}</div></section></div>
+    <div><section><h4>Recorded calls (3 models · all orderings)</h4><div class="kv">
+      <span class="k">Called first</span><span>${asCall.length} times · ${right} right · ${asCall.length-right} wrong</span>
+      <span class="k">Right answer</span><span>for ${asGold.length} trials · won ${won}</span></div></section>
+      <section><h4>Lost its job to</h4><div class="chips">${Object.keys(lost).length?Object.entries(lost).sort((a,b)=>b[1]-a[1]).map(([j,n])=>chipT(+j,n+"×",i+"-"+j)).join(""):`<span class="not">never, when it was the only right tool called.</span>`}</div></section>
+      <section><h4>Took the job of</h4><div class="chips">${Object.keys(stole).length?Object.entries(stole).sort((a,b)=>b[1]-a[1]).map(([j,n])=>chipT(+j,n+"×",j+"-"+i)).join(""):`<span class="not">no recorded wrong calls.</span>`}</div></section>
+      <section><h4>Trials (click to replay)</h4><div class="chips">${trials.map(r=>`<button class="chip-b" type="button" data-trial="${r[0]}|${r[1]}|${r[2]}">${r[1]} <small>${MODEL_NAME[r[0]]} · ${serversOf(t.l)[r[2]]} first · ${r[4]?"right":"wrong"}</small></button>`).join("")}</div></section></div></div>
+    <p class="not">Sources: fixtures/surfaces/real_${t.l}.json · results/exp013_*.json · cached text-embedding-3-small vectors.</p>`);
+}
+const STOP=new Set("the a an and or of to in on for with from by is are be this that it as at use used using when your you can will not only any all its into than then more".split(" "));
+const words=s=>new Set(s.toLowerCase().match(/[a-z][a-z0-9_]{2,}/g)?.filter(w=>!STOP.has(w))||[]);
+function hl(text,shared){ return esc(text).replace(/[A-Za-z][A-Za-z0-9_]{2,}/g,w=>shared.has(w.toLowerCase())?`<mark>${w}</mark>`:w); }
+function openPair(a,b){
+  const A=TOOLS[a],B=TOOLS[b], pr=PAIRS[a+"-"+b], wa=words(A.d), wb=words(B.d), shared=new Set([...wa].filter(w=>wb.has(w)));
+  openEye(eyeTop(`${esc(A.n)} <em style="font-style:italic;color:var(--brass)">vs</em> ${esc(B.n)}`,`Mistake spectrograph · right tool vs the tool called instead`)+`
+    <div class="kv" style="margin-bottom:16px"><span class="k">Recorded</span><span>${pr?`${pr.n} trials called <b class="mono">${esc(B.n)}</b> when <b class="mono">${esc(A.n)}</b> was right · ${Object.entries(pr.by).map(([m,n])=>`${MODEL_NAME[m]} ${n}`).join(" · ")}`:"no recorded mistake in this direction"}</span>
+      <span class="k">Similarity</span><span>${pr?`cos ${pr.cos.toFixed(2)} · more alike than ${Math.round(pr.pct*100)}% of the loadout's other tools`:"—"}</span>
+      <span class="k">Shared words</span><span>${shared.size?[...shared].slice(0,18).map(esc).join(", "):"none of note"}</span></div>
+    <div class="two"><section><h4>Right tool · ${esc(A.s)}</h4><div class="desc">${hl(A.d,shared)}</div><div class="chips"><button class="chip-b" type="button" data-tool="${a}">open ${esc(A.n)}</button></div></section>
+      <section><h4>Called instead · ${esc(B.s)}</h4><div class="desc">${hl(B.d,shared)}</div><div class="chips"><button class="chip-b" type="button" data-tool="${b}">open ${esc(B.n)}</button></div></section></div>
+    <p class="not">Source: results/exp013_h4.json method (embedding percentile among non-gold tools), descriptions verbatim from the committed snapshots.</p>`);
+}
+function orderOf(L,rot){ const sv=serversOf(L), o=[...sv.slice(rot),...sv.slice(0,rot)]; return o.flatMap(s=>TOOLS.map((t,i)=>i).filter(i=>TOOLS[i].l===L&&TOOLS[i].s===s)); }
+function openTrial(m,cid,rot){
+  const cs=CASES[cid], L=cs.l, row=TR.find(r=>r[0]===m&&r[1]===cid&&r[2]===rot), raw=DATA.raw[`${m}|${cid}|${rot}`]||{}, ord=orderOf(L,rot), sv=serversOf(L);
+  const json=raw.failed?`// tool_use_failed: the model produced no valid call\n${esc(raw.text||"(no text)")}`:esc(JSON.stringify({name:raw.name,arguments:(()=>{try{return JSON.parse(raw.args)}catch(e){return raw.args}})()},null,2));
+  openEye(eyeTop(`“${esc(cs.q)}”`,`${cid} · ${MODEL_NAME[m]} · ${sv[rot]} listed first · temperature 0`)+`<div class="eye-grid">
+    <div><section><h4>What the model saw: ${ord.length} tools, in this order</h4><ol class="olist">${ord.map((i,k)=>`<li class="${cs.g.includes(i)?"g":""} ${row&&row[3]===i?"e":""}"><span class="n">${k+1}</span><span class="sw" style="background:${HUE[TOOLS[i].s][dayTarget?1:0]}"></span><span>${esc(TOOLS[i].n)}</span><span class="f">${row&&row[3]===i?"called":""}${cs.g.includes(i)?" ✓":""}</span></li>`).join("")}</ol></section></div>
+    <div><section><h4>What it returned</h4><pre class="json">${json}</pre></section>
+      <section><h4>Graded</h4><div class="kv"><span class="k">Verdict</span><span>${row?(row[4]?"right: an accepted tool":row[3]==null?"refused (scored incorrect)":"wrong tool"):"—"}</span>
+        <span class="k">Accepted</span><span>${cs.g.map(i=>`<span class="mono">${esc(TOOLS[i].n)}</span>`).join(", ")} ${cs.sh?"(tools on 2+ servers can do it)":"(only one server can)"}</span></div></section>
+      <section><h4>Other orderings · other models</h4><div class="chips">${sv.map((s,r)=>`<button class="chip-b" type="button" data-trial="${m}|${cid}|${r}">${s} first</button>`).join("")}${Object.keys(MODEL_NAME).filter(x=>x!==m).map(x=>`<button class="chip-b" type="button" data-trial="${x}|${cid}|${rot}">${MODEL_NAME[x]}</button>`).join("")}</div></section></div></div>
+    <p class="not">Source: the recorded response in cassettes/ for this exact request (sha256 of the request bytes) · results/exp013_${m}.json.</p>`);
+}
+window.closeEye=closeEye;
+
+/* ===================== star chart ===================== */
+$("#chartBtn").onclick=()=>{
+  const rows=TOOLS.map((t,i)=>{ const c=TR.filter(r=>r[3]===i), g=TR.filter(r=>CASES[r[1]].g.includes(i)); const lost={}; g.forEach(r=>{ if(!r[4]&&r[3]!=null) lost[r[3]]=(lost[r[3]]||0)+1; });
+    const lt=Object.entries(lost).sort((a,b)=>b[1]-a[1])[0]; return {i,n:t.n,s:t.s,l:LOADOUT_NAME[t.l],k:t.k,c:c.length,w:c.filter(r=>r[4]).length,g:g.length,won:g.filter(r=>r[3]===i).length,lt:lt?TOOLS[lt[0]].n+" ×"+lt[1]:""}; });
+  let sortK="k", dir=-1;
+  const draw=()=>{ rows.sort((a,b)=>(a[sortK]>b[sortK]?1:a[sortK]<b[sortK]?-1:0)*dir);
+    $("#chartT").innerHTML=rows.map(r=>`<tr><td><button class="chip-b" type="button" data-tool="${r.i}">${esc(r.n)}</button></td><td>${esc(r.s)}</td><td>${r.l}</td><td class="num">${r.k}</td><td class="num">${r.c}</td><td class="num">${r.w}</td><td class="num">${r.g}</td><td class="num">${r.won}</td><td>${esc(r.lt)}</td></tr>`).join(""); };
+  openEye(eyeTop("Star chart",`all ${TOOLS.length} tools · ${TR.length} recorded first calls · click a column to sort`)+`<div style="overflow-x:auto"><table class="chart"><thead><tr>
+    ${[["n","Tool"],["s","Server"],["l","Loadout"],["k","Tokens"],["c","Called first"],["w","…right"],["g","Right answer for"],["won","…won"],["lt","Most often lost to"]].map(([k,h])=>`<th data-k="${k}" scope="col">${h}</th>`).join("")}</tr></thead><tbody id="chartT"></tbody></table></div>
+    <p class="not">Source: results/exp013_{20b,120b,27b}.json · fixtures/surfaces/real_*.json. Counts are recorded first calls; tokens are local o200k_base counts.</p>`);
+  eyeBody.querySelectorAll("th").forEach(th=>th.onclick=()=>{ const k=th.dataset.k; dir=sortK===k?-dir:-1; sortK=k; draw(); });
+  draw();
+};
+
+/* ===================== capture ===================== */
+$("#capBtn").onclick=()=>{
+  if(!renderer) return; renderer.render(scene,camera);
+  const W=1600,H=900, c=document.createElement("canvas"); c.width=W; c.height=H; const g=c.getContext("2d");
+  const src=renderer.domElement, sw=src.width, sh=src.height, s=Math.max(W/sw,H/sh);
+  g.drawImage(src,(W-sw*s)/2,(H-sh*s)/2,sw*s,sh*s);
+  const sec=sections.find(x=>x.dataset.cam===state.key)||sections[0];
+  const ink=dayTarget?"#1E1A16":"#ECE6DA", brass=dayTarget?"#8C5A1E":"#D2AA6E";
+  g.fillStyle=dayTarget?"rgba(250,245,236,.82)":"rgba(5,7,15,.72)"; g.fillRect(48,H-260,980,212);
+  g.fillStyle=brass; g.font="500 20px 'DM Mono', monospace"; g.fillText(((sec.querySelector(".eyebrow")||{}).textContent||"").toUpperCase().slice(0,60),76,H-218);
+  g.fillStyle=ink; g.font="300 46px 'Cormorant Garamond', serif"; const h=((sec.querySelector("h1,h2")||{}).textContent||"").trim();
+  const wrap=(txt,x,y,mw,lh)=>{ let line=""; for(const w of txt.split(" ")){ const tt=line?line+" "+w:w; if(g.measureText(tt).width>mw){ g.fillText(line,x,y); line=w; y+=lh; } else line=tt; } g.fillText(line,x,y); return y; };
+  const yy=wrap(h,76,H-168,920,50);
+  const big=sec.querySelector(".rail .big"), srcC=sec.querySelector(".rail code");
+  g.fillStyle=brass; g.font="400 18px 'DM Mono', monospace"; g.fillText(((big?big.textContent.replace(/\s+/g," ").trim()+"  ·  ":"")+(srcC?srcC.textContent:"")).slice(0,96),76,Math.min(H-66,yy+44));
+  g.fillStyle=ink; g.globalAlpha=.7; g.font="400 16px 'DM Mono', monospace"; g.fillText("surfacelab · observatory · recorded data",W-460,H-30); g.globalAlpha=1;
+  openEye(eyeTop("Capture","a still of this exact view, with its headline and source · right-click or long-press to save")+`<img class="capimg" alt="Captured still of the current view" src="${c.toDataURL("image/png")}">`);
+};
+
+/* ===================== plate archive ===================== */
+(function archive(){
+  const el=$("#plates"), det=$("#plateDetail");
+  const cls=v=>/replicated/.test(v)?"rep":/not confirmed|not_confirmed/.test(v)?"nc":/inconclusive|absent|descriptive|measured|not run|not yet/.test(v)?"null":"exp";
+  DATA.exps.forEach((x,k)=>{ const b=document.createElement("button"); b.type="button"; b.className="plate-b"; b.innerHTML=`<span class="id">${x.id}</span><span class="tt">${esc(x.t)}</span><span><span class="tag ${cls(x.v)}">${esc(x.v)}</span></span>`;
+    b.onclick=()=>{ el.querySelectorAll(".plate-b").forEach(z=>z.classList.remove("on")); b.classList.add("on");
+      det.innerHTML=`<span class="eyebrow">${x.id} · ${esc(x.t)}</span><p class="q">${esc(x.q)}</p><div class="kv"><span class="k">Sample</span><span>${esc(x.n)}</span><span class="k">Verdict</span><span><span class="tag ${cls(x.v)}">${esc(x.v)}</span></span><span class="k">Key number</span><span class="mono">${esc(x.num)}</span><span class="k">Learned</span><span>${esc(x.learn)}</span><span class="k">Source</span><code>${esc(x.src)}</code></div>`; };
+    el.appendChild(b); if(k===12) setTimeout(()=>b.click(),0); });
+})();
+
+/* ===================== intervals room ===================== */
+let bsModel="120b", bsAnim=null;
+function mulberry(a){ return ()=>{ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function famStats(m){ return Object.keys(SIB.cases).map(c=>{ const g=SIB.cases[c].g, f=[0,0,0,0]; /* first-third right, first-third n, last-third right, last-third n */
+  SIB.orders.forEach((o,j)=>{ const th=Math.floor(o.indexOf(g)*3/4), ok=SIB.calls[m][c][j]===g?1:0; if(th===0){f[0]+=ok;f[1]++;} if(th===2){f[2]+=ok;f[3]++;} }); return f; }); }
+function gapOf(F){ let a=0,b=0,c=0,d=0; F.forEach(f=>{a+=f[0];b+=f[1];c+=f[2];d+=f[3];}); return (a/b-c/d)*100; }
+function drawHist(vals,point){
+  const cv=$("#hist"), g=cv.getContext("2d"), W=cv.width, H=cv.height, lo=-40, hi=60, nb=50, bins=new Array(nb).fill(0);
+  vals.forEach(v=>{ const k=Math.max(0,Math.min(nb-1,Math.floor((v-lo)/(hi-lo)*nb))); bins[k]++; });
+  const cs=getComputedStyle(document.documentElement), ink=cs.getPropertyValue("--ink").trim(), brass=cs.getPropertyValue("--brass").trim(), ink3=cs.getPropertyValue("--ink-3").trim();
+  g.clearRect(0,0,W,H); const X=v=>30+(v-lo)/(hi-lo)*(W-50), mx=Math.max(1,...bins);
+  g.fillStyle=brass; g.globalAlpha=.75; bins.forEach((n,k)=>{ const h=n/mx*(H-70); g.fillRect(X(lo+k*(hi-lo)/nb)+1,H-36-h,(W-50)/nb-2,h); }); g.globalAlpha=1;
+  g.strokeStyle=ink3; g.beginPath(); g.moveTo(30,H-36); g.lineTo(W-20,H-36); g.stroke();
+  g.fillStyle=ink3; g.font="12px 'DM Mono', monospace"; for(let v=-40;v<=60;v+=20){ g.fillText((v>0?"+":"")+v+" pp",X(v)-18,H-16); g.beginPath(); g.moveTo(X(v),H-36); g.lineTo(X(v),H-31); g.stroke(); }
+  g.setLineDash([3,4]); g.strokeStyle=ink3; g.beginPath(); g.moveTo(X(0),12); g.lineTo(X(0),H-36); g.stroke(); g.setLineDash([]);
+  if(vals.length>40){ const s=[...vals].sort((a,b)=>a-b), l=s[Math.floor(.025*s.length)], u=s[Math.floor(.975*s.length)-1];
+    g.strokeStyle=ink; g.lineWidth=2; g.beginPath(); g.moveTo(X(l),26); g.lineTo(X(u),26); g.moveTo(X(l),18); g.lineTo(X(l),34); g.moveTo(X(u),18); g.lineTo(X(u),34); g.stroke(); g.lineWidth=1;
+    $("#bsTxt").textContent=`${vals.length} resamples · 95% of gaps in [${l.toFixed(1)}, ${u.toFixed(1)}] pp · recorded (10,000 in Python): ${GAP3[bsModel][1]}`; }
+  g.fillStyle=ink; g.beginPath(); g.arc(X(point),26,5,0,7); g.fill();
+}
+function runBS(){ cancelAnimationFrame(bsAnim); const F=famStats(bsModel), pt=gapOf(F), rng=mulberry(42), vals=[];
+  const step=()=>{ for(let k=0;k<40&&vals.length<2000;k++){ const R=[]; for(let i=0;i<F.length;i++) R.push(F[Math.floor(rng()*F.length)]); const v=gapOf(R); if(isFinite(v)) vals.push(v); }
+    drawHist(vals,pt); if(vals.length<2000&&!REDUCE) bsAnim=requestAnimationFrame(step); else if(vals.length<2000) step(); };
+  $("#bsTxt").textContent=`point estimate ${pt>=0?"+":""}${pt.toFixed(1)} pp from all 8 families`; step(); }
+function bsSeg(){ const s=$("#bsSeg"); s.innerHTML=""; for(const m in MODEL_NAME){ const b=document.createElement("button"); b.type="button"; b.className="btn"+(m===bsModel?" on":""); b.textContent=MODEL_NAME[m]; b.setAttribute("aria-pressed",m===bsModel); b.onclick=()=>{ bsModel=m; bsSeg(); runBS(); }; s.appendChild(b); } }
+bsSeg(); $("#bsRun").onclick=runBS; drawHist([],gapOf(famStats(bsModel)));
+let seeModel="120b";
+function seeRender(){ const s=$("#seeSeg"); s.innerHTML=""; ["20b","120b"].forEach(m=>{ const b=document.createElement("button"); b.type="button"; b.className="btn"+(m===seeModel?" on":""); b.textContent=MODEL_NAME[m]; b.onclick=()=>{ seeModel=m; seeRender(); }; s.appendChild(b); });
+  const G=DATA.det[seeModel], el=$("#seeing"); let unstable=0, differ=0, total=0;
+  el.innerHTML=G.map(gr=>{ const cnt={}; gr.answers.forEach(a=>cnt[a]=(cnt[a]||0)+1); const maj=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0][0]; const d=gr.answers.filter(a=>a!==maj).length; differ+=d; total+=gr.answers.length; if(d) unstable++;
+    return `<div class="rowv ${d?"u":""}"><span>${gr.case} · v${gr.variant}</span>${gr.answers.map(a=>{ const k=SIB.tools.indexOf(a); return `<i title="${a}" style="background:${k>=0?CARD_HUE[k][dayTarget?1:0]:"var(--ink-3)"}"></i>`; }).join("")}<span>${d?d+" differed":"steady"}</span></div>`; }).join("");
+  const all=["20b","120b"].reduce((acc,m)=>{ DATA.det[m].forEach(gr=>{ const cnt={}; gr.answers.forEach(a=>cnt[a]=(cnt[a]||0)+1); const mx=Math.max(...Object.values(cnt)); acc[0]+=gr.answers.length-mx; acc[1]+=gr.answers.length; }); return acc; },[0,0]);
+  $("#seeTxt").textContent=`${MODEL_NAME[seeModel]}: ${unstable} of ${G.length} groups unstable, ${differ} of ${total} answers off the majority · both models: ${all[0]} of ${all[1]}`; }
+seeRender();
+
+/* ===================== bench: your own tools ===================== */
+const BENCH=new THREE.Vector3(30,19,-4);
+let benchGroup=null, benchTools=[], benchPos=[];
+function parseTools(j){ const arr=Array.isArray(j)?j:(j.tools||j.result?.tools||j.surface?.tools); if(!Array.isArray(arr)) throw new Error("No tools array found. Expected {\"tools\": [...]} as returned by tools/list.");
+  return arr.filter(t=>t&&t.name).map(t=>({name:String(t.name),description:String(t.description||""),schema:t.inputSchema||t.input_schema||{}})); }
+function tfidf(docs){ const toks=docs.map(d=>(d.toLowerCase().match(/[a-z][a-z0-9_]{2,}/g)||[]).filter(w=>!STOP.has(w))), df={};
+  toks.forEach(ts=>new Set(ts).forEach(w=>df[w]=(df[w]||0)+1)); const vocab=Object.keys(df), ix={}; vocab.forEach((w,i)=>ix[w]=i);
+  return toks.map(ts=>{ const v=new Float32Array(vocab.length), tf={}; ts.forEach(w=>tf[w]=(tf[w]||0)+1); for(const w in tf) v[ix[w]]=tf[w]*Math.log((1+docs.length)/(1+df[w])+1);
+    let n=Math.hypot(...v)||1; for(let i=0;i<v.length;i++) v[i]/=n; return v; }); }
+function pca3(V){ const n=V.length, d=V[0]?.length||0, mean=new Float32Array(d); V.forEach(v=>v.forEach((x,i)=>mean[i]+=x/n)); const C=V.map(v=>v.map((x,i)=>x-mean[i]));
+  const comps=[], rng=mulberry(7); for(let c=0;c<3;c++){ let w=new Float32Array(d).map(()=>rng()-.5);
+    for(let it=0;it<40;it++){ const s=C.map(x=>x.reduce((a,xi,i)=>a+xi*w[i],0)), nw=new Float32Array(d); C.forEach((x,k)=>x.forEach((xi,i)=>nw[i]+=xi*s[k]));
+      comps.forEach(u=>{ const dot=nw.reduce((a,x,i)=>a+x*u[i],0); u.forEach((x,i)=>nw[i]-=dot*x); }); const nn=Math.hypot(...nw)||1; w=nw.map(x=>x/nn); } comps.push(w); }
+  const P=C.map(x=>comps.map(u=>x.reduce((a,xi,i)=>a+xi*u[i],0))); const mx=[0,1,2].map(k=>Math.max(1e-6,...P.map(p=>Math.abs(p[k])))); return P.map(p=>p.map((x,k)=>x/mx[k])); }
+function loadBench(tools,label){
+  if(!tools.length){ $("#benchMsg").textContent="That file has no tools."; return; }
+  tools=tools.slice(0,200); benchTools=tools;
+  const V=tfidf(tools.map(t=>t.name.replace(/[_-]/g," ")+" "+t.description)), sim=(a,b)=>V[a].reduce((s,x,i)=>s+x*V[b][i],0);
+  const P=tools.length>3?pca3(V):tools.map((t,i)=>[i-1,0,0]);
+  const pairs=[]; for(let a=0;a<tools.length;a++) for(let b=a+1;b<tools.length;b++) pairs.push([a,b,sim(a,b)]); pairs.sort((x,y)=>y[2]-x[2]);
+  const toks=tools.map(t=>Math.round(JSON.stringify({type:"function",function:{name:t.name,description:t.description,parameters:t.schema}}).length/4)), tot=toks.reduce((a,b)=>a+b,0);
+  $("#benchMsg").innerHTML=`Loaded <b>${tools.length}</b> tools from ${esc(label)}.`;
+  $("#benchRail").innerHTML=`<div class="row"><span class="k">Tokens</span><span class="big">≈${fmt(tot)} <small>estimate · 4 characters per token</small></span></div>
+    <div class="row"><span class="k">Heaviest</span><span class="ci">${tools.map((t,i)=>[t.name,toks[i]]).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([n,k])=>`${esc(n)} ≈${k}`).join(" · ")}</span></div>
+    <div class="row"><span class="k">Free tier</span><span class="ci">${tot>7000?"likely over one Groq free-tier request (7–8K tokens per minute)":"fits one Groq free-tier request"}</span></div>
+    <p class="not">Estimated in your browser; providers count tool lists differently (chapter I).</p>`;
+  $("#benchPairs").innerHTML=pairs.slice(0,6).map(([a,b,s])=>{ const sh=[...words(tools[a].description)].filter(w=>words(tools[b].description).has(w)).slice(0,8);
+    return `<div class="pair"><span><b>${esc(tools[a].name)}</b> ↔ <b>${esc(tools[b].name)}</b> · similarity ${s.toFixed(2)}</span><span class="w">${sh.length?"shared: "+sh.map(esc).join(", "):"few shared words"}</span></div>`; }).join("")||`<p class="not">Need at least two tools.</p>`;
+  if(!renderer) return;
+  if(benchGroup){ scene.remove(benchGroup); benchGroup.traverse(o=>{o.geometry&&o.geometry.dispose();}); }
+  benchGroup=new THREE.Group(); scene.add(benchGroup);
+  benchPos=P.map(p=>new THREE.Vector3(p[0]*7,p[1]*5,p[2]*7).add(BENCH));
+  const g=new THREE.BufferGeometry(), pos=new Float32Array(tools.length*3), col=new Float32Array(tools.length*3), sz=new Float32Array(tools.length);
+  benchPos.forEach((v,i)=>{ v.toArray(pos,i*3); new THREE.Color(dayTarget?"#5C3FA8":"#E8D9B0").toArray(col,i*3); sz[i]=.8+Math.sqrt(toks[i])/8; });
+  g.setAttribute("position",new THREE.BufferAttribute(pos,3)); g.setAttribute("cG",new THREE.BufferAttribute(col,3)); g.setAttribute("cI",new THREE.BufferAttribute(col,3)); g.setAttribute("size",new THREE.BufferAttribute(sz,1));
+  g.setAttribute("lit",new THREE.BufferAttribute(new Float32Array(tools.length).fill(1),1)); g.setAttribute("seed",new THREE.BufferAttribute(new Float32Array(tools.length).map(()=>Math.random()*6),1));
+  g.setAttribute("aI",new THREE.BufferAttribute(new Float32Array(tools.length).fill(-5),1)); g.setAttribute("pos2",new THREE.BufferAttribute(pos.slice(),3)); g.setAttribute("inL",new THREE.BufferAttribute(new Float32Array(tools.length),1));
+  const pts=new THREE.Points(g,starMat); pts.frustumCulled=false; benchGroup.add(pts);
+  pairs.slice(0,6).forEach(([a,b,s])=>{ const A=benchPos[a],B=benchPos[b],m=A.clone().add(B).multiplyScalar(.5); m.y+=A.distanceTo(B)*.2;
+    const mat=new THREE.LineDashedMaterial({color:dayTarget?0x8C5A1E:0xD2AA6E,dashSize:.25,gapSize:.18,transparent:true,opacity:.5+.4*s});
+    const ln=new THREE.Line(new THREE.BufferGeometry().setFromPoints(new THREE.QuadraticBezierCurve3(A,m,B).getPoints(24)),mat); ln.computeLineDistances(); benchGroup.add(ln); });
+  if(state.key==="bench") benchLabels();
+}
+function benchLabels(){ setLabels(benchTools.slice(0,40).map((t,i)=>[`<b>${esc(t.name)}</b>`,benchPos[i],"list"])); }
+$("#benchFile").onchange=e=>{ const f=e.target.files[0]; if(!f) return; f.text().then(s=>{ try{ loadBench(parseTools(JSON.parse(s)),f.name); }catch(err){ $("#benchMsg").textContent="Couldn't read that file: "+err.message; } }); };
+const dropEl=$("#drop");
+["dragenter","dragover"].forEach(ev=>dropEl.addEventListener(ev,e=>{ e.preventDefault(); dropEl.classList.add("over"); }));
+["dragleave","drop"].forEach(ev=>dropEl.addEventListener(ev,e=>{ e.preventDefault(); dropEl.classList.remove("over"); }));
+dropEl.addEventListener("drop",e=>{ const f=e.dataTransfer.files[0]; if(f) f.text().then(s=>{ try{ loadBench(parseTools(JSON.parse(s)),f.name); }catch(err){ $("#benchMsg").textContent="Couldn't read that file: "+err.message; } }); });
+$("#benchEx").onclick=()=>loadBench(TOOLS.filter(t=>t.l==="docs").map(t=>({name:t.n,description:t.d,schema:{}})),"the docs loadout (Context7, AWS Documentation, Fetch) — an example, schemas omitted");
+
 /* ---------- lab ---------- */
-const lab={m:"120b",l:"web",c:"rw04",rot:0};
+const lab={m:"120b",l:"web",c:"rw04",rot:0,all:false,guess:false,picked:null};
 function labRender(){
   const mSeg=$("#mSeg"),lSeg=$("#lSeg"),rSeg=$("#rSeg"),list=$("#caseList");
   mSeg.innerHTML=""; for(const m in MODEL_NAME){ const b=document.createElement("button"); b.type="button"; b.className="btn"+(lab.m===m?" on":""); b.textContent=MODEL_NAME[m]; b.setAttribute("aria-pressed",lab.m===m); b.onclick=()=>{lab.m=m;labRender()}; mSeg.appendChild(b); }
@@ -834,23 +1162,38 @@ function labRender(){
     const r=TR.filter(t=>t[0]===lab.m&&t[1]===cid), ok=r.filter(t=>t[4]).length;
     const b=document.createElement("button"); b.type="button"; b.className="case"+(cid===lab.c?" sel":""); b.setAttribute("role","option"); b.setAttribute("aria-selected",cid===lab.c);
     b.innerHTML=`<span class="id">${cid}</span><span>${CASES[cid].q}</span><span class="mono" style="color:${ok===r.length?'var(--ok)':ok===0?'var(--bad)':'var(--possible)'}">${ok}/${r.length}</span>`;
-    b.onclick=()=>{lab.c=cid; lab.rot=0; labRender()}; list.appendChild(b);
+    b.onclick=()=>{lab.c=cid; lab.rot=0; lab.picked=null; labRender()}; list.appendChild(b);
   }
   const rows=TR.filter(t=>t[0]===lab.m&&t[1]===lab.c).sort((a,b)=>a[2]-b[2]);
   const servers=[...new Set(TOOLS.filter(t=>t.l===lab.l).map(t=>t.s))];
   rSeg.innerHTML=""; rows.forEach(t=>{ const b=document.createElement("button"); b.type="button"; b.className="btn"+(t[2]===lab.rot?" on":""); b.textContent=servers[t[2]]+" first"; b.setAttribute("aria-pressed",t[2]===lab.rot); b.onclick=()=>{lab.rot=t[2]; labRender()}; rSeg.appendChild(b); });
   const row=rows.find(t=>t[2]===lab.rot)||rows[0], cs=CASES[lab.c], em=row[3]==null?null:TOOLS[row[3]];
+  $("#allM").setAttribute("aria-pressed",lab.all); $("#allM").classList.toggle("on",lab.all); $("#guessM").setAttribute("aria-pressed",lab.guess); $("#guessM").classList.toggle("on",lab.guess);
+  if(lab.guess&&lab.picked===null){ $("#rq").textContent="“"+cs.q+"”";
+    $("#rv").innerHTML=`<span>You are the model. Which tool would you call first?</span>`;
+    $("#rrail").innerHTML=`<div class="chips">${orderOf(lab.l,lab.rot).map(i=>`<button class="chip-b" type="button" data-pick="${i}">${esc(TOOLS[i].n)} <small>${esc(TOOLS[i].s)}</small></button>`).join("")}</div><p class="not">Your pick stays in this page and is never sent anywhere.</p>`;
+    $("#rrail").querySelectorAll("[data-pick]").forEach(b=>b.onclick=()=>{ lab.picked=+b.dataset.pick; labRender(); });
+    if(renderer&&state.key==="lab"){ setLabels([]); clearBeams(); } return; }
   $("#rq").textContent="“"+cs.q+"”";
-  $("#rv").innerHTML=em?`<span class="dot" style="background:${row[4]?'var(--ok)':'var(--bad)'}"></span>${row[4]?"right tool":"wrong tool"} · called <span class="mono">${em.n}</span> <span style="color:var(--ink-3)">${em.s}</span>`:`<span class="dot" style="background:var(--ink-3)"></span>refused · no tool called (tool_use_failed)`;
+  const others=lab.all?Object.keys(MODEL_NAME).map(m=>{ const rr=TR.find(t=>t[0]===m&&t[1]===lab.c&&t[2]===lab.rot); return `${MODEL_NAME[m]}: <span class="mono">${rr&&rr[3]!=null?TOOLS[rr[3]].n:"refused"}</span> ${rr&&rr[4]?"✓":"✕"}`; }).join(" · "):"";
+  const mine=lab.guess&&lab.picked!==null?`You picked <span class="mono">${esc(TOOLS[lab.picked].n)}</span> ${cs.g.includes(lab.picked)?"(accepted ✓)":"(not accepted ✕)"}<br>`:"";
+  $("#rv").innerHTML=mine+(lab.all?others+"<br>":"")+(em?`<span class="dot" style="background:${row[4]?'var(--ok)':'var(--bad)'}"></span>${row[4]?"right tool":"wrong tool"} · called <span class="mono">${em.n}</span> <span style="color:var(--ink-3)">${em.s}</span>`:`<span class="dot" style="background:var(--ink-3)"></span>refused · no tool called (tool_use_failed)`);
   $("#rrail").innerHTML=`<div class="row"><span class="k">Accepted</span><span>${cs.g.map(i=>`<span class="mono">${TOOLS[i].n}</span>`).join(", ")}</span></div>
     <div class="row"><span class="k">Kind</span><span>${cs.sh?"shared: tools on 2+ servers can do it":"unique: only one server can do it"}</span></div>
     <div class="row"><span class="k">All orders</span><span class="mono">${rows.map(t=>t[3]==null?"refused":TOOLS[t[3]].n).join(" · ")}</span></div>
     <div class="row"><span class="k">Model</span><span>${MODEL_NAME[lab.m]} · Groq · temperature 0</span></div>
     <div class="row"><span class="k">Source</span><code>results/exp013_${lab.m}.json</code></div>`;
+  if(renderer&&state.key==="lab"&&lab.all){ setLabels([]); clearBeams();
+    Object.keys(MODEL_NAME).forEach((m,q)=>{ const rr=TR.find(t=>t[0]===m&&t[1]===lab.c&&t[2]===lab.rot); if(!rr) return;
+      if(rr[3]==null) return; addBeamP(starPos[rr[3]].clone(),!!rr[4],rr[4]?[]:cs.g.map(i=>starPos[i]),q*260,TIPS[m]);
+      addLabel(`${MODEL_NAME[m]} → ${TOOLS[rr[3]].n}`,starPos[rr[3]].clone().add(V(0,.9+q*.55,0))); }); return; }
   if(renderer&&state.key==="lab"){ setLabels([]); window._fire(lab.m,lab.c,row[2]);
     if(em) addLabel(`${em.n} <small>${row[4]?"called · right":"called · wrong"}</small>`,starPos[row[3]]);
     if(!row[4]) cs.g.forEach(i=>addLabel(`${TOOLS[i].n} <small>accepted</small>`,starPos[i])); }
 }
+$("#allM").onclick=()=>{ lab.all=!lab.all; labRender(); };
+$("#guessM").onclick=()=>{ lab.guess=!lab.guess; lab.picked=null; labRender(); };
+$("#openTrial").onclick=()=>openTrial(lab.m,lab.c,lab.rot);
 if(!gl_ok) labRender(); else layoutList(l1);
 
 /* ---------- time of day ---------- */
@@ -882,7 +1225,7 @@ function loop(){
   const damp=REDUCE?1:.045; camPos.lerp(wantPos,damp); camTgt.lerp(wantTgt,damp);
   let p=camPos.clone().add(V(pointer.x*.9,-pointer.y*.5,0));
   if(state.key==="lab"){ const rel=p.clone().sub(camTgt), s=new THREE.Spherical().setFromVector3(rel); s.theta+=orbit.az; s.phi=Math.max(.3,Math.min(2.7,s.phi-orbit.el)); p=camTgt.clone().add(V(0,0,0).setFromSpherical(s)); }
-  else if(!REDUCE&&(state.key==="wide"||state.key==="wide2"||state.key==="problem")){ const rel=p.clone().sub(camTgt); rel.applyAxisAngle(V(0,1,0),Math.sin(t*.07)*.22); p=camTgt.clone().add(rel); }
+  else if(!REDUCE&&(state.key==="wide"||state.key==="problem"||state.key==="archive"||state.key==="intervals")){ const rel=p.clone().sub(camTgt); rel.applyAxisAngle(V(0,1,0),Math.sin(t*.07)*.22); p=camTgt.clone().add(rel); }
   camera.position.copy(p); camera.lookAt(camTgt);
   for(const b of beams){ const u=Math.max(0,Math.min(1,(now-b.t0)/(REDUCE?1:950))); b.mat.uniforms.uP.value=u; b.mat.uniforms.uT.value=t; b.mat.uniforms.uDay.value=b.mat.uniforms.uDay.value>.99&&!b.ret?1:day;
     if(b.ret){ b.ret.material.opacity=Math.max(0,(u-.85)/.15); b.ret.material.rotation=REDUCE?0:t*.35; }
@@ -901,7 +1244,7 @@ function loop(){
   if(mouse.x>-2) for(let i=0;i<TOOLS.length;i++){ v3.copy(starPos[i]).lerp(listPos[i],kk*inL[i]).project(camera); if(v3.z>1) continue;
     const dx=(v3.x-mouse.x)*innerWidth/2, dy=(v3.y-mouse.y)*innerHeight/2, d=dx*dx+dy*dy; if(d<bestD){bestD=d;hi=i;} }
   if(hi!==hoverIdx){ hoverIdx=hi; starMat.uniforms.uHover.value=hi;
-    if(hi>=0){ const tt=TOOLS[hi]; tip.innerHTML=`<b>${tt.n}</b><span class="m">${tt.s} · ${LOADOUT_NAME[tt.l]} · ${tt.k} tokens</span><span class="d">${tt.d}${tt.d.length>=160?"…":""}</span>`; tip.style.opacity=1; } else tip.style.opacity=0; }
+    if(hi>=0){ const tt=TOOLS[hi]; tip.innerHTML=`<b>${tt.n}</b><span class="m">${tt.s} · ${LOADOUT_NAME[tt.l]} · ${tt.k} tokens</span><span class="d">${tt.d.length>200?tt.d.slice(0,200)+"…":tt.d}</span><span class="m" style="margin:6px 0 0">click to open the eyepiece</span>`; tip.style.opacity=1; } else tip.style.opacity=0; }
   for(const L of labels){ v3.copy(L.pos).project(camera); const vis=v3.z<1&&Math.abs(v3.x)<1.05&&Math.abs(v3.y)<1.05; L.d.style.opacity=vis?1:0; L.d.style.left=((v3.x+1)/2*innerWidth)+"px"; L.d.style.top=((1-v3.y)/2*innerHeight)+"px"; }
   const d=camTgt.clone().sub(camera.position).normalize();
   $("#hudB").textContent=`az ${(((Math.atan2(d.x,-d.z)*180/Math.PI)+360)%360).toFixed(1).padStart(5,"0")}° · alt ${(Math.asin(d.y)*180/Math.PI).toFixed(1)}° · ${TOOLS.length} tools · ${TR.length} calls`;

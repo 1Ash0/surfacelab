@@ -33,6 +33,17 @@ The Tour is a **scroll-driven 3D observatory at dusk**:
 - **Slot strip.** Flat bars under the rack accumulate accuracy for requests whose gold sat in each slot, over the orderings played so far; at 24/24 for gpt-oss-120b it reads 22/48, 18/48, 16/48, 15/48 (sum 71/192, matching `results/exp001_siblings_120b_t0.json`). The preregistered thirds and the clustered-bootstrap gap stay in the DOM rail.
 - **Data.** Per-trial calls are replayed from cassettes (`scripts/analyze_exp001.py` collect, temperature 0) into `docs/design/observatory-siblings-data.json`; replay totals match the recorded results for all three models (48, 71, 79 of 192).
 
+## Instruments (2026-10-28)
+Built from `scripts/build_observatory_data.py` (replay only) into `docs/design/observatory-data.json`, plus `observatory-archive.json` and `observatory-siblings-data.json`. The template takes `__DATA__` and `__SIB__` from those files.
+- **Tool eyepiece** (click any star): full description split into token-weighted segments, nearest descriptions by embedding cosine, recorded calls as first call and as right answer, which tools it lost its job to and took the job of, and every trial involving it.
+- **Mistake spectrograph** (from any lost/took chip): the two descriptions side by side with shared words marked, the recorded count by model, cosine and similarity percentile.
+- **Request eyepiece** (from trials, or "Open this call" in the lab): the exact ordered tool list the model saw, the raw call it returned from the cassette (name and arguments, or the failed generation), and the grade; links to other orderings and models.
+- **Lab modes:** "All three models" fires one beam per model from three telescopes on the dome; "Guess first" asks the viewer to pick before revealing (kept in the page only).
+- **VII Plate archive:** all 14 experiments, nulls and not-run ones included, each with question, sample, verdict, key number, source and lesson.
+- **VIII How sure we are:** a live bootstrap over the 8 recorded siblings families (badged simulated; seeded in the browser, so it approximates rather than equals the recorded 10,000-resample interval shown beside it) and seeing conditions from the determinism probe (the recorded 3 of 80 answers off the majority).
+- **IX Your server:** drop a `tools/list` JSON; tools join the sky by TF-IDF similarity computed in the browser, with a token estimate (4 characters per token, labelled), the most alike pairs and the CLI to measure for real. Nothing is uploaded.
+- **Star chart** (HUD): sortable table of all 82 tools with recorded counts. **Capture** (HUD): a still of the current view with its headline and source burned in.
+
 ## What the review kept from the rejected draft
 - State by shape as well as colour (ring / cross / dashed ring / stub).
 - The rail as a record: label as prominent as the number, source path, limit line.
