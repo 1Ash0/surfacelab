@@ -172,7 +172,7 @@ def run() -> None:
     out = RESULTS / "exp007.json"
     out.write_text(json.dumps(result, indent=2), encoding="utf-8")
 
-    print(f"EXP-007 results")
+    print("EXP-007 results")
     print(f"  corpus: {len(CORPUS)} entries ({total_benign} benign, {total_malicious} malicious)")
     print(f"  TP={tp}  FP={fp}  FN={fn}  TN={tn}")
     print(f"  precision={precision:.3f}  recall={recall:.3f}  F1={f1:.3f}")

@@ -5,6 +5,8 @@ Two-sided tests per CLAUDE.md rule 8: one that must fire, one that must not.
 
 from __future__ import annotations
 
+import openai
+
 import os
 import threading
 from pathlib import Path
@@ -165,7 +167,6 @@ class TestRateLimitRetry:
 
     def test_retries_on_429_and_succeeds(self, tmp_path: Path) -> None:
         """Provider retries on RateLimitError and returns the eventual success."""
-        import openai
         call_count = 0
         err = self._make_rate_limit_error()
 
@@ -193,7 +194,6 @@ class TestRateLimitRetry:
 
     def test_org_b_key_used_without_sleep_when_org_a_cooling(self, tmp_path: Path) -> None:
         """When org-A key is cooling, org-B key is returned immediately (no sleep)."""
-        import openai
         import time as _time
 
         err = self._make_rate_limit_error()

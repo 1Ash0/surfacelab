@@ -1,0 +1,142 @@
+{
+  "model": "openai/gpt-oss-120b",
+  "n_candidates": 10,
+  "n_keep": 5,
+  "seed": 42,
+  "n_accepted": 75,
+  "n_audit": 15,
+  "families": {
+    "c001": {
+      "n_candidates": 10,
+      "n_passed": 10,
+      "n_kept": 5,
+      "short_of_target": false,
+      "rejected": []
+    },
+    "c002": {
+      "n_candidates": 10,
+      "n_passed": 10,
+      "n_kept": 5,
+      "short_of_target": false,
+      "rejected": []
+    },
+    "c003": {
+      "n_candidates": 10,
+      "n_passed": 10,
+      "n_kept": 5,
+      "short_of_target": false,
+      "rejected": []
+    },
+    "c004": {
+      "n_candidates": 10,
+      "n_passed": 7,
+      "n_kept": 5,
+      "short_of_target": false,
+      "rejected": [
+        {
+          "candidate": "Search the web for details on Patagonia's top hiking trails.",
+          "reason": "missing key entities: ['patagonia']"
+        },
+        {
+          "candidate": "Explore internet sources for information on Patagonia's leading hiking trails.",
+          "reason": "missing key entities: ['patagonia']"
+        },
+        {
+          "candidate": "Research the internet for a list of Patagonia's most acclaimed hiking trails.",
+          "reason": "missing key entities: ['patagonia']"
+        }
+      ]
+    },
+    "c005": {
+      "n_candidates": 10,
+      "n_passed": 10,
+      "n_kept": 5,
+      "short_of_target": false,
+      "rejected": []
+    },
+    "c006": {
+      "n_candidates": 10,
+      "n_passed": 10,
+      "n_kept": 5,
+      "short_of_target": false,
+      "rejected": []
+    },
+    "c007": {
+      "n_candidates": 10,
+      "n_passed": 10,
+      "n_kept": 5,
+      "short_of_target": false,
+      "rejected": []
+    },
+    "c008": {
+      "n_candidates": 10,
+      "n_passed": 10,
+      "n_kept": 5,
+      "short_of_target": false,
+      "rejected": []
+    },
+    "c009": {
+      "n_candidates": 10,
+      "n_passed": 10,
+      "n_kept": 5,
+      "short_of_target": false,
+      "rejected": []
+    },
+    "c010": {
+      "n_candidates": 10,
+      "n_passed": 10,
+      "n_kept": 5,
+      "short_of_target": false,
+      "rejected": []
+    },
+    "c011": {
+      "n_candidates": 10,
+      "n_passed": 9,
+      "n_kept": 5,
+      "short_of_target": false,
+      "rejected": [
+        {
+          "candidate": "What is the weather like in Berlin\u2014specifically, is it raining?",
+          "reason": "missing key entities: ['berlin']"
+        }
+      ]
+    },
+    "c012": {
+      "n_candidates": 10,
+      "n_passed": 10,
+      "n_kept": 5,
+      "short_of_target": false,
+      "rejected": []
+    },
+    "c013": {
+      "n_candidates": 10,
+      "n_passed": 8,
+      "n_kept": 5,
+      "short_of_target": false,
+      "rejected": [
+        {
+          "candidate": "I would like to know France's capital.",
+          "reason": "missing key entities: ['france']"
+        },
+        {
+          "candidate": "Please provide the name of France's capital.",
+          "reason": "missing key entities: ['france']"
+        }
+      ]
+    },
+    "c014": {
+      "n_candidates": 10,
+      "n_passed": 10,
+      "n_kept": 5,
+      "short_of_target": false,
+      "rejected": []
+    },
+    "c015": {
+      "n_candidates": 10,
+      "n_passed": 10,
+      "n_kept": 5,
+      "short_of_target": false,
+      "rejected": []
+    }
+  }
+}

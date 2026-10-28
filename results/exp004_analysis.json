@@ -1,0 +1,721 @@
+{
+  "temperature": 0.0,
+  "per_model": {
+    "openai/gpt-oss-20b": {
+      "merged_none": {
+        "n": 12,
+        "collisions": 0,
+        "collision_rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.24249400955309794
+        ],
+        "outcomes": {
+          "hit": 5,
+          "collision": 0,
+          "within_server": 4,
+          "miss": 3
+        }
+      },
+      "merged_prefix": {
+        "n": 12,
+        "collisions": 0,
+        "collision_rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.24249400955309794
+        ],
+        "outcomes": {
+          "hit": 7,
+          "collision": 0,
+          "within_server": 3,
+          "miss": 2
+        }
+      },
+      "merged_qualified": {
+        "n": 12,
+        "collisions": 0,
+        "collision_rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.24249400955309794
+        ],
+        "outcomes": {
+          "hit": 5,
+          "collision": 0,
+          "within_server": 4,
+          "miss": 3
+        }
+      },
+      "H1_confirmed": false,
+      "H2_none_vs_prefix": {
+        "merged_none_only_collides": 0,
+        "merged_prefix_only_collides": 0,
+        "p_value": 1.0
+      },
+      "H4_prefix_vs_qualified_exploratory": {
+        "merged_prefix_only_collides": 0,
+        "merged_qualified_only_collides": 0,
+        "p_value": 1.0
+      },
+      "holm_rejects": {
+        "H2": false
+      }
+    },
+    "openai/gpt-oss-120b": {
+      "merged_none": {
+        "n": 12,
+        "collisions": 0,
+        "collision_rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.24249400955309794
+        ],
+        "outcomes": {
+          "hit": 6,
+          "collision": 0,
+          "within_server": 3,
+          "miss": 3
+        }
+      },
+      "merged_prefix": {
+        "n": 12,
+        "collisions": 0,
+        "collision_rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.24249400955309794
+        ],
+        "outcomes": {
+          "hit": 6,
+          "collision": 0,
+          "within_server": 3,
+          "miss": 3
+        }
+      },
+      "merged_qualified": {
+        "n": 12,
+        "collisions": 0,
+        "collision_rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.24249400955309794
+        ],
+        "outcomes": {
+          "hit": 3,
+          "collision": 0,
+          "within_server": 1,
+          "miss": 8
+        }
+      },
+      "H1_confirmed": false,
+      "H2_none_vs_prefix": {
+        "merged_none_only_collides": 0,
+        "merged_prefix_only_collides": 0,
+        "p_value": 1.0
+      },
+      "H4_prefix_vs_qualified_exploratory": {
+        "merged_prefix_only_collides": 0,
+        "merged_qualified_only_collides": 0,
+        "p_value": 1.0
+      },
+      "holm_rejects": {
+        "H2": false
+      }
+    }
+  },
+  "trials": [
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_none",
+      "case": "x001",
+      "gold": "goodserver/get_weather",
+      "emitted": "goodserver/get_weather",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_none",
+      "case": "x002",
+      "gold": "goodserver/search_web",
+      "emitted": "goodserver/search_web",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_none",
+      "case": "x003",
+      "gold": "goodserver/read_file",
+      "emitted": "goodserver/read_file",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_none",
+      "case": "x004",
+      "gold": "badserver/fetch_document",
+      "emitted": "badserver/fetch_document",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_none",
+      "case": "x005",
+      "gold": "siblings/search_files",
+      "emitted": "siblings/find_files",
+      "outcome": "within_server"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_none",
+      "case": "x006",
+      "gold": "siblings/locate_files",
+      "emitted": "siblings/search_files",
+      "outcome": "within_server"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_none",
+      "case": "x007",
+      "gold": "goodserver/send_email",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_none",
+      "case": "x008",
+      "gold": "goodserver/create_calendar_event",
+      "emitted": "goodserver/create_calendar_event",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_none",
+      "case": "x009",
+      "gold": "badserver/process_data",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_none",
+      "case": "x010",
+      "gold": "badserver/analyze_text",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_none",
+      "case": "x011",
+      "gold": "badserver/get_document",
+      "emitted": "badserver/fetch_document",
+      "outcome": "within_server"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_none",
+      "case": "x012",
+      "gold": "siblings/query_files",
+      "emitted": "siblings/search_files",
+      "outcome": "within_server"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_prefix",
+      "case": "x001",
+      "gold": "goodserver/get_weather",
+      "emitted": "goodserver/get_weather",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_prefix",
+      "case": "x002",
+      "gold": "goodserver/search_web",
+      "emitted": "goodserver/search_web",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_prefix",
+      "case": "x003",
+      "gold": "goodserver/read_file",
+      "emitted": "goodserver/read_file",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_prefix",
+      "case": "x004",
+      "gold": "badserver/fetch_document",
+      "emitted": "badserver/get_document",
+      "outcome": "within_server"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_prefix",
+      "case": "x005",
+      "gold": "siblings/search_files",
+      "emitted": "siblings/search_files",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_prefix",
+      "case": "x006",
+      "gold": "siblings/locate_files",
+      "emitted": "siblings/search_files",
+      "outcome": "within_server"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_prefix",
+      "case": "x007",
+      "gold": "goodserver/send_email",
+      "emitted": "goodserver/send_email",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_prefix",
+      "case": "x008",
+      "gold": "goodserver/create_calendar_event",
+      "emitted": "goodserver/create_calendar_event",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_prefix",
+      "case": "x009",
+      "gold": "badserver/process_data",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_prefix",
+      "case": "x010",
+      "gold": "badserver/analyze_text",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_prefix",
+      "case": "x011",
+      "gold": "badserver/get_document",
+      "emitted": "badserver/get_document",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_prefix",
+      "case": "x012",
+      "gold": "siblings/query_files",
+      "emitted": "siblings/search_files",
+      "outcome": "within_server"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_qualified",
+      "case": "x001",
+      "gold": "goodserver/get_weather",
+      "emitted": "goodserver/get_weather",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_qualified",
+      "case": "x002",
+      "gold": "goodserver/search_web",
+      "emitted": "goodserver/search_web",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_qualified",
+      "case": "x003",
+      "gold": "goodserver/read_file",
+      "emitted": "goodserver/read_file",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_qualified",
+      "case": "x004",
+      "gold": "badserver/fetch_document",
+      "emitted": "badserver/get_document",
+      "outcome": "within_server"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_qualified",
+      "case": "x005",
+      "gold": "siblings/search_files",
+      "emitted": "siblings/find_files",
+      "outcome": "within_server"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_qualified",
+      "case": "x006",
+      "gold": "siblings/locate_files",
+      "emitted": "siblings/find_files",
+      "outcome": "within_server"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_qualified",
+      "case": "x007",
+      "gold": "goodserver/send_email",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_qualified",
+      "case": "x008",
+      "gold": "goodserver/create_calendar_event",
+      "emitted": "goodserver/create_calendar_event",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_qualified",
+      "case": "x009",
+      "gold": "badserver/process_data",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_qualified",
+      "case": "x010",
+      "gold": "badserver/analyze_text",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_qualified",
+      "case": "x011",
+      "gold": "badserver/get_document",
+      "emitted": "badserver/get_document",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "surface": "merged_qualified",
+      "case": "x012",
+      "gold": "siblings/query_files",
+      "emitted": "siblings/search_files",
+      "outcome": "within_server"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_none",
+      "case": "x001",
+      "gold": "goodserver/get_weather",
+      "emitted": "goodserver/get_weather",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_none",
+      "case": "x002",
+      "gold": "goodserver/search_web",
+      "emitted": "goodserver/search_web",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_none",
+      "case": "x003",
+      "gold": "goodserver/read_file",
+      "emitted": "goodserver/read_file",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_none",
+      "case": "x004",
+      "gold": "badserver/fetch_document",
+      "emitted": "badserver/fetch_document",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_none",
+      "case": "x005",
+      "gold": "siblings/search_files",
+      "emitted": "siblings/search_files",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_none",
+      "case": "x006",
+      "gold": "siblings/locate_files",
+      "emitted": "siblings/search_files",
+      "outcome": "within_server"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_none",
+      "case": "x007",
+      "gold": "goodserver/send_email",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_none",
+      "case": "x008",
+      "gold": "goodserver/create_calendar_event",
+      "emitted": "goodserver/create_calendar_event",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_none",
+      "case": "x009",
+      "gold": "badserver/process_data",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_none",
+      "case": "x010",
+      "gold": "badserver/analyze_text",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_none",
+      "case": "x011",
+      "gold": "badserver/get_document",
+      "emitted": "badserver/fetch_document",
+      "outcome": "within_server"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_none",
+      "case": "x012",
+      "gold": "siblings/query_files",
+      "emitted": "siblings/search_files",
+      "outcome": "within_server"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_prefix",
+      "case": "x001",
+      "gold": "goodserver/get_weather",
+      "emitted": "goodserver/get_weather",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_prefix",
+      "case": "x002",
+      "gold": "goodserver/search_web",
+      "emitted": "goodserver/search_web",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_prefix",
+      "case": "x003",
+      "gold": "goodserver/read_file",
+      "emitted": "goodserver/read_file",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_prefix",
+      "case": "x004",
+      "gold": "badserver/fetch_document",
+      "emitted": "badserver/get_document",
+      "outcome": "within_server"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_prefix",
+      "case": "x005",
+      "gold": "siblings/search_files",
+      "emitted": "siblings/search_files",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_prefix",
+      "case": "x006",
+      "gold": "siblings/locate_files",
+      "emitted": "siblings/search_files",
+      "outcome": "within_server"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_prefix",
+      "case": "x007",
+      "gold": "goodserver/send_email",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_prefix",
+      "case": "x008",
+      "gold": "goodserver/create_calendar_event",
+      "emitted": "goodserver/create_calendar_event",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_prefix",
+      "case": "x009",
+      "gold": "badserver/process_data",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_prefix",
+      "case": "x010",
+      "gold": "badserver/analyze_text",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_prefix",
+      "case": "x011",
+      "gold": "badserver/get_document",
+      "emitted": "badserver/get_document",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_prefix",
+      "case": "x012",
+      "gold": "siblings/query_files",
+      "emitted": "siblings/search_files",
+      "outcome": "within_server"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_qualified",
+      "case": "x001",
+      "gold": "goodserver/get_weather",
+      "emitted": "goodserver/get_weather",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_qualified",
+      "case": "x002",
+      "gold": "goodserver/search_web",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_qualified",
+      "case": "x003",
+      "gold": "goodserver/read_file",
+      "emitted": "goodserver/read_file",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_qualified",
+      "case": "x004",
+      "gold": "badserver/fetch_document",
+      "emitted": "badserver/get_document",
+      "outcome": "within_server"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_qualified",
+      "case": "x005",
+      "gold": "siblings/search_files",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_qualified",
+      "case": "x006",
+      "gold": "siblings/locate_files",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_qualified",
+      "case": "x007",
+      "gold": "goodserver/send_email",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_qualified",
+      "case": "x008",
+      "gold": "goodserver/create_calendar_event",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_qualified",
+      "case": "x009",
+      "gold": "badserver/process_data",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_qualified",
+      "case": "x010",
+      "gold": "badserver/analyze_text",
+      "emitted": null,
+      "outcome": "miss"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_qualified",
+      "case": "x011",
+      "gold": "badserver/get_document",
+      "emitted": "badserver/get_document",
+      "outcome": "hit"
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "surface": "merged_qualified",
+      "case": "x012",
+      "gold": "siblings/query_files",
+      "emitted": null,
+      "outcome": "miss"
+    }
+  ],
+  "H3": {
+    "n_cross_server_pairs": 111,
+    "n_pairs_with_any_confusion": 0,
+    "openai/text-embedding-3-small": {
+      "rho": null,
+      "p_permutation": null,
+      "n_pairs": 111,
+      "untestable": "an input is constant"
+    },
+    "gemini-embedding-001": {
+      "rho": null,
+      "p_permutation": null,
+      "n_pairs": 111,
+      "untestable": "an input is constant"
+    }
+  }
+}

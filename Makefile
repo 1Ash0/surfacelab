@@ -1,4 +1,4 @@
-.PHONY: check test install gen-fixtures exp007 \
+.PHONY: check test install site gen-fixtures exp007 \
         exp001-dry-run exp001-record \
         exp002-dry-run exp002-record \
         exp003-dry-run exp003-record \
@@ -155,3 +155,8 @@ exp006-preflight:
 exp006-record:
 	@echo "EXP-006: requires curated target list (see EXP-006.md pre-conditions)"
 	@echo "Build a per-server Docker image, then use: uv run python scripts/run_exp006.py"
+
+# ---- public site ---------------------------------------------------------
+
+site:
+	python scripts/build_site.py

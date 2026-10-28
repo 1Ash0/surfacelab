@@ -1,0 +1,423 @@
+{
+  "temperature": 0.0,
+  "n_resamples": 10000,
+  "seed": 42,
+  "audit_excluded": [
+    "c007",
+    "c011"
+  ],
+  "per_model": {
+    "openai/gpt-oss-20b": {
+      "confirmatory": {
+        "n_families": 13,
+        "accuracy": 0.9871794871794872,
+        "mean_flip_rate": {
+          "point": 0.02564102564102564,
+          "lower": 0.0,
+          "upper": 0.07692307692307693
+        },
+        "verdict": "inconclusive",
+        "H1_families_with_any_flip": 1,
+        "H1_supported": false,
+        "H2_flip_above_vs_at_or_below_median_overlap": {
+          "above": 0.06666666666666667,
+          "at_or_below": 0.0,
+          "n_above": 5,
+          "n_at_or_below": 5,
+          "note": "abstain families have no gold tool and are excluded"
+        },
+        "mcnemar_original_vs_paraphrase_correct": {
+          "original_only": 1,
+          "paraphrase_only": 0,
+          "p_value": 1.0,
+          "caveat": "pairs within a family are not independent"
+        },
+        "flip_rate_per_family": {
+          "c001": 0.0,
+          "c002": 0.0,
+          "c003": 0.0,
+          "c004": 0.0,
+          "c005": 0.0,
+          "c006": 0.0,
+          "c008": 0.0,
+          "c009": 0.0,
+          "c010": 0.3333333333333333,
+          "c012": 0.0,
+          "c013": 0.0,
+          "c014": 0.0,
+          "c015": 0.0
+        }
+      },
+      "exploratory_all_families": {
+        "n_families": 15,
+        "accuracy": 0.9888888888888889,
+        "mean_flip_rate": {
+          "point": 0.02222222222222222,
+          "lower": 0.0,
+          "upper": 0.06666666666666667
+        },
+        "verdict": "inconclusive",
+        "H1_families_with_any_flip": 1,
+        "H1_supported": false,
+        "H2_flip_above_vs_at_or_below_median_overlap": {
+          "above": 0.05555555555555555,
+          "at_or_below": 0.0,
+          "n_above": 6,
+          "n_at_or_below": 6,
+          "note": "abstain families have no gold tool and are excluded"
+        },
+        "mcnemar_original_vs_paraphrase_correct": {
+          "original_only": 1,
+          "paraphrase_only": 0,
+          "p_value": 1.0,
+          "caveat": "pairs within a family are not independent"
+        },
+        "flip_rate_per_family": {
+          "c001": 0.0,
+          "c002": 0.0,
+          "c003": 0.0,
+          "c004": 0.0,
+          "c005": 0.0,
+          "c006": 0.0,
+          "c007": 0.0,
+          "c008": 0.0,
+          "c009": 0.0,
+          "c010": 0.3333333333333333,
+          "c011": 0.0,
+          "c012": 0.0,
+          "c013": 0.0,
+          "c014": 0.0,
+          "c015": 0.0
+        }
+      },
+      "answers": {
+        "c001": [
+          "get_weather",
+          "get_weather",
+          "get_weather",
+          "get_weather",
+          "get_weather",
+          "get_weather"
+        ],
+        "c002": [
+          "get_weather",
+          "get_weather",
+          "get_weather",
+          "get_weather",
+          "get_weather",
+          "get_weather"
+        ],
+        "c003": [
+          "search_web",
+          "search_web",
+          "search_web",
+          "search_web",
+          "search_web",
+          "search_web"
+        ],
+        "c004": [
+          "search_web",
+          "search_web",
+          "search_web",
+          "search_web",
+          "search_web",
+          "search_web"
+        ],
+        "c005": [
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file"
+        ],
+        "c006": [
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file"
+        ],
+        "c007": [
+          "send_email",
+          "send_email",
+          "send_email",
+          "send_email",
+          "send_email",
+          "send_email"
+        ],
+        "c008": [
+          "send_email",
+          "send_email",
+          "send_email",
+          "send_email",
+          "send_email",
+          "send_email"
+        ],
+        "c009": [
+          "create_calendar_event",
+          "create_calendar_event",
+          "create_calendar_event",
+          "create_calendar_event",
+          "create_calendar_event",
+          "create_calendar_event"
+        ],
+        "c010": [
+          "create_calendar_event",
+          "create_calendar_event",
+          "create_calendar_event",
+          "create_calendar_event",
+          "create_calendar_event",
+          null
+        ],
+        "c011": [
+          "get_weather",
+          "get_weather",
+          "get_weather",
+          "get_weather",
+          "get_weather",
+          "get_weather"
+        ],
+        "c012": [
+          "search_web",
+          "search_web",
+          "search_web",
+          "search_web",
+          "search_web",
+          "search_web"
+        ],
+        "c013": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "c014": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "c015": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    "openai/gpt-oss-120b": {
+      "confirmatory": {
+        "n_families": 13,
+        "accuracy": 0.9743589743589743,
+        "mean_flip_rate": {
+          "point": 0.05128205128205128,
+          "lower": 0.0,
+          "upper": 0.1282051282051282
+        },
+        "verdict": "inconclusive",
+        "H1_families_with_any_flip": 2,
+        "H1_supported": false,
+        "H2_flip_above_vs_at_or_below_median_overlap": {
+          "above": 0.13333333333333333,
+          "at_or_below": 0.0,
+          "n_above": 5,
+          "n_at_or_below": 5,
+          "note": "abstain families have no gold tool and are excluded"
+        },
+        "mcnemar_original_vs_paraphrase_correct": {
+          "original_only": 2,
+          "paraphrase_only": 0,
+          "p_value": 0.5,
+          "caveat": "pairs within a family are not independent"
+        },
+        "flip_rate_per_family": {
+          "c001": 0.0,
+          "c002": 0.0,
+          "c003": 0.0,
+          "c004": 0.0,
+          "c005": 0.3333333333333333,
+          "c006": 0.0,
+          "c008": 0.3333333333333333,
+          "c009": 0.0,
+          "c010": 0.0,
+          "c012": 0.0,
+          "c013": 0.0,
+          "c014": 0.0,
+          "c015": 0.0
+        }
+      },
+      "exploratory_all_families": {
+        "n_families": 15,
+        "accuracy": 0.9666666666666667,
+        "mean_flip_rate": {
+          "point": 0.06666666666666667,
+          "lower": 0.0,
+          "upper": 0.13333333333333333
+        },
+        "verdict": "inconclusive",
+        "H1_families_with_any_flip": 3,
+        "H1_supported": false,
+        "H2_flip_above_vs_at_or_below_median_overlap": {
+          "above": 0.16666666666666666,
+          "at_or_below": 0.0,
+          "n_above": 6,
+          "n_at_or_below": 6,
+          "note": "abstain families have no gold tool and are excluded"
+        },
+        "mcnemar_original_vs_paraphrase_correct": {
+          "original_only": 3,
+          "paraphrase_only": 0,
+          "p_value": 0.25,
+          "caveat": "pairs within a family are not independent"
+        },
+        "flip_rate_per_family": {
+          "c001": 0.0,
+          "c002": 0.0,
+          "c003": 0.0,
+          "c004": 0.0,
+          "c005": 0.3333333333333333,
+          "c006": 0.0,
+          "c007": 0.3333333333333333,
+          "c008": 0.3333333333333333,
+          "c009": 0.0,
+          "c010": 0.0,
+          "c011": 0.0,
+          "c012": 0.0,
+          "c013": 0.0,
+          "c014": 0.0,
+          "c015": 0.0
+        }
+      },
+      "answers": {
+        "c001": [
+          "get_weather",
+          "get_weather",
+          "get_weather",
+          "get_weather",
+          "get_weather",
+          "get_weather"
+        ],
+        "c002": [
+          "get_weather",
+          "get_weather",
+          "get_weather",
+          "get_weather",
+          "get_weather",
+          "get_weather"
+        ],
+        "c003": [
+          "search_web",
+          "search_web",
+          "search_web",
+          "search_web",
+          "search_web",
+          "search_web"
+        ],
+        "c004": [
+          "search_web",
+          "search_web",
+          "search_web",
+          "search_web",
+          "search_web",
+          "search_web"
+        ],
+        "c005": [
+          "read_file",
+          "read_file",
+          null,
+          "read_file",
+          "read_file",
+          "read_file"
+        ],
+        "c006": [
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file"
+        ],
+        "c007": [
+          "send_email",
+          "send_email",
+          "send_email",
+          "send_email",
+          "send_email",
+          null
+        ],
+        "c008": [
+          "send_email",
+          null,
+          "send_email",
+          "send_email",
+          "send_email",
+          "send_email"
+        ],
+        "c009": [
+          "create_calendar_event",
+          "create_calendar_event",
+          "create_calendar_event",
+          "create_calendar_event",
+          "create_calendar_event",
+          "create_calendar_event"
+        ],
+        "c010": [
+          "create_calendar_event",
+          "create_calendar_event",
+          "create_calendar_event",
+          "create_calendar_event",
+          "create_calendar_event",
+          "create_calendar_event"
+        ],
+        "c011": [
+          "get_weather",
+          "get_weather",
+          "get_weather",
+          "get_weather",
+          "get_weather",
+          "get_weather"
+        ],
+        "c012": [
+          "search_web",
+          "search_web",
+          "search_web",
+          "search_web",
+          "search_web",
+          "search_web"
+        ],
+        "c013": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "c014": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "c015": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    }
+  }
+}

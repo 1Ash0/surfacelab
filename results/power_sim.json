@@ -1,0 +1,66 @@
+{
+  "params": {
+    "p0": 0.7,
+    "delta": 0.08,
+    "k": 4,
+    "trials": 1,
+    "n_sim": 200,
+    "seed": 42
+  },
+  "rows": [
+    {
+      "n_families": 5,
+      "mean_halfwidth": 0.161,
+      "meets_target": false
+    },
+    {
+      "n_families": 10,
+      "mean_halfwidth": 0.1319,
+      "meets_target": false
+    },
+    {
+      "n_families": 15,
+      "mean_halfwidth": 0.1112,
+      "meets_target": false
+    },
+    {
+      "n_families": 20,
+      "mean_halfwidth": 0.0948,
+      "meets_target": false
+    },
+    {
+      "n_families": 25,
+      "mean_halfwidth": 0.0875,
+      "meets_target": false
+    },
+    {
+      "n_families": 30,
+      "mean_halfwidth": 0.0794,
+      "meets_target": true
+    },
+    {
+      "n_families": 40,
+      "mean_halfwidth": 0.0692,
+      "meets_target": true
+    },
+    {
+      "n_families": 50,
+      "mean_halfwidth": 0.0623,
+      "meets_target": true
+    },
+    {
+      "n_families": 75,
+      "mean_halfwidth": 0.0514,
+      "meets_target": true
+    },
+    {
+      "n_families": 100,
+      "mean_halfwidth": 0.045,
+      "meets_target": true
+    }
+  ],
+  "wilson_comparison": {
+    "n_families": 100,
+    "halfwidth": 0.0447
+  }
+}

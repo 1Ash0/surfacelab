@@ -1,0 +1,194 @@
+{
+  "temperature": 0.0,
+  "repeats": 5,
+  "models": {
+    "openai/gpt-oss-20b": {
+      "groups": [
+        {
+          "case": "s001",
+          "variant": 0,
+          "answers": [
+            "find_files",
+            "find_files",
+            "find_files",
+            "find_files",
+            "find_files"
+          ]
+        },
+        {
+          "case": "s001",
+          "variant": 1,
+          "answers": [
+            "locate_files",
+            "locate_files",
+            "locate_files",
+            "locate_files",
+            "locate_files"
+          ]
+        },
+        {
+          "case": "s002",
+          "variant": 0,
+          "answers": [
+            "search_files",
+            "search_files",
+            "find_files",
+            "search_files",
+            "find_files"
+          ]
+        },
+        {
+          "case": "s002",
+          "variant": 1,
+          "answers": [
+            "locate_files",
+            "locate_files",
+            "locate_files",
+            "locate_files",
+            "locate_files"
+          ]
+        },
+        {
+          "case": "s003",
+          "variant": 0,
+          "answers": [
+            "search_files",
+            "search_files",
+            "search_files",
+            "search_files",
+            "search_files"
+          ]
+        },
+        {
+          "case": "s003",
+          "variant": 1,
+          "answers": [
+            "search_files",
+            "search_files",
+            "search_files",
+            "search_files",
+            "search_files"
+          ]
+        },
+        {
+          "case": "s004",
+          "variant": 0,
+          "answers": [
+            "search_files",
+            "search_files",
+            "search_files",
+            "search_files",
+            "search_files"
+          ]
+        },
+        {
+          "case": "s004",
+          "variant": 1,
+          "answers": [
+            "locate_files",
+            "locate_files",
+            "locate_files",
+            "locate_files",
+            "locate_files"
+          ]
+        }
+      ],
+      "n_groups": 8,
+      "n_fully_stable": 7
+    },
+    "openai/gpt-oss-120b": {
+      "groups": [
+        {
+          "case": "s001",
+          "variant": 0,
+          "answers": [
+            "search_files",
+            "search_files",
+            "search_files",
+            "search_files",
+            "search_files"
+          ]
+        },
+        {
+          "case": "s001",
+          "variant": 1,
+          "answers": [
+            "search_files",
+            "search_files",
+            "search_files",
+            "search_files",
+            "search_files"
+          ]
+        },
+        {
+          "case": "s002",
+          "variant": 0,
+          "answers": [
+            "search_files",
+            "search_files",
+            "search_files",
+            "search_files",
+            "search_files"
+          ]
+        },
+        {
+          "case": "s002",
+          "variant": 1,
+          "answers": [
+            "search_files",
+            "search_files",
+            "search_files",
+            "search_files",
+            "search_files"
+          ]
+        },
+        {
+          "case": "s003",
+          "variant": 0,
+          "answers": [
+            "search_files",
+            "search_files",
+            "search_files",
+            "search_files",
+            "search_files"
+          ]
+        },
+        {
+          "case": "s003",
+          "variant": 1,
+          "answers": [
+            "search_files",
+            "search_files",
+            "search_files",
+            "search_files",
+            "search_files"
+          ]
+        },
+        {
+          "case": "s004",
+          "variant": 0,
+          "answers": [
+            "search_files",
+            "search_files",
+            "locate_files",
+            "search_files",
+            "search_files"
+          ]
+        },
+        {
+          "case": "s004",
+          "variant": 1,
+          "answers": [
+            "search_files",
+            "search_files",
+            "search_files",
+            "search_files",
+            "search_files"
+          ]
+        }
+      ],
+      "n_groups": 8,
+      "n_fully_stable": 7
+    }
+  }
+}

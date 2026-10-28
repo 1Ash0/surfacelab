@@ -1,0 +1,641 @@
+{
+  "n_cases": 90,
+  "n_trials": 90,
+  "n_correct": 87,
+  "n_errors": 0,
+  "accuracy": 0.9666666666666667,
+  "ci_lower": 0.9065271390293557,
+  "ci_upper": 0.9885996098658754,
+  "families": [
+    {
+      "case_id": "c001",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c001_p1",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c001_p2",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c001_p3",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c001_p4",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c001_p5",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c002",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c002_p1",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c002_p2",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c002_p3",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c002_p4",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c002_p5",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c003",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c003_p1",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c003_p2",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c003_p3",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c003_p4",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c003_p5",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c004",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c004_p1",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c004_p2",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c004_p3",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c004_p4",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c004_p5",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c005",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c005_p1",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c005_p2",
+      "n_trials": 1,
+      "n_correct": 0,
+      "n_errors": 0,
+      "accuracy": 0.0
+    },
+    {
+      "case_id": "c005_p3",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c005_p4",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c005_p5",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c006",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c006_p1",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c006_p2",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c006_p3",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c006_p4",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c006_p5",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c007",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c007_p1",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c007_p2",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c007_p3",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c007_p4",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c007_p5",
+      "n_trials": 1,
+      "n_correct": 0,
+      "n_errors": 0,
+      "accuracy": 0.0
+    },
+    {
+      "case_id": "c008",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c008_p1",
+      "n_trials": 1,
+      "n_correct": 0,
+      "n_errors": 0,
+      "accuracy": 0.0
+    },
+    {
+      "case_id": "c008_p2",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c008_p3",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c008_p4",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c008_p5",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c009",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c009_p1",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c009_p2",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c009_p3",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c009_p4",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c009_p5",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c010",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c010_p1",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c010_p2",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c010_p3",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c010_p4",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c010_p5",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c011",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c011_p1",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c011_p2",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c011_p3",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c011_p4",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c011_p5",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c012",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c012_p1",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c012_p2",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c012_p3",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c012_p4",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c012_p5",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c013",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c013_p1",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c013_p2",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c013_p3",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c013_p4",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c013_p5",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c014",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c014_p1",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c014_p2",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c014_p3",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c014_p4",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c014_p5",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c015",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c015_p1",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c015_p2",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c015_p3",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c015_p4",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c015_p5",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    }
+  ]
+}

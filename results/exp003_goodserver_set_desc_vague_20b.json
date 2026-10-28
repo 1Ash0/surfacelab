@@ -1,0 +1,116 @@
+{
+  "n_cases": 15,
+  "n_trials": 15,
+  "n_correct": 14,
+  "n_errors": 0,
+  "accuracy": 0.9333333333333333,
+  "ci_lower": 0.7018346989112436,
+  "ci_upper": 0.9881331046384676,
+  "families": [
+    {
+      "case_id": "c001",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c002",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c003",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c004",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c005",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c006",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c007",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c008",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c009",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c010",
+      "n_trials": 1,
+      "n_correct": 0,
+      "n_errors": 0,
+      "accuracy": 0.0
+    },
+    {
+      "case_id": "c011",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c012",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c013",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c014",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "c015",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    }
+  ]
+}

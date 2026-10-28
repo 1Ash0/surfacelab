@@ -1,0 +1,44 @@
+{
+ "cap": 6500,
+ "loadouts": {
+  "browser": {
+   "servers": [
+    "playwright",
+    "chrome-devtools"
+   ],
+   "tools": 31,
+   "tokens": 5828,
+   "within_local_cap": true
+  },
+  "web": {
+   "servers": [
+    "brave-search",
+    "tavily",
+    "duckduckgo"
+   ],
+   "tools": 10,
+   "tokens": 5848,
+   "within_local_cap": true
+  },
+  "workspace": {
+   "servers": [
+    "filesystem",
+    "git",
+    "github"
+   ],
+   "tools": 33,
+   "tokens": 5933,
+   "within_local_cap": true
+  },
+  "docs": {
+   "servers": [
+    "context7",
+    "aws-documentation",
+    "fetch"
+   ],
+   "tools": 8,
+   "tokens": 5026,
+   "within_local_cap": true
+  }
+ }
+}

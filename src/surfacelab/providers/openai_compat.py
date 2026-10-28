@@ -19,7 +19,7 @@ import re
 import time
 import threading
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, cast
 
 import openai
 from openai import OpenAI
@@ -132,7 +132,7 @@ class OpenAICompatProvider:
     """None omits the field (provider default), keeping pre-existing cassette keys valid."""
 
     # Set in __post_init__ — not part of the public API.
-    _key_states: list[_KeyState] = field(default_factory=list, init=False, repr=False)
+    _key_states: list[_KeyState] = field(default_factory=list[_KeyState], init=False, repr=False)
     _key_index: int = field(default=0, init=False, repr=False)
     _key_lock: threading.Lock = field(default_factory=threading.Lock, init=False, repr=False)
     _throttle_lock: threading.Lock = field(default_factory=threading.Lock, init=False, repr=False)
@@ -247,7 +247,8 @@ class OpenAICompatProvider:
                 resp = client.chat.completions.create(**request)  # type: ignore[arg-type]
                 return _cast(dict[str, Any], resp.model_dump())  # type: ignore[no-untyped-call]
             except openai.BadRequestError as exc:
-                body: Any = exc.body if isinstance(exc.body, dict) else {}
+                raw_body: object = exc.body
+                body: dict[str, Any] = cast(dict[str, Any], raw_body) if isinstance(raw_body, dict) else {}
                 err: dict[str, Any] = body.get("error", body) if isinstance(body.get("error", body), dict) else {}
                 if err.get("code") != "tool_use_failed":
                     raise

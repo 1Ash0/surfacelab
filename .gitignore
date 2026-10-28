@@ -7,8 +7,8 @@ dist/
 build/
 .pytest_cache/
 .ruff_cache/
-runs/
-results/
+# results/ and runs/ are committed: every number on the site and in docs cites them
+# cassettes/ (recorded API responses, ~63 MB) stay local
 cassettes/
 *.local
 .env

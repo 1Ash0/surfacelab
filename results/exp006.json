@@ -1,0 +1,181 @@
+{
+ "n": 19,
+ "ok": 15,
+ "ok_rate": 0.7894736842105263,
+ "wilson": [
+  0.5666572136911627,
+  0.9149232342638267
+ ],
+ "by_outcome": {
+  "no_tools": 1,
+  "ok": 15,
+  "protocol_error": 2,
+  "timeout": 1
+ },
+ "primary": [
+  {
+   "server": "filesystem",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 14,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "memory",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 9,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "git",
+   "timeout_s": 10.0,
+   "outcome": "protocol_error",
+   "n_tools": 0,
+   "error": "stdout closed",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "fetch",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 1,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "time",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 2,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "sequential-thinking",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 1,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "github",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 46,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "notion",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 24,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "playwright",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 25,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "chrome-devtools",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 32,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "brave-search",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 8,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "tavily",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 5,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "firecrawl",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 28,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "supabase",
+   "timeout_s": 10.0,
+   "outcome": "no_tools",
+   "n_tools": 0,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "neon",
+   "timeout_s": 10.0,
+   "outcome": "timeout",
+   "n_tools": 0,
+   "error": "Timeout after 10.0s. stderr: ",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "mongodb",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 27,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "stripe",
+   "timeout_s": 10.0,
+   "outcome": "protocol_error",
+   "n_tools": 0,
+   "error": "stdout closed",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "context7",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 2,
+   "error": "",
+   "instruction_like_flags": [
+    "('resolve-library-id', 'must_use_directive')"
+   ]
+  },
+  {
+   "server": "aws-documentation",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 5,
+   "error": "",
+   "instruction_like_flags": []
+  }
+ ],
+ "snapshot_retry_30s_not_primary": [
+  {
+   "server": "neon",
+   "timeout_s": 30.0,
+   "outcome": "timeout",
+   "n_tools": 0,
+   "error": "Timeout after 30.0s. stderr: ",
+   "instruction_like_flags": []
+  }
+ ]
+}

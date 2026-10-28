@@ -1,0 +1,598 @@
+{
+  "temperature": 0.0,
+  "n_resamples": 10000,
+  "seed": 42,
+  "eval_split": [
+    "c011",
+    "c012",
+    "c013",
+    "c014",
+    "c015"
+  ],
+  "description_tokens": {
+    "goodserver": 96,
+    "goodserver_add_usage": 115,
+    "goodserver_add_negation": 110,
+    "goodserver_prepend_summary": 110,
+    "goodserver_trim": 96,
+    "goodserver_set_desc_vague": 79
+  },
+  "per_model": {
+    "openai/gpt-oss-20b": {
+      "add_usage": {
+        "label": "H1",
+        "description_token_increase": 0.19791666666666666,
+        "primary_eval_split": {
+          "n_families": 5,
+          "base_accuracy": 1.0,
+          "edit_accuracy": 1.0,
+          "delta": {
+            "point": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "mcnemar": {
+            "edit_only_correct": 0,
+            "base_only_correct": 0,
+            "p_value": 1.0
+          },
+          "verdict": "inconclusive"
+        },
+        "all_families_exploratory": {
+          "n_families": 15,
+          "base_accuracy": 1.0,
+          "edit_accuracy": 1.0,
+          "delta": {
+            "point": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "mcnemar": {
+            "edit_only_correct": 0,
+            "base_only_correct": 0,
+            "p_value": 1.0
+          },
+          "verdict": "inconclusive"
+        },
+        "holm_rejects_null": false
+      },
+      "add_negation": {
+        "label": "exploratory",
+        "description_token_increase": 0.14583333333333334,
+        "primary_eval_split": {
+          "n_families": 5,
+          "base_accuracy": 1.0,
+          "edit_accuracy": 1.0,
+          "delta": {
+            "point": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "mcnemar": {
+            "edit_only_correct": 0,
+            "base_only_correct": 0,
+            "p_value": 1.0
+          },
+          "verdict": "inconclusive"
+        },
+        "all_families_exploratory": {
+          "n_families": 15,
+          "base_accuracy": 1.0,
+          "edit_accuracy": 1.0,
+          "delta": {
+            "point": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "mcnemar": {
+            "edit_only_correct": 0,
+            "base_only_correct": 0,
+            "p_value": 1.0
+          },
+          "verdict": "inconclusive"
+        }
+      },
+      "prepend_summary": {
+        "label": "exploratory",
+        "description_token_increase": 0.14583333333333334,
+        "primary_eval_split": {
+          "n_families": 5,
+          "base_accuracy": 1.0,
+          "edit_accuracy": 1.0,
+          "delta": {
+            "point": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "mcnemar": {
+            "edit_only_correct": 0,
+            "base_only_correct": 0,
+            "p_value": 1.0
+          },
+          "verdict": "inconclusive"
+        },
+        "all_families_exploratory": {
+          "n_families": 15,
+          "base_accuracy": 1.0,
+          "edit_accuracy": 1.0,
+          "delta": {
+            "point": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "mcnemar": {
+            "edit_only_correct": 0,
+            "base_only_correct": 0,
+            "p_value": 1.0
+          },
+          "verdict": "inconclusive"
+        }
+      },
+      "trim": {
+        "label": "exploratory",
+        "description_token_increase": 0.0,
+        "primary_eval_split": {
+          "n_families": 5,
+          "base_accuracy": 1.0,
+          "edit_accuracy": 1.0,
+          "delta": {
+            "point": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "mcnemar": {
+            "edit_only_correct": 0,
+            "base_only_correct": 0,
+            "p_value": 1.0
+          },
+          "verdict": "inconclusive"
+        },
+        "all_families_exploratory": {
+          "n_families": 15,
+          "base_accuracy": 1.0,
+          "edit_accuracy": 1.0,
+          "delta": {
+            "point": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "mcnemar": {
+            "edit_only_correct": 0,
+            "base_only_correct": 0,
+            "p_value": 1.0
+          },
+          "verdict": "inconclusive"
+        }
+      },
+      "set_desc_vague": {
+        "label": "H2",
+        "description_token_increase": -0.17708333333333334,
+        "primary_eval_split": {
+          "n_families": 5,
+          "base_accuracy": 1.0,
+          "edit_accuracy": 1.0,
+          "delta": {
+            "point": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "mcnemar": {
+            "edit_only_correct": 0,
+            "base_only_correct": 0,
+            "p_value": 1.0
+          },
+          "verdict": "inconclusive"
+        },
+        "all_families_exploratory": {
+          "n_families": 15,
+          "base_accuracy": 1.0,
+          "edit_accuracy": 0.9333333333333333,
+          "delta": {
+            "point": -0.06666666666666667,
+            "lower": -0.2,
+            "upper": 0.0
+          },
+          "mcnemar": {
+            "edit_only_correct": 0,
+            "base_only_correct": 1,
+            "p_value": 1.0
+          },
+          "verdict": "inconclusive"
+        },
+        "holm_rejects_null": false
+      },
+      "per_case_correct": {
+        "goodserver": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true,
+          "c013": true,
+          "c014": true,
+          "c015": true
+        },
+        "goodserver_add_usage": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true,
+          "c013": true,
+          "c014": true,
+          "c015": true
+        },
+        "goodserver_add_negation": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true,
+          "c013": true,
+          "c014": true,
+          "c015": true
+        },
+        "goodserver_prepend_summary": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true,
+          "c013": true,
+          "c014": true,
+          "c015": true
+        },
+        "goodserver_trim": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true,
+          "c013": true,
+          "c014": true,
+          "c015": true
+        },
+        "goodserver_set_desc_vague": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": false,
+          "c011": true,
+          "c012": true,
+          "c013": true,
+          "c014": true,
+          "c015": true
+        }
+      }
+    },
+    "openai/gpt-oss-120b": {
+      "add_usage": {
+        "label": "H1",
+        "description_token_increase": 0.19791666666666666,
+        "primary_eval_split": {
+          "n_families": 5,
+          "base_accuracy": 1.0,
+          "edit_accuracy": 1.0,
+          "delta": {
+            "point": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "mcnemar": {
+            "edit_only_correct": 0,
+            "base_only_correct": 0,
+            "p_value": 1.0
+          },
+          "verdict": "inconclusive"
+        },
+        "all_families_exploratory": {
+          "n_families": 15,
+          "base_accuracy": 1.0,
+          "edit_accuracy": 1.0,
+          "delta": {
+            "point": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "mcnemar": {
+            "edit_only_correct": 0,
+            "base_only_correct": 0,
+            "p_value": 1.0
+          },
+          "verdict": "inconclusive"
+        },
+        "holm_rejects_null": false
+      },
+      "add_negation": {
+        "label": "exploratory",
+        "description_token_increase": 0.14583333333333334,
+        "primary_eval_split": {
+          "n_families": 5,
+          "base_accuracy": 1.0,
+          "edit_accuracy": 1.0,
+          "delta": {
+            "point": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "mcnemar": {
+            "edit_only_correct": 0,
+            "base_only_correct": 0,
+            "p_value": 1.0
+          },
+          "verdict": "inconclusive"
+        },
+        "all_families_exploratory": {
+          "n_families": 15,
+          "base_accuracy": 1.0,
+          "edit_accuracy": 1.0,
+          "delta": {
+            "point": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "mcnemar": {
+            "edit_only_correct": 0,
+            "base_only_correct": 0,
+            "p_value": 1.0
+          },
+          "verdict": "inconclusive"
+        }
+      },
+      "prepend_summary": {
+        "label": "exploratory",
+        "description_token_increase": 0.14583333333333334,
+        "primary_eval_split": {
+          "n_families": 5,
+          "base_accuracy": 1.0,
+          "edit_accuracy": 1.0,
+          "delta": {
+            "point": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "mcnemar": {
+            "edit_only_correct": 0,
+            "base_only_correct": 0,
+            "p_value": 1.0
+          },
+          "verdict": "inconclusive"
+        },
+        "all_families_exploratory": {
+          "n_families": 15,
+          "base_accuracy": 1.0,
+          "edit_accuracy": 1.0,
+          "delta": {
+            "point": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "mcnemar": {
+            "edit_only_correct": 0,
+            "base_only_correct": 0,
+            "p_value": 1.0
+          },
+          "verdict": "inconclusive"
+        }
+      },
+      "trim": {
+        "label": "exploratory",
+        "description_token_increase": 0.0,
+        "primary_eval_split": {
+          "n_families": 5,
+          "base_accuracy": 1.0,
+          "edit_accuracy": 1.0,
+          "delta": {
+            "point": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "mcnemar": {
+            "edit_only_correct": 0,
+            "base_only_correct": 0,
+            "p_value": 1.0
+          },
+          "verdict": "inconclusive"
+        },
+        "all_families_exploratory": {
+          "n_families": 15,
+          "base_accuracy": 1.0,
+          "edit_accuracy": 1.0,
+          "delta": {
+            "point": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "mcnemar": {
+            "edit_only_correct": 0,
+            "base_only_correct": 0,
+            "p_value": 1.0
+          },
+          "verdict": "inconclusive"
+        }
+      },
+      "set_desc_vague": {
+        "label": "H2",
+        "description_token_increase": -0.17708333333333334,
+        "primary_eval_split": {
+          "n_families": 5,
+          "base_accuracy": 1.0,
+          "edit_accuracy": 1.0,
+          "delta": {
+            "point": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "mcnemar": {
+            "edit_only_correct": 0,
+            "base_only_correct": 0,
+            "p_value": 1.0
+          },
+          "verdict": "inconclusive"
+        },
+        "all_families_exploratory": {
+          "n_families": 15,
+          "base_accuracy": 1.0,
+          "edit_accuracy": 1.0,
+          "delta": {
+            "point": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "mcnemar": {
+            "edit_only_correct": 0,
+            "base_only_correct": 0,
+            "p_value": 1.0
+          },
+          "verdict": "inconclusive"
+        },
+        "holm_rejects_null": false
+      },
+      "per_case_correct": {
+        "goodserver": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true,
+          "c013": true,
+          "c014": true,
+          "c015": true
+        },
+        "goodserver_add_usage": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true,
+          "c013": true,
+          "c014": true,
+          "c015": true
+        },
+        "goodserver_add_negation": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true,
+          "c013": true,
+          "c014": true,
+          "c015": true
+        },
+        "goodserver_prepend_summary": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true,
+          "c013": true,
+          "c014": true,
+          "c015": true
+        },
+        "goodserver_trim": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true,
+          "c013": true,
+          "c014": true,
+          "c015": true
+        },
+        "goodserver_set_desc_vague": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true,
+          "c013": true,
+          "c014": true,
+          "c015": true
+        }
+      }
+    }
+  }
+}

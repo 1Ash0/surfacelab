@@ -595,7 +595,7 @@ PYTHONPATH=scripts uv run python scripts/analyze_followups.py --exp 13
 uv run surfacelab probe --server-name mine --snapshots-dir runs/mine -- &lt;your server command&gt;</div>
     </div>
   </section>
-  <p class="foot">Every number on this page traces to a file in <span class="mono">results/</span> (see <span class="mono">docs/FINDINGS.md</span>). Star positions are a 3D projection (<span id="layoutName">pca</span>) of description embeddings (text-embedding-3-small): similarity, not confusion. The sky, horizon and dome are scenery and carry no data.</p>
+  <p class="foot"><a href="https://github.com/1Ash0/surfacelab" style="color:var(--brass)">Source, data and methods on GitHub</a>. Every number on this page traces to a file in <span class="mono">results/</span> (see <span class="mono">docs/FINDINGS.md</span>). Star positions are a 3D projection (<span id="layoutName">pca</span>) of description embeddings (text-embedding-3-small): similarity, not confusion. The sky, horizon and dome are scenery and carry no data.</p>
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -1259,7 +1259,8 @@ dropEl.addEventListener("drop",e=>{ const f=e.dataTransfer.files[0]; if(f) f.tex
 $("#benchEx").onclick=()=>loadBench(TOOLS.filter(t=>t.l==="docs").map(t=>({name:t.n,description:t.d,schema:{}})),"the docs loadout (Context7, AWS Documentation, Fetch) — an example, schemas omitted");
 
 /* ===================== shareable links ===================== */
-const ART_URL="https://claude.ai/artifact/CbNJXKuyk3cxnMGAEDsMwJ";
+/* on a public host (GitHub Pages, localhost) links point at that host; inside claude.ai at the artifact */
+const ART_URL=/(github\.io|localhost|127\.0\.0\.1)$/.test(location.hostname)?location.origin+location.pathname:"https://claude.ai/artifact/CbNJXKuyk3cxnMGAEDsMwJ";
 const BC=TOOLS.findIndex(t=>t.n==="browser_click"), LPi=TOOLS.findIndex(t=>t.n==="list_pages");
 function toast(msg){ const el=$("#toast"); el.textContent=msg; el.classList.add("on"); clearTimeout(toast._t); toast._t=setTimeout(()=>el.classList.remove("on"),2200); }
 function copyLink(token){ const url=ART_URL+(token?"#"+token:""); const ok=()=>toast("Link copied: "+(token||"top of page"));
@@ -1307,7 +1308,7 @@ const study={db:null,user:null,uid:null,step:0,order:null,trials:[],t0:0,active:
 function hashParity(s){ let h=0; for(const c of String(s||Math.random())) h=(h*31+c.charCodeAt(0))|0; return Math.abs(h)%2; }
 function renderStudy(){
   const el=$("#study");
-  if(!study.db||!study.uid){ el.innerHTML=`<div class="stage"><p>Sign in to claude.ai and open this page from its link to take part; your answers are saved to your own row. You can still try the tasks below, but nothing will be recorded.</p><button class="btn" type="button" id="stTry">Try the tasks (not recorded)</button></div>${ownerPanel()}`; $("#stTry").onclick=()=>startStudy(false); loadOwner(); return; }
+  if(!study.db||!study.uid){ el.innerHTML=`<div class="stage"><p>Recording answers needs the shared claude.ai version of this page (answers are saved per person there). Here you can still try both tasks; nothing is recorded.</p><button class="btn" type="button" id="stTry">Try the tasks (not recorded)</button></div>${ownerPanel()}`; $("#stTry").onclick=()=>startStudy(false); loadOwner(); return; }
   el.innerHTML=`<div class="stage"><p class="big2">Task: find the tool that models called <em>by mistake</em> most often.</p><p>You'll do it twice: once with the 3D sky (threads and the star you click), once with a table. Answer as fast as you can while being right.</p><div class="seg"><button class="btn on" type="button" id="stGo">Start</button></div></div>${ownerPanel()}`;
   $("#stGo").onclick=()=>startStudy(true); loadOwner(); }
 function ownerPanel(){ return `<div id="ownerPanel"></div>`; }

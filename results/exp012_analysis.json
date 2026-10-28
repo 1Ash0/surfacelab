@@ -1,0 +1,105 @@
+{
+ "models": {
+  "20b": {
+   "n0_accuracy": 1.0,
+   "unrelated": {
+    "accuracy_by_n": {
+     "0": 1.0,
+     "2": 1.0,
+     "5": 1.0,
+     "10": 1.0,
+     "20": 0.96875
+    },
+    "slope_per_10": {
+     "point": -13.645669411548255,
+     "lower": null,
+     "upper": null,
+     "note": "not estimable"
+    },
+    "drop_0_to_20": {
+     "point": 0.03125,
+     "lower": 0.0,
+     "upper": 0.09375
+    }
+   },
+   "near-duplicate": {
+    "accuracy_by_n": {
+     "0": 1.0,
+     "2": 1.0,
+     "5": 1.0,
+     "10": 1.0,
+     "20": 1.0
+    },
+    "slope_per_10": {
+     "point": null,
+     "lower": null,
+     "upper": null,
+     "note": "not estimable"
+    },
+    "drop_0_to_20": {
+     "point": 0.0,
+     "lower": 0.0,
+     "upper": 0.0
+    }
+   },
+   "H1_confirmed": false,
+   "H2": {
+    "point": 0.0,
+    "lower": 0.0,
+    "upper": 0.0,
+    "confirmed": false
+   }
+  },
+  "120b": {
+   "n0_accuracy": 1.0,
+   "unrelated": {
+    "accuracy_by_n": {
+     "0": 1.0,
+     "2": 1.0,
+     "5": 1.0,
+     "10": 1.0,
+     "20": 0.9375
+    },
+    "slope_per_10": {
+     "point": null,
+     "lower": null,
+     "upper": null,
+     "note": "not estimable"
+    },
+    "drop_0_to_20": {
+     "point": 0.0625,
+     "lower": 0.0,
+     "upper": 0.15625
+    }
+   },
+   "near-duplicate": {
+    "accuracy_by_n": {
+     "0": 1.0,
+     "2": 1.0,
+     "5": 1.0,
+     "10": 0.96875,
+     "20": 0.96875
+    },
+    "slope_per_10": {
+     "point": -1.4622048738402984,
+     "lower": null,
+     "upper": null,
+     "note": "not estimable"
+    },
+    "drop_0_to_20": {
+     "point": 0.03125,
+     "lower": 0.0,
+     "upper": 0.09375
+    }
+   },
+   "H1_confirmed": false,
+   "H2": {
+    "point": 0.03125,
+    "lower": 0.0,
+    "upper": 0.09375,
+    "confirmed": false
+   }
+  }
+ },
+ "H1_confirmed_any_model": false
+}

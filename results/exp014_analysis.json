@@ -1,0 +1,45 @@
+{
+ "model": "qwen/qwen3.8-27b",
+ "R1_siblings_gap": {
+  "point": 0.125,
+  "lower": 0.02083333333333326,
+  "upper": 0.25000000000000006,
+  "accuracy": 0.4114583333333333,
+  "verdict": "replicated"
+ },
+ "R2_nd_accuracy": {
+  "point": 1.0,
+  "lower": 1.0,
+  "upper": 1.0,
+  "trials": 768,
+  "refusals": 0,
+  "position_gap": {
+   "point": 0.0,
+   "lower": 0.0,
+   "upper": 0.0
+  },
+  "verdict": "replicated"
+ },
+ "R3_collision_none": {
+  "n": 48,
+  "counts": {
+   "hit": 46,
+   "collision": 0,
+   "within_server": 2,
+   "nonexistent": 0,
+   "no_call": 0
+  },
+  "collision_rate": 0.0,
+  "wilson": [
+   0.0,
+   0.07410013074848032
+  ],
+  "nonexistent_rate": 0.0,
+  "bootstrap": {
+   "point": 0.0,
+   "lower": 0.0,
+   "upper": 0.0
+  },
+  "verdict": "replicated"
+ }
+}

@@ -1,0 +1,22 @@
+{
+ "browser": {
+  "openai/gpt-oss-20b": 3493,
+  "openai/gpt-oss-120b": 3493,
+  "qwen/qwen3.8-27b": 6232
+ },
+ "web": {
+  "openai/gpt-oss-20b": 4292,
+  "openai/gpt-oss-120b": 4292,
+  "qwen/qwen3.8-27b": 6165
+ },
+ "workspace": {
+  "openai/gpt-oss-20b": 3382,
+  "openai/gpt-oss-120b": 3382,
+  "qwen/qwen3.8-27b": 6277
+ },
+ "docs": {
+  "openai/gpt-oss-20b": 4441,
+  "openai/gpt-oss-120b": 4441,
+  "qwen/qwen3.8-27b": 5300
+ }
+}

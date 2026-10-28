@@ -1,0 +1,16 @@
+{
+ "openai/text-embedding-3-small": {
+  "n_error_trials": 55,
+  "n_families": 20,
+  "mean_percentile": 0.7134268951833607,
+  "share_in_top_quartile": 0.6,
+  "wilcoxon_p_greater_than_0.5": 0.0007457767351176806
+ },
+ "gemini-embedding-001": {
+  "n_error_trials": 55,
+  "n_families": 20,
+  "mean_percentile": 0.6664897486772486,
+  "share_in_top_quartile": 0.5,
+  "wilcoxon_p_greater_than_0.5": 0.006517002487058573
+ }
+}

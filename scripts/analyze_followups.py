@@ -16,7 +16,6 @@ import tiktoken
 from analyze_exp005 import logistic_slope
 from run_followups import ND
 from surfacelab.cases import load_cases
-from surfacelab.render import render
 from surfacelab.stats import holm_correction, mcnemar_test, wilson_interval
 from surfacelab.surface import load_fixture_surface
 
@@ -74,7 +73,8 @@ def tokens(name: str) -> int:
 
 
 def exp010() -> dict:
-    ho, out = held_out(), {"held_out": sorted(ho), "models": {}}
+    ho = held_out()
+    out = {"held_out": sorted(ho), "models": {}}
     rise = {e: sum(tokens(f"{s}_{e}") for s in ND) / sum(tokens(s) for s in ND) - 1 for e in ["contrast", "negation"]}
     out["description_token_rise"] = rise
     for m in MODELS[:2]:

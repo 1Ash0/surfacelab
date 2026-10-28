@@ -1,0 +1,156 @@
+{
+ "models": {
+  "20b": {
+   "none": {
+    "n": 48,
+    "counts": {
+     "hit": 42,
+     "collision": 1,
+     "within_server": 4,
+     "nonexistent": 0,
+     "no_call": 1
+    },
+    "collision_rate": 0.020833333333333332,
+    "wilson": [
+     0.003687110936731186,
+     0.10899218103056246
+    ],
+    "nonexistent_rate": 0.0,
+    "bootstrap": {
+     "point": 0.020833333333333332,
+     "lower": 0.0,
+     "upper": 0.0625
+    }
+   },
+   "prefix": {
+    "n": 48,
+    "counts": {
+     "hit": 46,
+     "collision": 0,
+     "within_server": 2,
+     "nonexistent": 0,
+     "no_call": 0
+    },
+    "collision_rate": 0.0,
+    "wilson": [
+     0.0,
+     0.07410013074848032
+    ],
+    "nonexistent_rate": 0.0,
+    "bootstrap": {
+     "point": 0.0,
+     "lower": 0.0,
+     "upper": 0.0
+    }
+   },
+   "qualified": {
+    "n": 48,
+    "counts": {
+     "hit": 45,
+     "collision": 0,
+     "within_server": 3,
+     "nonexistent": 0,
+     "no_call": 0
+    },
+    "collision_rate": 0.0,
+    "wilson": [
+     0.0,
+     0.07410013074848032
+    ],
+    "nonexistent_rate": 0.0,
+    "bootstrap": {
+     "point": 0.0,
+     "lower": 0.0,
+     "upper": 0.0
+    }
+   },
+   "H1_confirmed": false,
+   "H2": {
+    "mcnemar_p": 1.0,
+    "n_none_only": 1,
+    "n_prefix_only": 0,
+    "confirmed": false
+   },
+   "H3_exploratory": {
+    "qualified_nonexistent": 0.0,
+    "prefix_nonexistent": 0.0
+   }
+  },
+  "120b": {
+   "none": {
+    "n": 48,
+    "counts": {
+     "hit": 44,
+     "collision": 0,
+     "within_server": 4,
+     "nonexistent": 0,
+     "no_call": 0
+    },
+    "collision_rate": 0.0,
+    "wilson": [
+     0.0,
+     0.07410013074848032
+    ],
+    "nonexistent_rate": 0.0,
+    "bootstrap": {
+     "point": 0.0,
+     "lower": 0.0,
+     "upper": 0.0
+    }
+   },
+   "prefix": {
+    "n": 48,
+    "counts": {
+     "hit": 41,
+     "collision": 0,
+     "within_server": 5,
+     "nonexistent": 0,
+     "no_call": 2
+    },
+    "collision_rate": 0.0,
+    "wilson": [
+     0.0,
+     0.07410013074848032
+    ],
+    "nonexistent_rate": 0.0,
+    "bootstrap": {
+     "point": 0.0,
+     "lower": 0.0,
+     "upper": 0.0
+    }
+   },
+   "qualified": {
+    "n": 48,
+    "counts": {
+     "hit": 40,
+     "collision": 0,
+     "within_server": 5,
+     "nonexistent": 0,
+     "no_call": 3
+    },
+    "collision_rate": 0.0,
+    "wilson": [
+     0.0,
+     0.07410013074848032
+    ],
+    "nonexistent_rate": 0.0,
+    "bootstrap": {
+     "point": 0.0,
+     "lower": 0.0,
+     "upper": 0.0
+    }
+   },
+   "H1_confirmed": false,
+   "H2": {
+    "mcnemar_p": 1.0,
+    "n_none_only": 0,
+    "n_prefix_only": 0,
+    "confirmed": false
+   },
+   "H3_exploratory": {
+    "qualified_nonexistent": 0.0,
+    "prefix_nonexistent": 0.0
+   }
+  }
+ }
+}

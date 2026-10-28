@@ -1,0 +1,528 @@
+{
+ "models": {
+  "20b": {
+   "shared": {
+    "trials": 42,
+    "accuracy": 0.8809523809523809,
+    "correct_trials": 37,
+    "first_listed_share": 0.4864864864864865,
+    "chance": 0.4594594594594595,
+    "excess_over_chance": {
+     "point": 0.02702702702702703,
+     "lower": -0.10810810810810811,
+     "upper": 0.15789473684210525
+    },
+    "by_loadout": {
+     "browser": {
+      "n": 7,
+      "first_listed_share": 0.5714285714285714,
+      "chance": 0.5
+     },
+     "web": {
+      "n": 18,
+      "first_listed_share": 0.5,
+      "chance": 0.4166666666666667
+     },
+     "workspace": {
+      "n": 3,
+      "first_listed_share": 0.6666666666666666,
+      "chance": 0.5
+     },
+     "docs": {
+      "n": 9,
+      "first_listed_share": 0.3333333333333333,
+      "chance": 0.5
+     }
+    },
+    "H3_flip_rate": 0.1875,
+    "flipping_cases": [
+     "rd03",
+     "rw01",
+     "rw03"
+    ],
+    "H3_server_counts": {
+     "browser": {
+      "playwright": 5,
+      "chrome-devtools": 2
+     },
+     "web": {
+      "tavily": 5,
+      "brave-search": 4,
+      "duckduckgo": 9
+     },
+     "workspace": {
+      "filesystem": 3
+     },
+     "docs": {
+      "aws-documentation": 4,
+      "fetch": 5
+     }
+    }
+   },
+   "unique": {
+    "trials": 90,
+    "accuracy": {
+     "point": 0.7777777777777778,
+     "lower": 0.6590909090909091,
+     "upper": 0.8791208791208791
+    },
+    "refusals": 2,
+    "errors": [
+     [
+      "rb09",
+      "browser",
+      0,
+      "browser_find"
+     ],
+     [
+      "rb10",
+      "browser",
+      0,
+      "browser_find"
+     ],
+     [
+      "rb11",
+      "browser",
+      0,
+      "list_pages"
+     ],
+     [
+      "rb07",
+      "browser",
+      1,
+      null
+     ],
+     [
+      "rb08",
+      "browser",
+      1,
+      "list_pages"
+     ],
+     [
+      "rb09",
+      "browser",
+      1,
+      "list_pages"
+     ],
+     [
+      "rb10",
+      "browser",
+      1,
+      "browser_find"
+     ],
+     [
+      "rb11",
+      "browser",
+      1,
+      "list_pages"
+     ],
+     [
+      "rw09",
+      "web",
+      0,
+      "tavily_search"
+     ],
+     [
+      "rw12",
+      "web",
+      0,
+      "tavily_search"
+     ],
+     [
+      "rw09",
+      "web",
+      1,
+      "tavily_search"
+     ],
+     [
+      "rw09",
+      "web",
+      2,
+      "search"
+     ],
+     [
+      "rw10",
+      "web",
+      2,
+      "fetch_content"
+     ],
+     [
+      "rw12",
+      "web",
+      2,
+      "tavily_search"
+     ],
+     [
+      "rk06",
+      "workspace",
+      0,
+      "list_branches"
+     ],
+     [
+      "rk10",
+      "workspace",
+      0,
+      null
+     ],
+     [
+      "rd11",
+      "docs",
+      0,
+      "fetch"
+     ],
+     [
+      "rd04",
+      "docs",
+      1,
+      "search_documentation"
+     ],
+     [
+      "rd06",
+      "docs",
+      1,
+      "fetch"
+     ],
+     [
+      "rd11",
+      "docs",
+      2,
+      "fetch"
+     ]
+    ]
+   },
+   "H1_verdict": "inconclusive",
+   "H2_verdict": "not_confirmed",
+   "H1_holm_reject": false,
+   "H1_bootstrap_p": 0.3704,
+   "H2_holm_reject": false,
+   "H2_bootstrap_p": 0.9905
+  },
+  "120b": {
+   "shared": {
+    "trials": 42,
+    "accuracy": 0.8809523809523809,
+    "correct_trials": 37,
+    "first_listed_share": 0.4594594594594595,
+    "chance": 0.4594594594594595,
+    "excess_over_chance": {
+     "point": 0.0,
+     "lower": -0.07142857142857145,
+     "upper": 0.0789473684210526
+    },
+    "by_loadout": {
+     "browser": {
+      "n": 7,
+      "first_listed_share": 0.5714285714285714,
+      "chance": 0.5
+     },
+     "web": {
+      "n": 18,
+      "first_listed_share": 0.3888888888888889,
+      "chance": 0.4166666666666667
+     },
+     "workspace": {
+      "n": 3,
+      "first_listed_share": 0.6666666666666666,
+      "chance": 0.5
+     },
+     "docs": {
+      "n": 9,
+      "first_listed_share": 0.4444444444444444,
+      "chance": 0.5
+     }
+    },
+    "H3_flip_rate": 0.1875,
+    "flipping_cases": [
+     "rd02",
+     "rd03",
+     "rw03"
+    ],
+    "H3_server_counts": {
+     "browser": {
+      "playwright": 3,
+      "chrome-devtools": 4
+     },
+     "web": {
+      "brave-search": 11,
+      "duckduckgo": 7
+     },
+     "workspace": {
+      "filesystem": 3
+     },
+     "docs": {
+      "aws-documentation": 7,
+      "fetch": 2
+     }
+    }
+   },
+   "unique": {
+    "trials": 90,
+    "accuracy": {
+     "point": 0.7666666666666667,
+     "lower": 0.627906976744186,
+     "upper": 0.8817204301075269
+    },
+    "refusals": 4,
+    "errors": [
+     [
+      "rb08",
+      "browser",
+      0,
+      null
+     ],
+     [
+      "rb09",
+      "browser",
+      0,
+      "list_pages"
+     ],
+     [
+      "rb10",
+      "browser",
+      0,
+      "list_pages"
+     ],
+     [
+      "rb11",
+      "browser",
+      0,
+      "list_pages"
+     ],
+     [
+      "rb08",
+      "browser",
+      1,
+      "list_pages"
+     ],
+     [
+      "rb09",
+      "browser",
+      1,
+      "list_pages"
+     ],
+     [
+      "rb10",
+      "browser",
+      1,
+      "list_pages"
+     ],
+     [
+      "rb11",
+      "browser",
+      1,
+      "list_pages"
+     ],
+     [
+      "rb12",
+      "browser",
+      1,
+      "list_pages"
+     ],
+     [
+      "rw09",
+      "web",
+      0,
+      "brave_web_search"
+     ],
+     [
+      "rw09",
+      "web",
+      1,
+      "brave_web_search"
+     ],
+     [
+      "rw10",
+      "web",
+      1,
+      "fetch_content"
+     ],
+     [
+      "rw07",
+      "web",
+      2,
+      "tavily_crawl"
+     ],
+     [
+      "rw09",
+      "web",
+      2,
+      "brave_web_search"
+     ],
+     [
+      "rw10",
+      "web",
+      2,
+      null
+     ],
+     [
+      "rk03",
+      "workspace",
+      1,
+      "get_file_contents"
+     ],
+     [
+      "rd11",
+      "docs",
+      0,
+      "search_documentation"
+     ],
+     [
+      "rd12",
+      "docs",
+      0,
+      null
+     ],
+     [
+      "rd11",
+      "docs",
+      1,
+      "search_documentation"
+     ],
+     [
+      "rd11",
+      "docs",
+      2,
+      "search_documentation"
+     ],
+     [
+      "rd12",
+      "docs",
+      2,
+      null
+     ]
+    ]
+   },
+   "H1_verdict": "inconclusive",
+   "H2_verdict": "not_confirmed",
+   "H1_holm_reject": false,
+   "H1_bootstrap_p": 0.5694,
+   "H2_holm_reject": false,
+   "H2_bootstrap_p": 0.989
+  },
+  "27b": {
+   "shared": {
+    "trials": 42,
+    "accuracy": 0.9285714285714286,
+    "correct_trials": 39,
+    "first_listed_share": 0.5384615384615384,
+    "chance": 0.4658119658119658,
+    "excess_over_chance": {
+     "point": 0.07264957264957261,
+     "lower": -0.03333333333333338,
+     "upper": 0.17441860465116277
+    },
+    "by_loadout": {
+     "browser": {
+      "n": 10,
+      "first_listed_share": 0.4,
+      "chance": 0.5
+     },
+     "web": {
+      "n": 17,
+      "first_listed_share": 0.5882352941176471,
+      "chance": 0.42156862745098034
+     },
+     "workspace": {
+      "n": 3,
+      "first_listed_share": 0.6666666666666666,
+      "chance": 0.5
+     },
+     "docs": {
+      "n": 9,
+      "first_listed_share": 0.5555555555555556,
+      "chance": 0.5
+     }
+    },
+    "H3_flip_rate": 0.25,
+    "flipping_cases": [
+     "rd02",
+     "rw01",
+     "rw02",
+     "rw06"
+    ],
+    "H3_server_counts": {
+     "browser": {
+      "playwright": 10
+     },
+     "web": {
+      "brave-search": 6,
+      "duckduckgo": 10,
+      "tavily": 1
+     },
+     "workspace": {
+      "filesystem": 3
+     },
+     "docs": {
+      "aws-documentation": 8,
+      "fetch": 1
+     }
+    }
+   },
+   "unique": {
+    "trials": 90,
+    "accuracy": {
+     "point": 0.9111111111111111,
+     "lower": 0.8214285714285714,
+     "upper": 0.9782608695652174
+    },
+    "refusals": 0,
+    "errors": [
+     [
+      "rb09",
+      "browser",
+      0,
+      "browser_snapshot"
+     ],
+     [
+      "rb10",
+      "browser",
+      0,
+      "browser_snapshot"
+     ],
+     [
+      "rb11",
+      "browser",
+      0,
+      "list_pages"
+     ],
+     [
+      "rb09",
+      "browser",
+      1,
+      "browser_snapshot"
+     ],
+     [
+      "rb10",
+      "browser",
+      1,
+      "browser_snapshot"
+     ],
+     [
+      "rb11",
+      "browser",
+      1,
+      "list_pages"
+     ],
+     [
+      "rw10",
+      "web",
+      1,
+      "fetch_content"
+     ],
+     [
+      "rk04",
+      "workspace",
+      0,
+      "list_allowed_directories"
+     ]
+    ]
+   },
+   "H1_verdict": "inconclusive",
+   "H2_verdict": "inconclusive",
+   "H1_holm_reject": false,
+   "H1_bootstrap_p": 0.107,
+   "H2_holm_reject": false,
+   "H2_bootstrap_p": 0.3653
+  }
+ }
+}

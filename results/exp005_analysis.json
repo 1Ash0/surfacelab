@@ -1,0 +1,787 @@
+{
+  "temperature": 0.0,
+  "seed": 42,
+  "n_resamples": 10000,
+  "per_model": {
+    "openai/gpt-oss-20b": {
+      "unrelated": {
+        "curve": {
+          "0": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 298.25
+          },
+          "5": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 421.25
+          },
+          "10": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 544.25
+          },
+          "20": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 770.25
+          },
+          "50": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 1488.25
+          }
+        },
+        "logistic_slope_per_10": {
+          "point": null,
+          "lower": null,
+          "upper": null,
+          "note": "not estimable (no variation or separation)"
+        }
+      },
+      "same-domain": {
+        "curve": {
+          "0": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 298.25
+          },
+          "5": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 419.25
+          },
+          "10": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 542.25
+          },
+          "20": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 788.25
+          },
+          "50": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 1526.25
+          }
+        },
+        "logistic_slope_per_10": {
+          "point": null,
+          "lower": null,
+          "upper": null,
+          "note": "not estimable (no variation or separation)"
+        }
+      },
+      "near-duplicate": {
+        "curve": {
+          "0": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 298.25
+          },
+          "5": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 419.25
+          },
+          "10": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 544.25
+          },
+          "20": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 804.25
+          },
+          "50": {
+            "accuracy": {
+              "point": 0.9166666666666666,
+              "lower": 0.75,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 1574.25
+          }
+        },
+        "logistic_slope_per_10": {
+          "point": -5.801741890522297,
+          "lower": null,
+          "upper": null,
+          "note": "not estimable (no variation or separation)"
+        }
+      },
+      "H1_confirmed": false,
+      "H2_drop_neardup_vs_unrelated_N20": {
+        "contrast": {
+          "point": 0.0,
+          "lower": 0.0,
+          "upper": 0.0,
+          "n_valid_resamples": 10000
+        },
+        "mcnemar_p": 1.0,
+        "confirmed": false
+      },
+      "per_case_hits": {
+        "unrelated|0": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "unrelated|5": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "unrelated|10": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "unrelated|20": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "unrelated|50": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "same-domain|0": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "same-domain|5": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "same-domain|10": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "same-domain|20": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "same-domain|50": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "near-duplicate|0": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "near-duplicate|5": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "near-duplicate|10": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "near-duplicate|20": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "near-duplicate|50": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": false
+        }
+      }
+    },
+    "openai/gpt-oss-120b": {
+      "unrelated": {
+        "curve": {
+          "0": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 319.5833333333333
+          },
+          "5": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 421.25
+          },
+          "10": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 544.25
+          },
+          "20": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 770.25
+          },
+          "50": {
+            "accuracy": {
+              "point": 0.9166666666666666,
+              "lower": 0.75,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 1488.25
+          }
+        },
+        "logistic_slope_per_10": {
+          "point": null,
+          "lower": null,
+          "upper": null,
+          "note": "not estimable (no variation or separation)"
+        }
+      },
+      "same-domain": {
+        "curve": {
+          "0": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 319.5833333333333
+          },
+          "5": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 419.25
+          },
+          "10": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 542.25
+          },
+          "20": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 788.25
+          },
+          "50": {
+            "accuracy": {
+              "point": 0.9166666666666666,
+              "lower": 0.75,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 1398.6666666666667
+          }
+        },
+        "logistic_slope_per_10": {
+          "point": null,
+          "lower": null,
+          "upper": null,
+          "note": "not estimable (no variation or separation)"
+        }
+      },
+      "near-duplicate": {
+        "curve": {
+          "0": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 319.5833333333333
+          },
+          "5": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 419.25
+          },
+          "10": {
+            "accuracy": {
+              "point": 0.8333333333333334,
+              "lower": 0.5833333333333334,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 544.25
+          },
+          "20": {
+            "accuracy": {
+              "point": 0.9166666666666666,
+              "lower": 0.75,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 804.25
+          },
+          "50": {
+            "accuracy": {
+              "point": 1.0,
+              "lower": 1.0,
+              "upper": 1.0,
+              "n_valid_resamples": 10000
+            },
+            "mean_prompt_tokens": 1574.25
+          }
+        },
+        "logistic_slope_per_10": {
+          "point": 0.1383378224164895,
+          "lower": -0.09136606087735945,
+          "upper": 0.3194436854463075,
+          "n_valid_resamples": 9654
+        }
+      },
+      "H1_confirmed": false,
+      "H2_drop_neardup_vs_unrelated_N20": {
+        "contrast": {
+          "point": 0.08333333333333333,
+          "lower": 0.0,
+          "upper": 0.25,
+          "n_valid_resamples": 10000
+        },
+        "mcnemar_p": 1.0,
+        "confirmed": false
+      },
+      "per_case_hits": {
+        "unrelated|0": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "unrelated|5": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "unrelated|10": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "unrelated|20": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "unrelated|50": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": false,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "same-domain|0": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "same-domain|5": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "same-domain|10": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "same-domain|20": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "same-domain|50": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": false,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "near-duplicate|0": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "near-duplicate|5": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "near-duplicate|10": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": false,
+          "c008": false,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "near-duplicate|20": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": false,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        },
+        "near-duplicate|50": {
+          "c001": true,
+          "c002": true,
+          "c003": true,
+          "c004": true,
+          "c005": true,
+          "c006": true,
+          "c007": true,
+          "c008": true,
+          "c009": true,
+          "c010": true,
+          "c011": true,
+          "c012": true
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "n_cases": 12,
+  "n_trials": 12,
+  "n_correct": 5,
+  "n_errors": 0,
+  "accuracy": 0.4166666666666667,
+  "ci_lower": 0.1932603124346072,
+  "ci_upper": 0.6804886891575758,
+  "families": [
+    {
+      "case_id": "x001",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "x002",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "x003",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "x004",
+      "n_trials": 1,
+      "n_correct": 0,
+      "n_errors": 0,
+      "accuracy": 0.0
+    },
+    {
+      "case_id": "x005",
+      "n_trials": 1,
+      "n_correct": 0,
+      "n_errors": 0,
+      "accuracy": 0.0
+    },
+    {
+      "case_id": "x006",
+      "n_trials": 1,
+      "n_correct": 0,
+      "n_errors": 0,
+      "accuracy": 0.0
+    },
+    {
+      "case_id": "x007",
+      "n_trials": 1,
+      "n_correct": 0,
+      "n_errors": 0,
+      "accuracy": 0.0
+    },
+    {
+      "case_id": "x008",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "x009",
+      "n_trials": 1,
+      "n_correct": 0,
+      "n_errors": 0,
+      "accuracy": 0.0
+    },
+    {
+      "case_id": "x010",
+      "n_trials": 1,
+      "n_correct": 0,
+      "n_errors": 0,
+      "accuracy": 0.0
+    },
+    {
+      "case_id": "x011",
+      "n_trials": 1,
+      "n_correct": 1,
+      "n_errors": 0,
+      "accuracy": 1.0
+    },
+    {
+      "case_id": "x012",
+      "n_trials": 1,
+      "n_correct": 0,
+      "n_errors": 0,
+      "accuracy": 0.0
+    }
+  ]
+}

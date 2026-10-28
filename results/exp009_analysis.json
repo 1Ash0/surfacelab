@@ -1,0 +1,98 @@
+{
+ "models": {
+  "openai/gpt-oss-20b": {
+   "trials": 768,
+   "accuracy": 0.9986979166666666,
+   "refusals": 0,
+   "by_position": {
+    "0": 0.9947916666666666,
+    "1": 1.0,
+    "2": 1.0,
+    "3": 1.0
+   },
+   "gap": {
+    "point": -0.0026041666666666297,
+    "lower": -0.0078125,
+    "upper": 0.0
+   },
+   "verdict": "position_effect_absent",
+   "per_surface_exploratory": {
+    "nd_calendar": {
+     "accuracy": 1.0,
+     "gap": 0.0
+    },
+    "nd_documents": {
+     "accuracy": 1.0,
+     "gap": 0.0
+    },
+    "nd_files": {
+     "accuracy": 1.0,
+     "gap": 0.0
+    },
+    "nd_messaging": {
+     "accuracy": 0.9947916666666666,
+     "gap": -0.01041666666666663
+    }
+   },
+   "wrong": [
+    [
+     "nm08",
+     23,
+     "post_message"
+    ]
+   ]
+  },
+  "openai/gpt-oss-120b": {
+   "trials": 768,
+   "accuracy": 0.99609375,
+   "refusals": 3,
+   "by_position": {
+    "0": 0.9947916666666666,
+    "1": 0.9895833333333334,
+    "2": 1.0,
+    "3": 1.0
+   },
+   "gap": {
+    "point": -0.0078125,
+    "lower": -0.02083333333333337,
+    "upper": 0.0
+   },
+   "verdict": "position_effect_absent",
+   "per_surface_exploratory": {
+    "nd_calendar": {
+     "accuracy": 1.0,
+     "gap": 0.0
+    },
+    "nd_documents": {
+     "accuracy": 1.0,
+     "gap": 0.0
+    },
+    "nd_files": {
+     "accuracy": 1.0,
+     "gap": 0.0
+    },
+    "nd_messaging": {
+     "accuracy": 0.984375,
+     "gap": -0.03125
+    }
+   },
+   "wrong": [
+    [
+     "nm01",
+     4,
+     null
+    ],
+    [
+     "nm02",
+     10,
+     null
+    ],
+    [
+     "nm02",
+     18,
+     null
+    ]
+   ]
+  }
+ }
+}
