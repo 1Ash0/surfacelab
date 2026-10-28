@@ -57,3 +57,7 @@ ADR-023 (proposed): follow-ups EXP-009–012 on near-duplicate surfaces with 32 
 - Models keep fixed server preferences (Qwen: Playwright 10/10; 120b: Brave 11, DuckDuckGo 7, Tavily 0); the chosen server changes with order in 19-25% of shared families.
 - H2 not confirmed for gpt-oss (0.77-0.78 on unique cases) vs 0.99+ on our surfaces; inconclusive for Qwen (0.91).
 - Unexpected: with Chrome DevTools co-loaded, gpt-oss-120b opens 14/24 browser requests with `list_pages`, even for Playwright-only jobs. Recorded as exploratory; first-call scoring counts it wrong.
+
+## Design direction (ADR-026, proposed)
+- Wrote `docs/FINDINGS.md`, then ADR-026: the Tour follows findings, not experiments. One primitive (the Request), five chapters + coda, predict-then-reveal hooks, a flat Null Wall for the nulls, a `Finding` record as the only data contract.
+- Why: three of the five planned chapters rested on null results; the two most interesting findings (EXP-013 misses and the `list_pages` detour) had no scene.
