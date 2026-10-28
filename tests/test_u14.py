@@ -248,6 +248,54 @@ class TestRateLimitRetry:
                 provider.call(_case("c001"), SURFACE)
 
 
+class TestToolUseFailed:
+    def _bad_request(self, code: str) -> "openai.BadRequestError":
+        import openai
+        from unittest.mock import MagicMock
+        resp = MagicMock()
+        resp.status_code = 400
+        resp.headers = {}
+        body = {"error": {"message": "x", "code": code, "failed_generation": "I can't do that."}}
+        return openai.BadRequestError("bad request", response=resp, body=body)
+
+    def _provider(self, tmp_path: Path) -> OpenAICompatProvider:
+        store = CassetteStore(tmp_path, mode="record")
+        with patch.dict(os.environ, {"GROQ_API_KEY_1": "key-a"}, clear=False):
+            p = OpenAICompatProvider(
+                provider_slug="groq", model_id="openai/gpt-oss-20b", cassette_store=store
+            )
+        p._min_call_interval = 0.0
+        return p
+
+    def test_refusal_recorded_once_and_replayed_as_no_tool(self, tmp_path: Path) -> None:
+        calls = 0
+        err = self._bad_request("tool_use_failed")
+
+        def refuse(self_ignored, **kwargs):
+            nonlocal calls
+            calls += 1
+            raise err
+
+        provider = self._provider(tmp_path)
+        with patch("openai.resources.chat.completions.Completions.create", refuse):
+            assert provider.call(_case("c001"), SURFACE) is None
+            assert provider.call(_case("c001"), SURFACE) is None
+        assert calls == 1  # second call replays the recorded refusal
+
+    def test_other_bad_requests_still_raise(self, tmp_path: Path) -> None:
+        import openai
+        import pytest
+        err = self._bad_request("invalid_api_key")
+
+        def fail(self_ignored, **kwargs):
+            raise err
+
+        provider = self._provider(tmp_path)
+        with patch("openai.resources.chat.completions.Completions.create", fail):
+            with pytest.raises(openai.BadRequestError):
+                provider.call(_case("c001"), SURFACE)
+
+
 # ---------------------------------------------------------------------------
 # Concurrent runner
 # ---------------------------------------------------------------------------

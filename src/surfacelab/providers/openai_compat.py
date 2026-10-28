@@ -240,6 +240,17 @@ class OpenAICompatProvider:
                 from typing import cast as _cast
                 resp = client.chat.completions.create(**request)  # type: ignore[arg-type]
                 return _cast(dict[str, Any], resp.model_dump())  # type: ignore[no-untyped-call]
+            except openai.BadRequestError as exc:
+                body: Any = exc.body if isinstance(exc.body, dict) else {}
+                err: dict[str, Any] = body.get("error", body) if isinstance(body.get("error", body), dict) else {}
+                if err.get("code") != "tool_use_failed":
+                    raise
+                # The model's own output (a refusal or malformed call) is a real
+                # outcome; record it instead of retrying until it complies.
+                return {
+                    "choices": [{"message": {"content": err.get("failed_generation"), "tool_calls": []}}],
+                    "surfacelab_tool_use_failed": err,
+                }
             except openai.RateLimitError as exc:
                 m = re.search(r"try again in ([0-9.]+)s", str(exc))
                 retry_after = float(m.group(1)) + 0.5 if m else 5.0
@@ -262,6 +273,9 @@ class OpenAICompatProvider:
             raise ProviderContractError(
                 f"Response had no choices (model={self.model_id}, case={case.id})"
             )
+
+        if raw.get("surfacelab_tool_use_failed"):
+            return None  # graded like any no-tool answer
 
         message: dict[str, Any] = choices[0].get("message") or {}
         tool_calls: list[dict[str, Any]] = message.get("tool_calls") or []
