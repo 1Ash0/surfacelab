@@ -271,6 +271,40 @@ details.explain p{margin-top:8px}
 .toast.on{opacity:1}
 .glbanner{position:fixed;top:calc(52px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);z-index:41;background:var(--panel);border:1px solid var(--bad);padding:10px 14px;font-size:13px}
 @media (max-width:760px){.hud.tr{flex-wrap:wrap;justify-content:flex-end;max-width:62vw}.tod{padding:5px 8px;font-size:9.5px}.casefile .q{font-size:1.2rem}.eye-ring{max-height:92vh}}
+/* capture overlay (video) */
+body.cap main,body.cap .hud,body.cap .nav,body.cap .legend,body.cap #tip,body.cap .toast{display:none!important}
+#capov{position:fixed;inset:0;z-index:60;pointer-events:none;display:none;font-family:var(--f-body)}
+body.cap #capov{display:block}
+#capov .brand{position:absolute;top:44px;left:64px;font-family:var(--f-mono);font-size:19px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-2)}
+#capov .brand b{color:var(--brass);font-weight:400}
+#capov .src{position:absolute;bottom:40px;right:64px;font-family:var(--f-mono);font-size:16px;letter-spacing:.06em;color:var(--ink-3);text-align:right}
+#capov .cap{position:absolute;left:64px;bottom:118px;max-width:1060px;display:grid;gap:16px}
+#capov .cap::before{content:"";position:absolute;left:-40px;right:-60px;top:-34px;bottom:-30px;background:radial-gradient(120% 140% at 0% 70%,rgba(4,6,14,.82),rgba(4,6,14,0) 70%);z-index:-1}
+#capov .eb{font-family:var(--f-mono);font-size:20px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass)}
+#capov .tt{font-family:var(--f-disp);font-weight:300;font-size:74px;line-height:1.02;letter-spacing:-.01em;color:var(--ink);text-wrap:balance}
+#capov .tt em{font-style:italic;color:var(--brass)}
+#capov .sb{font-family:var(--f-mono);font-size:24px;line-height:1.45;color:var(--ink-2);max-width:1000px}
+#capov .sb b{color:var(--ink);font-weight:400}
+#capov .tg{display:inline-block;font-family:var(--f-mono);font-size:17px;letter-spacing:.16em;text-transform:uppercase;padding:5px 12px;border:1.5px solid currentColor;margin-right:10px}
+#capov .counter{position:absolute;right:64px;top:120px;text-align:right;display:grid;gap:6px}
+#capov .counter .n{font-family:var(--f-disp);font-size:120px;line-height:.9;color:var(--ink);font-variant-numeric:tabular-nums}
+#capov .counter .n small{font-size:40px;color:var(--ink-2)}
+#capov .counter .l{font-family:var(--f-mono);font-size:20px;letter-spacing:.08em;color:var(--ink-2)}
+#capov .tiles{position:absolute;left:64px;right:64px;top:150px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+#capov .tile{border:1.5px solid var(--panel-edge);background:rgba(6,9,20,.78);padding:22px 24px;display:grid;gap:10px}
+#capov .tile h3{font-family:var(--f-disp);font-weight:400;font-size:38px;line-height:1}
+#capov .tile .m{font-family:var(--f-mono);font-size:16px;color:var(--ink-3)}
+#capov .tile .v{font-family:var(--f-mono);font-size:22px;color:var(--ink)}
+#capov .end{position:absolute;inset:0;display:grid;place-items:start center;padding-top:150px;text-align:center}
+#capov .end .box{display:grid;gap:26px;justify-items:center;max-width:1400px}
+#capov .end .ttl{font-family:var(--f-disp);font-weight:300;font-size:150px;line-height:.9;color:var(--ink)}
+#capov .end .ttl em{font-style:italic;color:var(--brass)}
+#capov .end .chk{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;text-align:left}
+#capov .end .chk div{border-top:1.5px solid var(--brass);padding-top:14px;font-family:var(--f-disp);font-size:36px;line-height:1.1;color:var(--ink)}
+#capov .end .chk span{display:block;font-family:var(--f-mono);font-size:16px;letter-spacing:.14em;color:var(--brass);margin-bottom:8px}
+#capov .end .by{font-family:var(--f-mono);font-size:24px;letter-spacing:.12em;color:var(--ink-2)}
+#capov .end .by b{color:var(--brass);font-weight:400}
+#capov .typing::after{content:"";display:inline-block;width:.06em;height:.9em;background:var(--brass);margin-left:.06em;vertical-align:-.08em}
 .foot{font-size:12.5px;color:var(--ink-3);text-align:center;padding:40px 22px 90px;max-width:760px;margin:0 auto}
 .nogl #gl{display:none}
 @media (prefers-reduced-motion: reduce){.cue i{animation:none}.slot .bar{transition:none}.card{transform:none;opacity:1;transition:none}}
@@ -289,6 +323,7 @@ details.explain p{margin-top:8px}
   <button class="tod" id="qBtn" type="button" aria-label="Graphics quality">Quality: auto</button>
 </div>
 <div class="toast" id="toast" role="status"></div>
+<div id="capov" aria-hidden="true"></div>
 <div class="eye" id="eye" hidden role="dialog" aria-modal="true" aria-labelledby="eyeT"><div class="eye-ring" id="eyeRing"><div id="eyeBody"></div></div></div>
 <div class="hud bl" id="hudB">az 000.0° · alt 00.0°</div>
 <nav class="nav" id="nav" aria-label="Chapters"></nav>
@@ -568,6 +603,9 @@ uv run surfacelab probe --server-name mine --snapshots-dir runs/mine -- &lt;your
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
 <script>
 const DATA = __DATA__;
+/* capture mode (?cap=1): a script drives a virtual clock frame by frame; nothing depends on wall time */
+const CAP = location.search.includes("cap=1") ? {t:0, beamMs:950} : null;
+const NOW = () => CAP ? CAP.t*1000 : performance.now();
 let TIPS = {};
 const SIB = __SIB__;
 const GAP3 = {"120b":["+10.4","[+2.1, +19.8]"],"20b":["+13.5","[−1.0, +31.3]"],"27b":["+12.5","[+2.1, +25.0]"]};
@@ -634,7 +672,7 @@ if(!gl_ok) document.documentElement.classList.add("nogl");
 
 const canvas=$("#gl");
 let renderer,scene,camera,composer,bloom,stars,starMat,edgesGroup,beamGroup,tipPos,skyMat,domeMat,groundMat,poolMat,ringMat,rimMat,edgeMats=[],beamMats=[];
-const CLOUD=new THREE.Vector3(0,21,-16), R=10.5;
+const CLOUD=new THREE.Vector3(0,27,-16), R=10.5;
 const starPos=TOOLS.map(t=>new THREE.Vector3(t.p[0]*R,t.p[1]*R*.78,t.p[2]*R).add(CLOUD));
 const centroid=pred=>{ const v=new THREE.Vector3(); let n=0; TOOLS.forEach((t,i)=>{ if(pred(t)){v.add(starPos[i]);n++} }); return v.multiplyScalar(1/n); };
 let day=0, dayTarget=0; /* 0 dusk, 1 morning */
@@ -713,7 +751,7 @@ function init(){
   const band=new THREE.Mesh(new THREE.SphereGeometry(6.0,8,40,Math.PI/2-slitW/2,slitW,0,Math.PI/2),new THREE.ShaderMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide,uniforms:{uDay:{value:0},uT:{value:0}},
     vertexShader:`varying float vY; void main(){ vY=position.y; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
     fragmentShader:`uniform float uDay,uT; varying float vY; void main(){ float k=.3+.7*smoothstep(6.,0.,vY);
-      vec3 lamp=vec3(.98,.68,.34)*k*(.92+.08*sin(uT*1.7)); vec3 shade=vec3(.34,.29,.25)*(.7+.3*k);
+      vec3 lamp=vec3(.98,.68,.34)*k*(.70+.06*sin(uT*1.7)); vec3 shade=vec3(.34,.29,.25)*(.7+.3*k);
       gl_FragColor=vec4(mix(lamp,shade,uDay),.92); }`}));
   band.position.y=3.2; dome.add(band); band.renderOrder=1; window._band=band;
   rimMat=new THREE.LineBasicMaterial({color:0xD2AA6E,transparent:true,opacity:.20});
@@ -869,10 +907,10 @@ function addBeamP(B,ok,goldPts,delay,origin){
   const ret=new THREE.Sprite(new THREE.SpriteMaterial({map:ok?RING:CROSS,color:col,transparent:true,opacity:0,depthWrite:false,blending:day<.5?THREE.AdditiveBlending:THREE.NormalBlending}));
   ret.position.copy(B); ret.scale.setScalar(1.35); beamGroup.add(ret);
   const rings=[]; if(!ok) for(const gp of goldPts){ const s=new THREE.Sprite(new THREE.SpriteMaterial({map:DASH,color:day<.5?0xECE6DA:0x1E1A16,transparent:true,opacity:0,depthWrite:false})); s.position.copy(gp); s.scale.setScalar(1.25); beamGroup.add(s); rings.push(s); }
-  beams.push({mat,ret,rings,t0:performance.now()+delay});
+  beams.push({mat,ret,rings,t0:NOW()+delay});
 }
 function noCall(delay){ const A=tipPos.clone(),B=tipPos.clone().add(CLOUD.clone().sub(tipPos).normalize().multiplyScalar(2.4)), mat=beamMat(false);
-  mat.uniforms.uDay.value=1; beamGroup.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.LineCurve3(A,B),4,.04,6,false),mat)); beams.push({mat,ret:null,rings:[],t0:performance.now()+delay}); }
+  mat.uniforms.uDay.value=1; beamGroup.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.LineCurve3(A,B),4,.04,6,false),mat)); beams.push({mat,ret:null,rings:[],t0:NOW()+delay}); }
 function fire(list,stagger=90,base=0){ list.forEach((b,i)=> b.e==null? noCall(base+i*stagger) : addBeam(b.e,b.ok,b.g,base+i*stagger)); }
 window._fire=(m,cid,rot)=>{ if(!renderer) return; clearBeams(); const r=TR.filter(t=>t[0]===m&&t[1]===cid&&(rot===undefined||t[2]===rot)); fire(r.map(t=>({e:t[3]??null,ok:!!t[4],g:CASES[cid].g}))); };
 
@@ -910,7 +948,7 @@ function setupPointer(){
 const C_b=centroid(t=>t.l==="browser");
 const V=(x,y,z)=>new THREE.Vector3(x,y,z);
 const KEY={
-  hero:   {pos:V(-8,2.6,26), tgt:V(-5.5,9.5,0)},
+  hero:   {pos:V(-8,2.6,26), tgt:V(-5.5,12,0)},
   problem:{pos:V(0,6,30), tgt:V(0,16,-6)},
   request:{pos:C_b.clone().add(V(-6.5,.5,8)), tgt:C_b.clone().add(V(-4.6,0,0))},
   wide:   {pos:CLOUD.clone().add(V(0,4,34)), tgt:CLOUD.clone().add(V(0,-2,0))},
@@ -948,6 +986,7 @@ function enter(key){
 }
 const camPos=KEY.hero.pos.clone(), camTgt=KEY.hero.tgt.clone(), wantPos=camPos.clone(), wantTgt=camTgt.clone();
 function scrollState(){
+  if(CAP) return;
   const mid=innerHeight*.5; let cur=0;
   sections.forEach((s,i)=>{ const r=s.getBoundingClientRect(); if(r.top<=mid) cur=i; });
   const s=sections[cur], r=s.getBoundingClientRect(), t=r.height>0?Math.max(0,Math.min(1,(mid-r.top)/r.height)):0;
@@ -1367,27 +1406,28 @@ function applyDay(){
   if(bloom){ bloom.strength=.8*(1-day); }
 }
 function loop(){
-  requestAnimationFrame(loop);
-  const t=clock.getElapsedTime(), now=performance.now();
+  if(!CAP) requestAnimationFrame(loop);
+  const t=CAP?CAP.t:clock.getElapsedTime(), now=NOW();
   day+= (dayTarget-day)*(REDUCE?1:.035); if(Math.abs(dayTarget-day)<.001) day=dayTarget;
   applyDay();
   skyMat.uniforms.uT.value=t; window._band.material.uniforms.uT.value=t; starMat.uniforms.uT.value=REDUCE?0:t; edgeMats.forEach(m=>m.uniforms.uT.value=REDUCE?0:t);
   if(!isFinite(camPos.y+camPos.z)) camPos.copy(wantPos); if(!isFinite(camTgt.y+camTgt.z)) camTgt.copy(wantTgt);
+  if(CAP){ camPos.copy(wantPos); camTgt.copy(wantTgt); }
   const damp=REDUCE?1:.045; camPos.lerp(wantPos,damp); camTgt.lerp(wantTgt,damp);
   let p=camPos.clone().add(V(pointer.x*.9,-pointer.y*.5,0));
   if(state.key==="lab"||state.key==="study"){ const rel=p.clone().sub(camTgt), s=new THREE.Spherical().setFromVector3(rel); s.theta+=orbit.az; s.phi=Math.max(.3,Math.min(2.7,s.phi-orbit.el)); p=camTgt.clone().add(V(0,0,0).setFromSpherical(s)); }
   else if(!REDUCE&&(state.key==="wide"||state.key==="problem"||state.key==="archive"||state.key==="intervals")){ const rel=p.clone().sub(camTgt); rel.applyAxisAngle(V(0,1,0),Math.sin(t*.07)*.22); p=camTgt.clone().add(rel); }
   camera.position.copy(p); camera.lookAt(camTgt);
-  for(const b of beams){ const u=Math.max(0,Math.min(1,(now-b.t0)/(REDUCE?1:950))); b.mat.uniforms.uP.value=u; b.mat.uniforms.uT.value=t; b.mat.uniforms.uDay.value=b.mat.uniforms.uDay.value>.99&&!b.ret?1:day;
+  for(const b of beams){ const u=Math.max(0,Math.min(1,(now-b.t0)/(REDUCE?1:(CAP?CAP.beamMs:950)))); b.mat.uniforms.uP.value=u; b.mat.uniforms.uT.value=t; b.mat.uniforms.uDay.value=b.mat.uniforms.uDay.value>.99&&!b.ret?1:day;
     if(b.ret){ b.ret.material.opacity=Math.max(0,(u-.85)/.15); b.ret.material.rotation=REDUCE?0:t*.35; }
     b.rings.forEach(s=>s.material.opacity=Math.max(0,(u-.9)/.1)*.85); }
   { const a=stars.geometry.attributes.lit; let ch=false; for(let i=0;i<TOOLS.length;i++){ const d=litTarget[i]-a.array[i]; if(Math.abs(d)>.002){ a.array[i]+=d*(REDUCE?1:.07); ch=true; } } if(ch) a.needsUpdate=true; }
   listCur+=(listTarget-listCur)*(REDUCE?1:.06); starMat.uniforms.uList.value=listCur;
   if(rackGroup){ rackFade+=((state.key==="wide2"?1:0)-rackFade)*(REDUCE?1:.06); rackGroup.visible=rackFade>.01;
-    cards.forEach((c,k)=>{ c.position.lerp(cardTgt[k],REDUCE?1:.12); cardPos[k].copy(c.position).add(V(0,2.05,0)); cardMats[k].uniforms.uA.value=rackFade; cardMats[k].uniforms.uDay.value=day; cardMats[k].uniforms.uHit.value*=.94; });
+    cards.forEach((c,k)=>{ c.position.lerp(cardTgt[k],REDUCE?1:(CAP?.4:.12)); cardPos[k].copy(c.position).add(V(0,2.05,0)); cardMats[k].uniforms.uA.value=rackFade; cardMats[k].uniforms.uDay.value=day; cardMats[k].uniforms.uHit.value*=.94; });
     window._rail.material.opacity=.7*rackFade; window._rail.material.color.set(day<.5?0xD2AA6E:0x7a4c16);
     const S=window._strip; if(S) stripBars.forEach((b,s)=>{ const acc=S.tot[s]?S.hit[s]/S.tot[s]:0, h=Math.max(.02,acc*3.2);
-      b.scale.y+= (h-b.scale.y)*.15; b.position.y=RACK.y-2.55-b.scale.y/2; stripMats[s].opacity=.75*rackFade; stripMats[s].color.set(day<.5?0x8FE3C0:0x1F7A58);
+      b.scale.y+= (h-b.scale.y)*.15; b.position.y=RACK.y-2.55-b.scale.y/2; stripMats[s].opacity=(CAP?.5:.75)*rackFade; stripMats[s].color.set(day<.5?0x8FE3C0:0x1F7A58);
       if(window._stripLbls&&window._stripLbls[s]) window._stripLbls[s].textContent=S.tot[s]?`${Math.round(acc*100)}% · ${S.hit[s]}/${S.tot[s]}`:""; });
     stripLblPos.forEach((p,s)=>p.y=RACK.y-2.75-(stripBars[s]?stripBars[s].scale.y:0)-.35); }
   /* screen-space picking (works for list and sky positions, and on tap) */
@@ -1409,5 +1449,99 @@ if(SMALL) $("#legend").removeAttribute("open");
   cards.forEach(c=>io.observe(c)); })();
 if(renderer){ buildRack(); applyTier(); }
 if(DATA.layout) $("#layoutName").textContent=DATA.layout;
+
+/* ======================= capture: the shot list (55 s, 30 fps) ======================= */
+if(CAP){
+  document.body.classList.add("cap"); setDay(0,false); day=0; dayTarget=0; $("#legend").open=false;
+  const ov=$("#capov"), clamp=x=>Math.max(0,Math.min(1,x)), ss=x=>{x=clamp(x);return x*x*(3-2*x);};
+  const fade=(u,a,b)=>Math.min(ss((u-a)/.08),ss((b-u)/.08));
+  const SH=[ [0,3.4,"fail"], [3.4,8.2,"reveal"], [8.2,15.6,"fly"], [15.6,22.6,"nulls"], [22.6,31.6,"rack"], [31.6,41.6,"real"], [41.6,49.6,"waves"], [49.6,55,"end"] ];
+  const LPw=LPi, BCw=BC, browserC=centroid(t=>t.l==="browser");
+  const r09=TR.find(r=>r[0]==="120b"&&r[1]==="rb09"&&r[2]===0);
+  let cur=null, fired={};
+  const forceLit=fn=>{ setLit(fn); const a=stars.geometry.attributes.lit; for(let i=0;i<TOOLS.length;i++) a.array[i]=litTarget[i]; a.needsUpdate=true; };
+  const capText=(eb,tt,sb,extra="")=>`<div class="cap"><div class="eb">${eb}</div><div class="tt">${tt}</div>${sb?`<div class="sb">${sb}</div>`:""}${extra}</div>`;
+  const chrome=src=>`<div class="brand">surfacelab · <b>observatory</b></div><div class="src">${src}</div>`;
+  function setup(name){
+    clearBeams(); setLabels([]); edgesGroup.visible=false; listTarget=0; listCur=0; state.key="cap-"+name; fired={}; rackFade=0; if(rackGroup) rackGroup.visible=false; if(bloom) bloom.strength=.62;
+    if(name==="fail"){ forceLit(t=>t.l==="browser"); setLabels([[`browser_click <small>playwright · right tool</small>`,starPos[BCw]],[`list_pages <small>chrome devtools · called</small>`,starPos[LPw]]]); }
+    if(name==="reveal"||name==="nulls"||name==="end") forceLit(()=>true);
+    if(name==="fly"){ forceLit(t=>t.l==="browser"); layoutList("browser"); }
+    if(name==="rack"){ forceLit(()=>false); state.key="wide2"; rackFade=1; rackLabels(); setOrdering(0,false); cards.forEach((c,k)=>c.position.copy(cardTgt[k])); }
+    if(name==="real"){ forceLit(()=>true); edgesGroup.visible=true; edgeMats.forEach(m=>m.uniforms.uO.value=Math.min(1,m.uniforms.uO.value*1.7)); setLabels(Object.keys(LOADOUT_NAME).map(l=>[LOADOUT_NAME[l],centroid(t=>t.l===l).add(V(0,3,0)),"cluster"])); }
+    if(name==="waves"){ forceLit(t=>t.l==="browser"); setLabels([[`list_pages <small>chrome devtools</small>`,starPos[LPw]],[`browser_click <small>playwright</small>`,starPos[BCw]]]); }
+  }
+  window.capRender=function(T){
+    CAP.t=T; const sh=SH.find(s=>T>=s[0]&&T<s[1])||SH[SH.length-1], name=sh[2], u=(T-sh[0])/(sh[1]-sh[0]), L=T-sh[0];
+    if(cur!==name){ cur=name; setup(name); }
+    let html="";
+    if(name==="fail"){
+      CAP.beamMs=1100;
+      const M=starPos[LPw].clone().add(V(-1.5,-2.2,0));
+      wantTgt.copy(M); wantPos.copy(M.clone().add(V(8,-6.5,13).multiplyScalar(1.06-.1*ss(u))));
+      if(!fired.a&&L>=.9){ fired.a=1; addBeamP(starPos[r09[3]].clone(),false,CASES.rb09.g.map(i=>starPos[i]),0); }
+      const q="“Click the Sign up button.”", n=Math.floor(clamp(L/.8)*q.length);
+      html=chrome("recorded · results/exp013_120b.json · case rb09")+capText("A real request · gpt-oss-120b",
+        `<span class="${n<q.length?"typing":""}">${q.slice(0,n)}</span>`,
+        L>1.7?`The agent called <b>list_pages</b>, not <b>browser_click</b>. In both orderings.`:"");
+    }
+    if(name==="reveal"){
+      const e=ss(u); const M0=starPos[LPw].clone().add(V(-1.5,-2.2,0)), A=M0.clone().add(V(8,-6.5,13).multiplyScalar(.96)), B=V(-15,3.2,36);
+      wantPos.copy(A.clone().lerp(B,e)); wantTgt.copy(M0.clone().lerp(V(-10,13,-2),e));
+      html=chrome("82 tools · 396 recorded calls · 3 models")+`<div style="opacity:${fade(u,0,1.2)}">`+capText("Why did it do that?",
+        `We built an <em>observatory</em> to find out.`, `Every star is a real MCP tool. Every beam is a recorded call.<br><b>82 tools · 11 servers · 396 calls · 3 models</b>`)+`</div>`;
+    }
+    if(name==="fly"){
+      const k=ss(clamp(u/.62));
+      const P0=V(-15,3.2,36),P1=V(0,7.5,13),P2=V(0,10.5,1.5),P3=KEY.request.tgt.clone().add(V(-3,-1,27));
+      const bez=(a,b,c,d,x)=>a.clone().multiplyScalar((1-x)**3).add(b.clone().multiplyScalar(3*(1-x)**2*x)).add(c.clone().multiplyScalar(3*(1-x)*x*x)).add(d.clone().multiplyScalar(x**3));
+      wantPos.copy(bez(P0,P1,P2,P3,k)); wantTgt.copy(V(-10,13,-2).lerp(V(0,22,-12),clamp(k*1.4)).lerp(KEY.request.tgt.clone().add(V(1.5,-.5,0)),clamp((k-.55)/.45)));
+      listTarget=u>.5?1:0; if(u>.62&&!fired.l){ fired.l=1; setLabels(TOOLS.map((t,i)=>[i,t]).filter(([i,t])=>t.l==="browser").map(([i,t])=>[`<b>${t.n}</b> <small>${t.s}</small>`,listPos[i],"list"])); }
+      html=chrome("measured · results/exp013_prompt_tokens.json")+`<div style="opacity:${fade(u,.5,1.2)}">`+capText("I · The request",
+        `Before your message, it reads <em>every tool</em> you installed.`, `Playwright + Chrome DevTools: 31 tools. <b>3,493 tokens</b> on gpt-oss, <b>6,232</b> on Qwen.`,`<div><span class="tg" style="color:var(--ink-2)">measured</span></div>`)+`</div>`;
+    }
+    if(name==="nulls"){
+      const a=-.35+.5*u; const rel=V(Math.sin(a)*34,-7,Math.cos(a)*34); wantTgt.copy(CLOUD.clone().add(V(-13,1,0))); wantPos.copy(wantTgt.clone().add(rel));
+      const T6=[["Tool order","gap first − last third","−0.8 pp [−2.1, 0.0]"],["Request wording","flip rate, paraphrases","5.1% [0, 12.8]"],["50 extra tools","accuracy, any kind","92–100%"],["Overlapping servers","wrong-server picks","1 in 288"],["Second model family","Qwen on near-duplicates","768 / 768"],["Description edits","base before any edit","100% (ceiling)"]];
+      html=chrome("preregistered · results/exp009 · exp002 · exp005 · exp011 · exp014")+`<div class="tiles">${T6.map((x,k)=>`<div class="tile" style="opacity:${ss((L-.3-k*.22)/.4)};transform:translateY(${(1-ss((L-.3-k*.22)/.4))*24}px)"><h3>${x[0]}</h3><span class="m">${x[1]}</span><span class="v">${x[2]}</span></div>`).join("")}</div>`
+        +`<div style="opacity:${fade(u,.12,1.2)}">`+capText("II · What didn't matter",`With one clear job per tool, almost <em>nothing</em> moved the choice.`,`99%+ right whatever we changed. On surfaces we wrote ourselves.`)+`</div>`;
+    }
+    if(name==="rack"){
+      CAP.beamMs=380;
+      wantTgt.copy(RACK.clone().add(V(-3.6,.4,0))); wantPos.copy(RACK.clone().add(V(-4.8+2.2*u,.4,15.5-1*u)));
+      const j=Math.min(23,Math.floor(clamp((L-.6)/(sh[1]-sh[0]-1.6))*24));
+      if(fired.j!==j){ fired.j=j; setOrdering(j,false); clearBeams();
+        Object.keys(SIB.cases).forEach((c,q)=>{ const e=SIB.calls["120b"][c][j], g=SIB.cases[c].g, off=V(0,1.1-q*.3,0);
+          if(e<0||e==null) noCall(q*25); else addBeamP(cardTgt[e].clone().add(off),e===g,e===g?[]:[cardTgt[g].clone().add(V(0,-1.25,0))],q*25); }); }
+      html=chrome("replicated · results/exp001_siblings_t0_analysis.json · exp014_analysis.json")+`<div class="counter"><div class="n">${j+1}<small> / 24</small></div><div class="l">orderings · 8 requests each</div></div>`
+        +capText("III · Ties",`When four tools do the same job, the <em>first one listed</em> wins.`,`First third vs last third: <b>+10.4 pp</b> [+2.1, +19.8] on gpt-oss-120b. <b>+12.5 pp</b> on Qwen.`,`<div><span class="tg" style="color:var(--possible)">exploratory</span><span class="tg" style="color:var(--ok)">replicated</span></div>`);
+    }
+    if(name==="real"){
+      const a=-.7+1.1*u; const tg=CLOUD.clone().add(V(-11,1,0)); wantTgt.copy(tg); wantPos.copy(tg.clone().add(V(Math.sin(a)*28,-10-1.5*u,Math.cos(a)*28)));
+      html=chrome("results/exp013_analysis.json · exp013_h4.json")+capText("IV · Real servers",`On real servers, misses land on <em>look-alikes.</em>`,
+        `When only one tool could do the job, gpt-oss found it <b>77%</b> of the time [63, 88]: 99%+ on our own surfaces. Wrong picks sat at the <b>71st</b> similarity percentile.`,`<div><span class="tg" style="color:var(--bad)">below 0.90 target</span><span class="tg" style="color:var(--possible)">similarity: exploratory</span></div>`);
+    }
+    if(name==="waves"){
+      CAP.beamMs=900;
+      const tg=browserC.clone().lerp(tipPos,.3).add(V(-6,1.5,0)); wantTgt.copy(tg); wantPos.copy(tg.clone().add(V(13-3*u,-3,20)));
+      const rows=r=>TR.filter(x=>x[0]==="120b"&&CASES[x[1]].l==="browser"&&x[2]===r), lp=r=>rows(r).filter(x=>x[3]===LPw).length;
+      if(!fired.w0&&L>=.3){ fired.w0=1; rows(0).forEach((x,q)=>x[3]==null?noCall(q*110):addBeamP(starPos[x[3]].clone(),!!x[4],x[4]?[]:CASES[x[1]].g.map(i=>starPos[i]),q*110)); }
+      if(!fired.w1&&L>=4.1){ fired.w1=1; clearBeams(); rows(1).forEach((x,q)=>x[3]==null?noCall(q*110):addBeamP(starPos[x[3]].clone(),!!x[4],x[4]?[]:CASES[x[1]].g.map(i=>starPos[i]),q*110)); }
+      const ph=L<2.6?0:L<4.1?1:L<6.4?2:3, n=[0,lp(0),lp(0),lp(0)+lp(1)][ph], of=ph<2?12:24;
+      const lbl=["Playwright listed first","Playwright listed first","Chrome DevTools listed first…","both orderings"][ph];
+      html=chrome("exploratory · results/exp013_120b.json")+`<div class="counter"><div class="n">${ph?n:"·"}<small> / ${of}</small></div><div class="l">${lbl} · first call = list_pages</div></div>`
+        +capText("V · A second server",`Add Chrome DevTools, and the agent's <em>first move</em> changes.`,`gpt-oss-120b opened with <b>list_pages</b> in 14 of 24 browser requests, including jobs only Playwright can do.`,`<div><span class="tg" style="color:var(--possible)">exploratory · first call only</span></div>`);
+    }
+    if(name==="end"){
+      const e=ss(u/.7); wantTgt.copy(V(0,13,-6)); wantPos.copy(V(0,3.5,40).lerp(V(0,3,47),e)); if(!fired.d){ fired.d=1; forceLit(()=>false); }
+      html=`<div class="end" style="opacity:${fade(u,.08,1.3)}"><div class="box"><div class="ttl">surface<em>lab</em></div>
+        <div class="chk"><div><span>01</span>Make tools read differently.</div><div><span>02</span>Test the servers people install together.</div><div><span>03</span>Watch the agent's first action.</div></div>
+        <div class="by">An open evaluation of MCP tool choice · 12 preregistered experiments · <b>@1Ash0</b></div></div></div>`;
+    }
+    ov.innerHTML=html;
+    loop();
+  };
+  window.capReady=true;
+}
 scrollState();
 </script>
