@@ -8,7 +8,7 @@
 /* Layout: a fixed WebGL sky behind a scroll of chapter panels; each panel docks an evidence rail.
    Two times of day: Dusk (default) and Morning. Dark-first token pattern. */
 :root{
-  --bg:#05070F; --ink:#ECE6DA; --ink-2:#B4B0BD; --ink-3:#7A7889; --brass:#D2AA6E; --brass-2:rgba(210,170,110,.36);
+  --bg:#05070F; --ink:#ECE6DA; --ink-2:#B4B0BD; --ink-3:#9290A2; --brass:#D2AA6E; --brass-2:rgba(210,170,110,.36);
   --ok:#8FE3C0; --bad:#FF7A66; --possible:#E0BA72;
   --panel:rgba(8,11,22,.80); --panel-edge:rgba(210,170,110,.26); --chip:rgba(5,7,15,.55); --code-bg:rgba(0,0,0,.42);
   --f-disp:"Cormorant Garamond","Iowan Old Style",Georgia,serif;
@@ -17,15 +17,15 @@
   color-scheme:dark;
 }
 @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
-  --bg:#F3EBDD; --ink:#1E1A16; --ink-2:#4F4840; --ink-3:#857B6E; --brass:#8C5A1E; --brass-2:rgba(140,90,30,.34);
+  --bg:#F3EBDD; --ink:#1E1A16; --ink-2:#4F4840; --ink-3:#685E52; --brass:#8C5A1E; --brass-2:rgba(140,90,30,.34);
   --ok:#1F7A58; --bad:#B53A2A; --possible:#8A6416;
   --panel:rgba(250,245,236,.86); --panel-edge:rgba(140,90,30,.28); --chip:rgba(255,251,244,.7); --code-bg:rgba(60,40,20,.07); color-scheme:light;}}
 :root[data-theme="light"]{
-  --bg:#F3EBDD; --ink:#1E1A16; --ink-2:#4F4840; --ink-3:#857B6E; --brass:#8C5A1E; --brass-2:rgba(140,90,30,.34);
+  --bg:#F3EBDD; --ink:#1E1A16; --ink-2:#4F4840; --ink-3:#685E52; --brass:#8C5A1E; --brass-2:rgba(140,90,30,.34);
   --ok:#1F7A58; --bad:#B53A2A; --possible:#8A6416;
   --panel:rgba(250,245,236,.86); --panel-edge:rgba(140,90,30,.28); --chip:rgba(255,251,244,.7); --code-bg:rgba(60,40,20,.07); color-scheme:light;}
 :root[data-theme="dark"]{
-  --bg:#05070F; --ink:#ECE6DA; --ink-2:#B4B0BD; --ink-3:#7A7889; --brass:#D2AA6E; --brass-2:rgba(210,170,110,.36);
+  --bg:#05070F; --ink:#ECE6DA; --ink-2:#B4B0BD; --ink-3:#9290A2; --brass:#D2AA6E; --brass-2:rgba(210,170,110,.36);
   --ok:#8FE3C0; --bad:#FF7A66; --possible:#E0BA72;
   --panel:rgba(8,11,22,.80); --panel-edge:rgba(210,170,110,.26); --chip:rgba(5,7,15,.55); --code-bg:rgba(0,0,0,.42); color-scheme:dark;}
 
@@ -51,7 +51,7 @@ body{margin:0;font-family:var(--f-body);font-size:17px;line-height:1.6;overflow-
 .tod{font:inherit;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);background:var(--chip);border:1px solid var(--brass-2);padding:6px 10px;cursor:pointer}
 .tod[aria-pressed="true"]{color:var(--bg);background:var(--brass);border-color:var(--brass)}
 .nav{position:fixed;z-index:6;right:max(14px,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);display:grid;gap:4px;justify-items:end}
-.nav a{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink-3);font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:4px 0}
+.nav a{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink-3);font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:7px 0}
 .nav a span{opacity:0;transform:translateX(6px);transition:all .25s}
 .nav a i{display:block;width:20px;height:2px;background:currentColor;opacity:.55;transition:all .3s}
 .nav:hover a span,.nav a.on span{opacity:1;transform:none}
@@ -76,6 +76,22 @@ main{position:relative;z-index:3}
 @media (max-width:760px){.ch{align-items:flex-end;min-height:150vh}.ch.right{padding-right:max(22px,env(safe-area-inset-right,0px))}}
 .card{width:min(480px,100%);background:var(--panel);border:1px solid var(--panel-edge);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:28px 28px 22px;display:grid;gap:15px;box-shadow:0 30px 80px -40px rgba(0,0,0,.6)}
 .ch.wide .card{width:min(1000px,100%)}
+.card{transform:translateY(34px) scale(.985);opacity:.55;transition:transform 1s cubic-bezier(.2,.8,.2,1),opacity 1s ease}
+.card.in{transform:none;opacity:1}
+.lbl.list{transform:translate(12px,-50%);background:none;border:0;padding:0;font-size:11px;color:var(--ink-2);text-shadow:0 0 8px var(--bg)}
+.lbl.list b{color:var(--ink);font-weight:400}
+.shares{display:grid;gap:10px}
+.share .cap{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;color:var(--ink-3);text-transform:uppercase;margin-bottom:4px;display:flex;justify-content:space-between;gap:8px}
+.share .bar{display:flex;height:30px;border:1px solid var(--panel-edge);overflow:hidden}
+.share .bar span{display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-size:11px;color:#0b0d16;min-width:0;overflow:hidden;white-space:nowrap;transition:flex-grow .8s cubic-bezier(.2,.8,.2,1)}
+.keys{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--ink-2)}
+.keys i{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px}
+.callout{font-family:var(--f-disp);font-size:1.35rem;line-height:1.2;color:var(--ink)}
+.callout b{color:var(--brass);font-weight:400}
+.takeaways{display:grid;gap:10px;counter-reset:k}
+.takeaways div{display:grid;grid-template-columns:28px minmax(0,1fr);gap:8px;font-size:.98rem;color:var(--ink-2)}
+.takeaways div::before{counter-increment:k;content:counter(k);font-family:var(--f-mono);font-size:12px;color:var(--brass);padding-top:3px}
+.takeaways b{color:var(--ink);font-weight:600}
 .eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brass);margin:0}
 h1,h2,h3{font-family:var(--f-disp);font-weight:300;margin:0;text-wrap:balance;letter-spacing:-.012em}
 h1{font-size:clamp(3rem,8.6vw,7rem);line-height:.93;max-width:11ch}
@@ -121,7 +137,7 @@ p{margin:0;max-width:62ch}
 .hook label,.hook .lab{font-size:14.5px;color:var(--ink)}
 .hook .rowh{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 input[type=range]{flex:1;min-width:150px;accent-color:var(--brass)}
-.btn{font:inherit;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);background:transparent;border:1px solid var(--brass-2);padding:8px 13px;cursor:pointer;transition:all .2s}
+.btn{min-height:40px;font:inherit;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);background:transparent;border:1px solid var(--brass-2);padding:8px 13px;cursor:pointer;transition:all .2s}
 .btn:hover{border-color:var(--brass);color:var(--brass)}
 .btn:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
 .btn.on{background:var(--brass);color:var(--bg);border-color:var(--brass)}
@@ -147,7 +163,7 @@ input[type=range]{flex:1;min-width:150px;accent-color:var(--brass)}
 .ctrls{display:grid;gap:12px;align-content:start}
 .seg{display:flex;flex-wrap:wrap;gap:6px}
 .caselist{display:grid;gap:4px;max-height:310px;overflow:auto;padding-right:4px}
-.case{all:unset;cursor:pointer;display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:8px;align-items:center;font-size:14px;padding:7px 9px;border:1px solid transparent;line-height:1.3}
+.case{all:unset;cursor:pointer;min-height:40px;box-sizing:border-box;display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:8px;align-items:center;font-size:14px;padding:7px 9px;border:1px solid transparent;line-height:1.3}
 .case:hover{border-color:var(--brass-2)}
 .case.sel{border-color:var(--brass);background:color-mix(in srgb,var(--brass) 10%,transparent)}
 .case:focus-visible{outline:2px solid var(--brass)}
@@ -160,7 +176,7 @@ input[type=range]{flex:1;min-width:150px;accent-color:var(--brass)}
 .cli .c{color:var(--ink-3)}
 .foot{font-size:12.5px;color:var(--ink-3);text-align:center;padding:40px 22px 90px;max-width:760px;margin:0 auto}
 .nogl #gl{display:none}
-@media (prefers-reduced-motion: reduce){.cue i{animation:none}.slot .bar{transition:none}}
+@media (prefers-reduced-motion: reduce){.cue i{animation:none}.slot .bar{transition:none}.card{transform:none;opacity:1;transition:none}}
 </style>
 
 <canvas id="gl" aria-label="Observatory sky: each point is a real MCP tool, placed by description similarity. Every value is also in each chapter's evidence rail."></canvas>
@@ -219,19 +235,14 @@ input[type=range]{flex:1;min-width:150px;accent-color:var(--brass)}
     <div class="card">
       <p class="eyebrow">I · The request</p>
       <h2>Before it reads your message, the model reads <em>every tool</em> you installed.</h2>
-      <p class="look"><b>Lit:</b> the 31 tools of Playwright and Chrome DevTools, loaded together. Hover a star to read its description.</p>
+      <div class="seg" id="l1Seg" role="group" aria-label="Which servers are installed"></div>
+      <p class="look" id="l1look"></p>
       <div class="hook">
-        <label for="g1">Guess: how many tokens is that tool list?</label>
+        <label for="g1">Guess: how many tokens is this tool list?</label>
         <div class="rowh"><input id="g1" type="range" min="200" max="12000" step="100" value="1500"><span class="mono" id="g1v">1,500</span><button class="btn" id="g1b" type="button">Reveal</button></div>
         <div class="reveal" id="g1r"></div>
       </div>
-      <div class="rail">
-        <div class="row"><span class="k">Prompt</span><span class="big">3,493 <small>gpt-oss</small></span></div>
-        <div class="row"><span class="k"></span><span class="big">6,232 <small>qwen · same 31 tools</small></span></div>
-        <div class="row"><span class="k">Label</span><span><span class="tag meas">measured</span></span></div>
-        <div class="row"><span class="k">Source</span><code>results/exp013_prompt_tokens.json</code></div>
-        <p class="not">Groq-reported counts. Other providers count tool lists differently.</p>
-      </div>
+      <div class="rail" id="l1rail"></div>
     </div>
   </section>
 
@@ -239,7 +250,7 @@ input[type=range]{flex:1;min-width:150px;accent-color:var(--brass)}
     <div class="card">
       <p class="eyebrow">II · What didn't matter</p>
       <h2>When each tool has one clear job, almost <em>nothing</em> moves the choice.</h2>
-      <p class="lede">Six interventions, each preregistered. A dot is the estimate, the bar its 95% interval, counted over families of cases.</p>
+      <p class="lede">Six interventions, each preregistered. A dot is the estimate, the bar its 95% interval, counted over families of cases. Each tile has its own scale.</p>
       <div class="wall" id="wall"></div>
       <p class="not">These surfaces were written by us, with one distinct job per tool. Chapter IV asks what happens on real servers.</p>
     </div>
@@ -287,24 +298,22 @@ input[type=range]{flex:1;min-width:150px;accent-color:var(--brass)}
     </div>
   </section>
 
-  <section class="ch right" data-cam="browser" data-name="A second server" id="c5">
+  <section class="ch right" data-cam="serve" data-name="Who gets the call" id="c5">
     <div class="card">
-      <p class="eyebrow">V · A second server</p>
-      <h2>Add Chrome DevTools beside Playwright, and the agent's <em>first move</em> changes.</h2>
-      <p class="look"><b>Two waves of beams:</b> gpt-oss-120b's first call on the 12 browser requests, first with Playwright listed first, then with Chrome DevTools first.</p>
-      <div class="hook">
-        <span class="lab">Ask the agent to click a button. What does it call first?</span>
-        <div class="seg" id="g5"></div>
-        <div class="reveal" id="g5r"></div>
-      </div>
+      <p class="eyebrow">V · Who gets the call</p>
+      <h2>When servers overlap, the model's <em>first move</em> follows habit.</h2>
+      <p class="look"><b>Two waves of beams:</b> the same 12 requests, once per ordering of the servers. The bars count where every first call landed, by server.</p>
+      <div class="seg" id="l5Seg" role="group" aria-label="Servers"></div>
+      <div class="seg" id="m5Seg" role="group" aria-label="Model"></div>
+      <div class="shares" id="shares"></div>
+      <div class="keys" id="keys"></div>
+      <p class="callout" id="callout"></p>
       <div class="rail">
         <div class="row"><span class="k">Wave</span><span class="ci" id="waveTxt">scroll here to fire</span></div>
-        <div class="row"><span class="k">list_pages</span><span class="big"><span id="lpN">14</span> <small>/ 24 first calls · gpt-oss-120b</small></span></div>
-        <div class="row"><span class="k">Others</span><span class="ci">20b 9 / 24 · qwen 4 / 24</span></div>
         <div class="row"><span class="k"></span><span><button class="btn" id="replay" type="button">Replay waves</button></span></div>
         <div class="row"><span class="k">Label</span><span><span class="tag exp">exploratory</span></span></div>
-        <div class="row"><span class="k">Source</span><code>results/exp013_{120b,20b,27b}.json</code></div>
-        <p class="not">Scored on the first call. A multi-step agent might still finish the job; this measures the first action, not the outcome.</p>
+        <div class="row"><span class="k">Source</span><code id="src5">results/exp013_120b.json</code></div>
+        <p class="not">Counts of recorded first calls. A multi-step agent might still finish the job; this measures the first action, not the outcome.</p>
       </div>
     </div>
   </section>
@@ -330,15 +339,19 @@ input[type=range]{flex:1;min-width:150px;accent-color:var(--brass)}
     </div>
   </section>
 
-  <section class="ch" data-cam="coda" data-name="Who wins" id="c7">
+  <section class="ch" data-cam="coda" data-name="What it means" id="c7">
     <div class="card">
-      <p class="eyebrow">Coda · Who wins</p>
-      <h2>Which server wins a shared job is a <em>model habit,</em> not list order.</h2>
-      <p class="lede">Brave, Tavily and DuckDuckGo can all search. Moving a server to the top changed the winner in 19–25% of shared requests; otherwise each model kept its favourite.</p>
+      <p class="eyebrow">Coda · What it means</p>
+      <h2>Tools fail where their descriptions <em>blur together.</em></h2>
+      <div class="takeaways">
+        <div><span><b>Write tools that read differently.</b> With one clear job per tool, order, wording and extra tools barely mattered (chapter II). Misses on real servers landed on look-alikes (chapter IV).</span></div>
+        <div><span><b>Test the servers people install together.</b> Hand-written surfaces scored 99%+; real loadouts dropped gpt-oss to 77–78% on requests only one tool could serve.</span></div>
+        <div><span><b>Watch the first action, not just the answer.</b> Which server handles a shared job is a model habit; list order moved it in only 19–25% of shared requests.</span></div>
+      </div>
       <div class="rail">
         <div class="row"><span class="k">Order effect</span><span class="ci">20b +2.7 pp [−10.8, +15.8] · 120b +0.0 [−7.1, +7.9] · qwen +7.3 [−3.3, +17.4]</span></div>
         <div class="row"><span class="k">Label</span><span><span class="tag null">inconclusive</span></span></div>
-        <div class="row"><span class="k">Source</span><code>results/exp013_analysis.json</code></div>
+        <div class="row"><span class="k">Source</span><code>results/exp013_analysis.json · docs/FINDINGS.md</code></div>
       </div>
       <p class="eyebrow" style="margin-top:6px">Run it yourself</p>
       <div class="cli"><span class="c"># see where a loadout's tokens go</span>
@@ -404,18 +417,11 @@ const HUE = {"playwright":["#F4B860","#9A5A0E"],"chrome-devtools":["#62D6C8","#1
   window._showSlots = show;
 })();
 $("#g1").oninput = e => $("#g1v").textContent = fmt(+e.target.value);
-$("#g1b").onclick = () => { $("#g1r").innerHTML = `You guessed <b>${fmt(+$("#g1").value)}</b>. Recorded: <b>3,493</b> (gpt-oss) and <b>6,232</b> (qwen), before a word of your message.`; };
 $("#g4").oninput = e => $("#g4v").textContent = e.target.value+"%";
 $("#g4b").onclick = () => { $("#g4r").innerHTML = `You guessed <b>${$("#g4").value}%</b>. Recorded: <b>77%</b> [63, 88] for gpt-oss-120b, against 99%+ on our own surfaces.`; };
 const idx = (l,n) => TOOLS.findIndex(t=>t.l===l && t.n===n);
 const LP = idx("browser","list_pages");
-(function g5(){
-  const opts = [["browser_click","Playwright · click"],["list_pages","Chrome · list pages"],["browser_snapshot","Playwright · snapshot"]];
-  for (const [n,lab] of opts) { const b=document.createElement("button"); b.className="btn"; b.type="button"; b.textContent=lab;
-    b.onclick = () => { const r=TR.filter(t=>t[0]==="120b"&&t[1]==="rb09"); const got=[...new Set(r.map(t=>TOOLS[t[3]].n))];
-      $("#g5r").innerHTML = `You picked <b>${n}</b>. Recorded for “Click the Sign up button”: <b>${got.join(", ")}</b> in both orderings.`; window._fire && window._fire("120b","rb09"); };
-    $("#g5").appendChild(b); }
-})();
+
 
 /* ---------- nav ---------- */
 const sections=[...document.querySelectorAll(".ch")];
@@ -467,7 +473,7 @@ function init(){
         vec3 top=mix(dTop,mTop,uDay), mid=mix(dMid,mMid,uDay), hor=mix(dHor,mHor,uDay), glow=mix(dGlow,mGlow,uDay);
         vec3 c=mix(hor,mid,smoothstep(-.02,.26,h)); c=mix(c,top,smoothstep(.22,.95,h));
         vec3 sun=normalize(vec3(-.55,.02,-.83));
-        float s=max(dot(vP,sun),0.); c+=glow*(pow(s,6.)*.55+pow(s,60.)*.6)*smoothstep(-.1,.2,h+.05);
+        float s=max(dot(vP,sun),0.); c+=glow*(pow(s,6.)*.55+pow(s,60.)*.6)*mix(1.,.32,uDay)*smoothstep(-.1,.2,h+.05);
         /* milky band (dusk only, very low contrast) */
         vec3 n=normalize(vec3(.35,.25,.9)); float band=exp(-pow(dot(vP,n)*5.,2.));
         float neb=fbm3(vP*5.+vec3(0.,0.,uT*.002)); c+=vec3(.10,.09,.13)*band*smoothstep(.35,.85,neb)*(1.-uDay)*.55*smoothstep(.05,.4,h);
@@ -530,15 +536,15 @@ function init(){
   /* STARS: one per real tool. position = embedding projection; size = tokens; hue = server.
      Dusk: glowing cores with diffraction spikes. Morning: ink marks. */
   const N=TOOLS.length, g=new THREE.BufferGeometry();
-  const pos=new Float32Array(N*3), cG=new Float32Array(N*3), cI=new Float32Array(N*3), size=new Float32Array(N), lit=new Float32Array(N), seed=new Float32Array(N), aI=new Float32Array(N);
+  const pos=new Float32Array(N*3), cG=new Float32Array(N*3), cI=new Float32Array(N*3), size=new Float32Array(N), lit=new Float32Array(N), seed=new Float32Array(N), aI=new Float32Array(N), pos2=new Float32Array(N*3), inL=new Float32Array(N);
   TOOLS.forEach((t,i)=>{ starPos[i].toArray(pos,i*3); new THREE.Color(HUE[t.s][0]).toArray(cG,i*3); new THREE.Color(HUE[t.s][1]).toArray(cI,i*3); size[i]=.7+Math.sqrt(t.k)/8; lit[i]=1; seed[i]=Math.random()*6.28; aI[i]=i; });
   g.setAttribute("position",new THREE.BufferAttribute(pos,3)); g.setAttribute("cG",new THREE.BufferAttribute(cG,3)); g.setAttribute("cI",new THREE.BufferAttribute(cI,3));
-  g.setAttribute("size",new THREE.BufferAttribute(size,1)); g.setAttribute("lit",new THREE.BufferAttribute(lit,1)); g.setAttribute("seed",new THREE.BufferAttribute(seed,1)); g.setAttribute("aI",new THREE.BufferAttribute(aI,1));
+  g.setAttribute("size",new THREE.BufferAttribute(size,1)); g.setAttribute("lit",new THREE.BufferAttribute(lit,1)); g.setAttribute("seed",new THREE.BufferAttribute(seed,1)); g.setAttribute("aI",new THREE.BufferAttribute(aI,1)); g.setAttribute("pos2",new THREE.BufferAttribute(pos2,3)); g.setAttribute("inL",new THREE.BufferAttribute(inL,1));
   starMat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
-    uniforms:{uScale:{value:innerHeight*.5},uT:{value:0},uDay:{value:0},uHover:{value:-1}},
-    vertexShader:`attribute float size,lit,seed,aI; attribute vec3 cG,cI; uniform float uScale,uT,uDay,uHover; varying vec3 vC; varying float vL,vH;
+    uniforms:{uScale:{value:innerHeight*.5},uT:{value:0},uDay:{value:0},uHover:{value:-1},uList:{value:0}},
+    vertexShader:`attribute float size,lit,seed,aI,inL; attribute vec3 cG,cI,pos2; uniform float uScale,uT,uDay,uHover,uList; varying vec3 vC; varying float vL,vH;
       void main(){ vC=mix(cG,cI,uDay); vL=lit; vH=abs(aI-uHover)<.5?1.:0.;
-        vec4 mv=modelViewMatrix*vec4(position,1.); float tw=1.+.07*sin(uT*1.6+seed)*(1.-uDay);
+        float k=uList*inL; k=k*k*(3.-2.*k); vec4 mv=modelViewMatrix*vec4(mix(position,pos2,k),1.); float tw=1.+.07*sin(uT*1.6+seed)*(1.-uDay);
         gl_PointSize=size*uScale*(.45+.55*lit)*tw*(2.6-1.1*uDay)*(1.+.5*vH)/-mv.z; gl_Position=projectionMatrix*mv; }`,
     fragmentShader:`uniform float uDay; varying vec3 vC; varying float vL,vH;
       void main(){ vec2 d=gl_PointCoord-.5; float r=length(d);
@@ -607,14 +613,12 @@ window._fire=(m,cid,rot)=>{ if(!renderer) return; clearBeams(); const r=TR.filte
 let waveTimers=[];
 function waves(){
   if(!renderer) return; waveTimers.forEach(clearTimeout); waveTimers=[]; clearBeams();
-  const rows=r=>TR.filter(t=>t[0]==="120b"&&CASES[t[1]].l==="browser"&&t[2]===r);
-  const lp=r=>rows(r).filter(t=>t[3]===LP).length;
-  $("#waveTxt").textContent="Wave 1 · Playwright listed first";
-  fire(rows(0).map(t=>({e:t[3]??null,ok:!!t[4],g:CASES[t[1]].g})),110);
-  waveTimers.push(setTimeout(()=>{ $("#waveTxt").textContent=`Wave 1 · Playwright first: list_pages ${lp(0)}/12`; },2200));
-  waveTimers.push(setTimeout(()=>{ clearBeams(); $("#waveTxt").textContent="Wave 2 · Chrome DevTools listed first";
-    fire(rows(1).map(t=>({e:t[3]??null,ok:!!t[4],g:CASES[t[1]].g})),110); },3600));
-  waveTimers.push(setTimeout(()=>{ $("#waveTxt").textContent=`Playwright first ${lp(0)}/12 · Chrome first ${lp(1)}/12 · list_pages ${lp(0)+lp(1)}/24`; },5800));
+  const sv=serversOf(l5); let at=0;
+  sv.forEach((first,r)=>{ const rows=rowsOf(l5,m5,r); if(!rows.length) return;
+    waveTimers.push(setTimeout(()=>{ clearBeams(); $("#waveTxt").textContent=`Wave ${r+1} of ${sv.length} · ${first} listed first`;
+      fire(rows.map(t=>({e:t[3]??null,ok:!!t[4],g:CASES[t[1]].g})),100); },at));
+    at+=3400; });
+  waveTimers.push(setTimeout(()=>{ $("#waveTxt").textContent=`All ${sv.length} orderings shown · bars count every first call`; },at));
 }
 $("#replay").onclick=waves;
 
@@ -631,6 +635,7 @@ function setupPointer(){
     tip.style.left=Math.min(innerWidth-350,e.clientX+16)+"px"; tip.style.top=Math.min(innerHeight-140,e.clientY+16)+"px"; });
   addEventListener("pointerdown",e=>{ if(state.key==="lab"&&!e.target.closest(".card,.legend,.hud,.nav")) drag={x:e.clientX,y:e.clientY}; });
   addEventListener("pointerup",()=>drag=null);
+  addEventListener("pointerdown",e=>{ if(e.pointerType!=="mouse"){ mouse.set((e.clientX/innerWidth)*2-1,-(e.clientY/innerHeight)*2+1); tip.style.left=Math.min(innerWidth-350,e.clientX+12)+"px"; tip.style.top=Math.min(innerHeight-140,e.clientY+12)+"px"; } });
 }
 
 /* ---------- chapters: camera keyframes + what is lit ---------- */
@@ -643,41 +648,105 @@ const KEY={
   wide:   {pos:CLOUD.clone().add(V(0,4,34)), tgt:CLOUD.clone().add(V(0,-2,0))},
   wide2:  {pos:CLOUD.clone().add(V(-18,-2,26)), tgt:CLOUD.clone().add(V(-6,0,0))},
   real:   {pos:CLOUD.clone().add(V(6,1,23)), tgt:CLOUD.clone().add(V(-8,3,0))},
-  browser:{pos:V(14,10,22), tgt:C_b.clone().lerp(V(0,7,-3),.45).add(V(5,0,0))},
+  serve:  {pos:V(14,10,22), tgt:V(0,18,-10)},
   lab:    {pos:CLOUD.clone().add(V(0,-9,27)), tgt:CLOUD.clone().add(V(0,-3,0))},
   coda:   {pos:V(-4,5,38), tgt:V(-2,12,-4)},
 };
 let state={key:null};
-function setLit(fn){ if(!stars) return; const a=stars.geometry.attributes.lit; for(let i=0;i<TOOLS.length;i++) a.array[i]=fn(TOOLS[i],i)?1:.07; a.needsUpdate=true; }
+const litTarget=new Float32Array(TOOLS.length).fill(1);
+function setLit(fn){ for(let i=0;i<TOOLS.length;i++) litTarget[i]=fn(TOOLS[i],i)?1:.07; }
 function enter(key){
   if(state.key===key) return; state.key=key;
   $("#nav").querySelectorAll("a").forEach((a,i)=>a.classList.toggle("on",sections[i].dataset.cam===key));
   if(key==="wide2") window._showSlots();
-  if(["problem","wide","wide2","lab"].includes(key)) $("#legend").open=false;
+  if(key!=="hero") $("#legend").open=false;
   if(!renderer){ if(key==="lab") labRender(); return; }
   waveTimers.forEach(clearTimeout); waveTimers=[];
   clearBeams(); edgesGroup.visible=false; setLabels([]);
   if(key==="hero"||key==="coda"||key==="wide"||key==="wide2"||key==="problem") setLit(()=>true);
-  if(key==="request"){ setLit(t=>t.l==="browser"); setLabels([["Playwright · 25",centroid(t=>t.s==="playwright").add(V(0,2.4,0)),"cluster"],["Chrome DevTools · 6",centroid(t=>t.s==="chrome-devtools").add(V(0,2.4,0)),"cluster"]]); }
+  listTarget = key==="request"?1:0;
+  if(key==="request"){ setLit(t=>t.l===l1); listLabels(); }
   if(key==="real"){ setLit(()=>true); edgesGroup.visible=true; setLabels(Object.keys(LOADOUT_NAME).map(l=>[LOADOUT_NAME[l],centroid(t=>t.l===l).add(V(0,2.8,0)),"cluster"])); }
-  if(key==="browser"){ setLit(t=>t.l==="browser"); addLabel(`list_pages <small>chrome devtools</small>`,starPos[LP]); waves(); }
+  if(key==="serve"){ setLit(t=>t.l===l5); setLabels(serversOf(l5).map(s=>[s,centroid(t=>t.l===l5&&t.s===s).add(V(0,1.8,0)),"cluster"])); waves(); }
   if(key==="lab"){ setLit(t=>t.l===lab.l); labRender(); }
 }
 const camPos=KEY.hero.pos.clone(), camTgt=KEY.hero.tgt.clone(), wantPos=camPos.clone(), wantTgt=camTgt.clone();
 function scrollState(){
-  const mid=innerHeight*.5; let best=0,bestD=1e9;
-  sections.forEach((s,i)=>{ const r=s.getBoundingClientRect(); const d=Math.abs(r.top+r.height/2-mid); if(d<bestD){bestD=d;best=i;} });
-  const s=sections[best], r=s.getBoundingClientRect(), t=r.height>0?Math.max(0,Math.min(1,(mid-r.top)/r.height)):0;
+  const mid=innerHeight*.5; let cur=0;
+  sections.forEach((s,i)=>{ const r=s.getBoundingClientRect(); if(r.top<=mid) cur=i; });
+  const s=sections[cur], r=s.getBoundingClientRect(), t=r.height>0?Math.max(0,Math.min(1,(mid-r.top)/r.height)):0;
   enter(s.dataset.cam);
-  const a=KEY[s.dataset.cam], b=KEY[sections[Math.min(best+1,sections.length-1)].dataset.cam];
-  const u=Math.max(0,(t-.62)/.38), e=u*u*(3-2*u);
-  wantPos.copy(a.pos).lerp(b.pos,e*.5); wantTgt.copy(a.tgt).lerp(b.tgt,e*.5);
+  /* keyframes sit at each section's centre; blend continuously to the neighbour, lifting the camera in an arc */
+  const A=KEY[s.dataset.cam], other=t<.5?sections[Math.max(cur-1,0)]:sections[Math.min(cur+1,sections.length-1)], B=KEY[other.dataset.cam];
+  const raw=t<.5?(.5-t)*2:(t-.5)*2, u=Math.max(0,(raw-.35)/.65), e=u*u*(3-2*u)*.5;
+  wantPos.copy(A.pos).lerp(B.pos,e); wantTgt.copy(A.tgt).lerp(B.tgt,e);
+  wantPos.y+=Math.sin(Math.PI*e)*3.2;
   if(s.dataset.cam==="hero"){ const h=innerHeight>0?Math.min(1,scrollY/innerHeight):0; wantPos.y+=h*7; wantPos.z-=h*7; wantTgt.y+=h*9; }
 }
 addEventListener("scroll",scrollState,{passive:true});
 
+/* ---------- chapter I: unroll a loadout as the list the model reads ---------- */
+const PT={browser:[3493,6232],web:[4292,6165],workspace:[3382,6277],docs:[4441,5300]};
+let l1="browser", listCur=0, listTarget=0;
+const listPos=TOOLS.map(()=>new THREE.Vector3());
+function layoutList(L){
+  const ids=TOOLS.map((t,i)=>i).filter(i=>TOOLS[i].l===L), n=ids.length, cols=n>18?2:1, per=Math.ceil(n/cols), sp=Math.min(.72,12.5/per);
+  const a=stars.geometry.attributes.pos2, b=stars.geometry.attributes.inL;
+  TOOLS.forEach((t,i)=>{ b.array[i]=0; });
+  ids.forEach((i,k)=>{ const c=Math.floor(k/per), r=k%per; listPos[i].set(-12.5+c*8.6, 20-r*sp, 6); listPos[i].toArray(a.array,i*3); b.array[i]=1; });
+  a.needsUpdate=true; b.needsUpdate=true;
+  const c0=new THREE.Vector3(-12.5+(cols-1)*4.3+2.2, 20-(per-1)*sp/2, 6);
+  KEY.request={pos:c0.clone().add(V(-8,0,21)), tgt:c0.clone().add(V(-7.4,0,0))};
+}
+function l1Render(){
+  const seg=$("#l1Seg"); seg.innerHTML="";
+  for(const L in LOADOUT_NAME){ const b=document.createElement("button"); b.type="button"; b.className="btn"+(L===l1?" on":""); b.textContent=LOADOUT_NAME[L]; b.setAttribute("aria-pressed",L===l1);
+    b.onclick=()=>{ l1=L; l1Render(); if(renderer){ layoutList(L); setLit(t=>t.l===L); listLabels(); scrollState(); } }; seg.appendChild(b); }
+  const ts=TOOLS.filter(t=>t.l===l1), servers=[...new Set(ts.map(t=>t.s))];
+  $("#l1look").innerHTML=`<b>Unrolled:</b> the ${ts.length} tools of ${servers.join(", ")}, in the order the model reads them. Dot size is each tool's tokens. Scroll on and the list folds into the sky.`;
+  $("#l1rail").innerHTML=`<div class="row"><span class="k">Prompt</span><span class="big">${fmt(PT[l1][0])} <small>gpt-oss</small></span></div>
+    <div class="row"><span class="k"></span><span class="big">${fmt(PT[l1][1])} <small>qwen · same ${ts.length} tools</small></span></div>
+    <div class="row"><span class="k">All four</span><span class="ci">${Object.keys(PT).map(L=>`${LOADOUT_NAME[L]} ${fmt(PT[L][0])}`).join(" · ")} (gpt-oss)</span></div>
+    <div class="row"><span class="k">Label</span><span><span class="tag meas">measured</span></span></div>
+    <div class="row"><span class="k">Source</span><code>results/exp013_prompt_tokens.json</code></div>
+    <p class="not">Groq-reported counts. Other providers count tool lists differently.</p>`;
+  $("#g1r").textContent="";
+}
+$("#g1b").onclick=()=>{ $("#g1r").innerHTML=`You guessed <b>${fmt(+$("#g1").value)}</b>. Recorded for ${LOADOUT_NAME[l1]}: <b>${fmt(PT[l1][0])}</b> (gpt-oss) and <b>${fmt(PT[l1][1])}</b> (qwen), before a word of your message.`; };
+function listLabels(){ setLabels(TOOLS.map((t,i)=>[i,t]).filter(([i,t])=>t.l===l1).map(([i,t])=>[`<b>${t.n}</b> <small>${t.s}</small>`,listPos[i],"list"])); }
+l1Render();
+
+/* ---------- chapter V: who gets the call, every loadout ---------- */
+let l5="web", m5="120b";
+const serversOf=L=>[...new Set(TOOLS.filter(t=>t.l===L).map(t=>t.s))];
+function hueOf(s){ return HUE[s]?HUE[s][dayTarget?1:0]:"#888"; }
+function rowsOf(L,m,r){ return TR.filter(t=>t[0]===m&&CASES[t[1]].l===L&&t[2]===r); }
+function sharesRender(){
+  const seg=$("#l5Seg"); seg.innerHTML="";
+  for(const L in LOADOUT_NAME){ const b=document.createElement("button"); b.type="button"; b.className="btn"+(L===l5?" on":""); b.textContent=LOADOUT_NAME[L]; b.setAttribute("aria-pressed",L===l5); b.onclick=()=>{ l5=L; sharesRender(); retarget5(); if(state.key==="serve"){ setLit(t=>t.l===l5); waves(); } }; seg.appendChild(b); }
+  const ms=$("#m5Seg"); ms.innerHTML="";
+  for(const m in MODEL_NAME){ const b=document.createElement("button"); b.type="button"; b.className="btn"+(m===m5?" on":""); b.textContent=MODEL_NAME[m]; b.setAttribute("aria-pressed",m===m5); b.onclick=()=>{ m5=m; sharesRender(); if(state.key==="serve") waves(); }; ms.appendChild(b); }
+  const sv=serversOf(l5), el=$("#shares"); el.innerHTML="";
+  sv.forEach((first,r)=>{ const rows=rowsOf(l5,m5,r); if(!rows.length) return;
+    const cnt={}; rows.forEach(t=>{ const k=t[3]==null?"refused":TOOLS[t[3]].s; cnt[k]=(cnt[k]||0)+1; });
+    const segs=[...sv,"refused"].filter(k=>cnt[k]).map(k=>`<span style="flex-grow:${cnt[k]};background:${k==="refused"?"var(--ink-3)":hueOf(k)}" title="${k}: ${cnt[k]}">${cnt[k]}</span>`).join("");
+    el.insertAdjacentHTML("beforeend",`<div class="share"><div class="cap"><span>${first} listed first</span><span>${rows.length} requests</span></div><div class="bar">${segs}</div></div>`); });
+  $("#keys").innerHTML=sv.map(s=>`<span><i style="background:${hueOf(s)}"></i>${s}</span>`).join("")+`<span><i style="background:var(--ink-3)"></i>refused</span>`;
+  /* recorded callout for this loadout */
+  let txt;
+  if(l5==="browser"){ const n=[0,1].map(r=>rowsOf("browser",m5,r).filter(t=>t[3]===LP).length); txt=`First call was Chrome DevTools' <b>list_pages</b> in <b>${n[0]+n[1]} of 24</b>, including jobs only Playwright can do.`; }
+  else { const sh=Object.keys(CASES).filter(c=>CASES[c].l===l5&&CASES[c].sh);
+    let flips=0; for(const c of sh){ const s=new Set(TR.filter(t=>t[0]===m5&&t[1]===c&&t[4]).map(t=>TOOLS[t[3]].s)); if(s.size>1) flips++; }
+    const tot={}; sv.forEach((_,r)=>rowsOf(l5,m5,r).forEach(t=>{ if(t[3]!=null){ const s=TOOLS[t[3]].s; tot[s]=(tot[s]||0)+1; } }));
+    const top=Object.entries(tot).sort((a,b)=>b[1]-a[1])[0];
+    txt=`Most first calls went to <b>${top?top[0]:"none"}</b> (${top?top[1]:0} of ${sv.length*12}) whatever came first. Order changed the server in <b>${flips} of ${sh.length}</b> shared requests.`; }
+  $("#callout").innerHTML=txt; $("#src5").textContent=`results/exp013_${m5}.json`;
+}
+function retarget5(){ const c=centroid(t=>t.l===l5); KEY.serve={pos:c.clone().add(V(-4,4,19)), tgt:c.clone().add(V(5.5,0,0))}; }
+retarget5(); sharesRender();
+
 /* ---------- lab ---------- */
-const lab={m:"120b",l:"browser",c:"rb09",rot:0};
+const lab={m:"120b",l:"web",c:"rw04",rot:0};
 function labRender(){
   const mSeg=$("#mSeg"),lSeg=$("#lSeg"),rSeg=$("#rSeg"),list=$("#caseList");
   mSeg.innerHTML=""; for(const m in MODEL_NAME){ const b=document.createElement("button"); b.type="button"; b.className="btn"+(lab.m===m?" on":""); b.textContent=MODEL_NAME[m]; b.setAttribute("aria-pressed",lab.m===m); b.onclick=()=>{lab.m=m;labRender()}; mSeg.appendChild(b); }
@@ -704,13 +773,13 @@ function labRender(){
     if(em) addLabel(`${em.n} <small>${row[4]?"called · right":"called · wrong"}</small>`,starPos[row[3]]);
     if(!row[4]) cs.g.forEach(i=>addLabel(`${TOOLS[i].n} <small>accepted</small>`,starPos[i])); }
 }
-if(!gl_ok) labRender();
+if(!gl_ok) labRender(); else layoutList(l1);
 
 /* ---------- time of day ---------- */
 function setDay(v,save=true){ dayTarget=v; document.documentElement.setAttribute("data-theme",v?"light":"dark");
   $("#todDusk").setAttribute("aria-pressed",!v); $("#todMorning").setAttribute("aria-pressed",!!v);
   if(save) try{ localStorage.setItem("obsTOD",v?"morning":"dusk"); }catch(e){} }
-$("#todDusk").onclick=()=>setDay(0); $("#todMorning").onclick=()=>setDay(1);
+$("#todDusk").onclick=()=>{setDay(0); sharesRender();}; $("#todMorning").onclick=()=>{setDay(1); sharesRender();};
 (function(){ let s=null; try{ s=localStorage.getItem("obsTOD"); }catch(e){}
   const v = s? (s==="morning"?1:0) : (matchMedia("(prefers-color-scheme: light)").matches?1:0);
   setDay(v,false); day=v; })();
@@ -740,7 +809,12 @@ function loop(){
   for(const b of beams){ const u=Math.max(0,Math.min(1,(now-b.t0)/(REDUCE?1:950))); b.mat.uniforms.uP.value=u; b.mat.uniforms.uT.value=t; b.mat.uniforms.uDay.value=b.mat.uniforms.uDay.value>.99&&!b.ret?1:day;
     if(b.ret){ b.ret.material.opacity=Math.max(0,(u-.85)/.15); b.ret.material.rotation=REDUCE?0:t*.35; }
     b.rings.forEach(s=>s.material.opacity=Math.max(0,(u-.9)/.1)*.85); }
-  ray.setFromCamera(mouse,camera); const hit=ray.intersectObject(stars)[0], hi=hit?hit.index:-1;
+  { const a=stars.geometry.attributes.lit; let ch=false; for(let i=0;i<TOOLS.length;i++){ const d=litTarget[i]-a.array[i]; if(Math.abs(d)>.002){ a.array[i]+=d*(REDUCE?1:.07); ch=true; } } if(ch) a.needsUpdate=true; }
+  listCur+=(listTarget-listCur)*(REDUCE?1:.06); starMat.uniforms.uList.value=listCur;
+  /* screen-space picking (works for list and sky positions, and on tap) */
+  let hi=-1, bestD=22*22; const inL=stars.geometry.attributes.inL.array, kk=listCur*listCur*(3-2*listCur);
+  if(mouse.x>-2) for(let i=0;i<TOOLS.length;i++){ v3.copy(starPos[i]).lerp(listPos[i],kk*inL[i]).project(camera); if(v3.z>1) continue;
+    const dx=(v3.x-mouse.x)*innerWidth/2, dy=(v3.y-mouse.y)*innerHeight/2, d=dx*dx+dy*dy; if(d<bestD){bestD=d;hi=i;} }
   if(hi!==hoverIdx){ hoverIdx=hi; starMat.uniforms.uHover.value=hi;
     if(hi>=0){ const tt=TOOLS[hi]; tip.innerHTML=`<b>${tt.n}</b><span class="m">${tt.s} · ${LOADOUT_NAME[tt.l]} · ${tt.k} tokens</span><span class="d">${tt.d}${tt.d.length>=160?"…":""}</span>`; tip.style.opacity=1; } else tip.style.opacity=0; }
   for(const L of labels){ v3.copy(L.pos).project(camera); const vis=v3.z<1&&Math.abs(v3.x)<1.05&&Math.abs(v3.y)<1.05; L.d.style.opacity=vis?1:0; L.d.style.left=((v3.x+1)/2*innerWidth)+"px"; L.d.style.top=((1-v3.y)/2*innerHeight)+"px"; }
@@ -749,5 +823,9 @@ function loop(){
   composer&&day<.5? composer.render() : renderer.render(scene,camera);
 }
 if(SMALL) $("#legend").removeAttribute("open");
+(function(){ const cards=document.querySelectorAll(".card");
+  if(REDUCE||!("IntersectionObserver" in window)){ cards.forEach(c=>c.classList.add("in")); return; }
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("in"); }),{threshold:.12});
+  cards.forEach(c=>io.observe(c)); })();
 scrollState();
 </script>

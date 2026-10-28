@@ -21,6 +21,13 @@ The Tour is a **scroll-driven 3D observatory at dusk**:
 - **Shaders.** Sky with scattering-like gradient, sun glow, a two-layer procedural ridge and a faint, low-contrast Milky Way band (scenery only, captioned as such in the footer); dome shaded by a sky rim light; lamp light pooled on the ground in front of the slit; stars with core, halo and diffraction spikes; beams and threads as tubes with a travelling pulse.
 - **Understanding.** A "how an agent picks a tool" chapter before any data; a persistent legend; named chapter navigation; each chapter's "what you're looking at" line; chapter V plays two waves (Playwright first, then Chrome DevTools first) with the recorded count.
 
+## Third pass, after a design critique (2026-10-28)
+- **All four loadouts, not one pair.** Chapter I has a loadout switcher; chapter V became "Who gets the call", with recorded first-call shares by server for every loadout, model and ordering, and a recorded callout per loadout (e.g. workspace shares were identical under all three orderings for gpt-oss-120b). The lab opens on web search.
+- **List → sky.** In chapter I the chosen loadout unrolls into the literal list the model reads, in snapshot order, with names; scrolling on folds it into the similarity sky. Only the visual position animates between two real layouts (list order, embedding projection); no intermediate state is presented as data.
+- **Dynamic transitions.** Highlight changes ease instead of snapping; the camera blends continuously between chapter keyframes along a lifted arc; cards rise into place from a visible resting state; screen-space picking works on tap and follows the morph.
+- **Accessibility.** Muted text darkened/lightened for AA in both themes; buttons, case rows and nav targets at least 40px; the legend folds after the hero; Null Wall states each tile's own scale.
+- **Coda** is now "What it means": three takeaways tied to chapters II, IV and V, with the inconclusive order-effect numbers kept at full size.
+
 ## What the review kept from the rejected draft
 - State by shape as well as colour (ring / cross / dashed ring / stub).
 - The rail as a record: label as prominent as the number, source path, limit line.
