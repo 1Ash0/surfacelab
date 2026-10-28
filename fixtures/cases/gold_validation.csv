@@ -1,0 +1,273 @@
+case_id,surface,request,tools_on_surface,acceptable_tools (every tool that would correctly do this; comma-separated; 'none' if none),comment
+nf01,nd_files,Is there a file called invoice_march.pdf somewhere on this laptop?,"search_files: Search for files by name on the local disk of this computer. Matches file names only, not their contents.
+find_files: Find text inside files on the local disk. Returns each file and line where the phrase appears; does not match file names.
+locate_files: Locate files by name in the user's cloud drive (synced online storage). Does not look at the local disk.
+query_files: List files on the local disk that were modified within the last N days, newest first.",,
+nf02,nd_files,Find the file named setup.cfg on my local disk.,"search_files: Search for files by name on the local disk of this computer. Matches file names only, not their contents.
+find_files: Find text inside files on the local disk. Returns each file and line where the phrase appears; does not match file names.
+locate_files: Locate files by name in the user's cloud drive (synced online storage). Does not look at the local disk.
+query_files: List files on the local disk that were modified within the last N days, newest first.",,
+nf03,nd_files,Which of my local files mention the phrase 'quarterly targets'?,"search_files: Search for files by name on the local disk of this computer. Matches file names only, not their contents.
+find_files: Find text inside files on the local disk. Returns each file and line where the phrase appears; does not match file names.
+locate_files: Locate files by name in the user's cloud drive (synced online storage). Does not look at the local disk.
+query_files: List files on the local disk that were modified within the last N days, newest first.",,
+nf04,nd_files,Search my local files for any line containing TODO.,"search_files: Search for files by name on the local disk of this computer. Matches file names only, not their contents.
+find_files: Find text inside files on the local disk. Returns each file and line where the phrase appears; does not match file names.
+locate_files: Locate files by name in the user's cloud drive (synced online storage). Does not look at the local disk.
+query_files: List files on the local disk that were modified within the last N days, newest first.",,
+nf05,nd_files,Is budget_2026.xlsx in my cloud drive?,"search_files: Search for files by name on the local disk of this computer. Matches file names only, not their contents.
+find_files: Find text inside files on the local disk. Returns each file and line where the phrase appears; does not match file names.
+locate_files: Locate files by name in the user's cloud drive (synced online storage). Does not look at the local disk.
+query_files: List files on the local disk that were modified within the last N days, newest first.",,
+nf06,nd_files,Find the slide deck named roadmap.pptx in my online storage.,"search_files: Search for files by name on the local disk of this computer. Matches file names only, not their contents.
+find_files: Find text inside files on the local disk. Returns each file and line where the phrase appears; does not match file names.
+locate_files: Locate files by name in the user's cloud drive (synced online storage). Does not look at the local disk.
+query_files: List files on the local disk that were modified within the last N days, newest first.",,
+nf07,nd_files,What files on this computer did I change in the last 3 days?,"search_files: Search for files by name on the local disk of this computer. Matches file names only, not their contents.
+find_files: Find text inside files on the local disk. Returns each file and line where the phrase appears; does not match file names.
+locate_files: Locate files by name in the user's cloud drive (synced online storage). Does not look at the local disk.
+query_files: List files on the local disk that were modified within the last N days, newest first.",,
+nf08,nd_files,Search for local files modified since yesterday.,"search_files: Search for files by name on the local disk of this computer. Matches file names only, not their contents.
+find_files: Find text inside files on the local disk. Returns each file and line where the phrase appears; does not match file names.
+locate_files: Locate files by name in the user's cloud drive (synced online storage). Does not look at the local disk.
+query_files: List files on the local disk that were modified within the last N days, newest first.",,
+nm01,nd_messaging,"Email dana@example.com that the contract is signed, with the subject 'Signed'.","send_message: Send an email to one or more email addresses, with a subject and body.
+post_message: Post a message to a team chat channel such as #general. Cannot send email.
+push_message: Send a push notification to the current user's own phone. Cannot reach anyone else.
+dispatch_message: Send an SMS text message to a phone number.",,
+nm02,nd_messaging,Post a note to raj@example.org saying the build passed.,"send_message: Send an email to one or more email addresses, with a subject and body.
+post_message: Post a message to a team chat channel such as #general. Cannot send email.
+push_message: Send a push notification to the current user's own phone. Cannot reach anyone else.
+dispatch_message: Send an SMS text message to a phone number.",,
+nm03,nd_messaging,Tell the #design channel that the new mockups are up.,"send_message: Send an email to one or more email addresses, with a subject and body.
+post_message: Post a message to a team chat channel such as #general. Cannot send email.
+push_message: Send a push notification to the current user's own phone. Cannot reach anyone else.
+dispatch_message: Send an SMS text message to a phone number.",,
+nm04,nd_messaging,Send 'standup moved to 10am' to the #engineering channel.,"send_message: Send an email to one or more email addresses, with a subject and body.
+post_message: Post a message to a team chat channel such as #general. Cannot send email.
+push_message: Send a push notification to the current user's own phone. Cannot reach anyone else.
+dispatch_message: Send an SMS text message to a phone number.",,
+nm05,nd_messaging,Ping my phone with a notification saying 'leave for the airport'.,"send_message: Send an email to one or more email addresses, with a subject and body.
+post_message: Post a message to a team chat channel such as #general. Cannot send email.
+push_message: Send a push notification to the current user's own phone. Cannot reach anyone else.
+dispatch_message: Send an SMS text message to a phone number.",,
+nm06,nd_messaging,Send myself a phone notification: 'call the bank'.,"send_message: Send an email to one or more email addresses, with a subject and body.
+post_message: Post a message to a team chat channel such as #general. Cannot send email.
+push_message: Send a push notification to the current user's own phone. Cannot reach anyone else.
+dispatch_message: Send an SMS text message to a phone number.",,
+nm07,nd_messaging,Text +1 555 0100: running 10 minutes late.,"send_message: Send an email to one or more email addresses, with a subject and body.
+post_message: Post a message to a team chat channel such as #general. Cannot send email.
+push_message: Send a push notification to the current user's own phone. Cannot reach anyone else.
+dispatch_message: Send an SMS text message to a phone number.",,
+nm08,nd_messaging,Post a text message to 07700 900123 saying the parcel has arrived.,"send_message: Send an email to one or more email addresses, with a subject and body.
+post_message: Post a message to a team chat channel such as #general. Cannot send email.
+push_message: Send a push notification to the current user's own phone. Cannot reach anyone else.
+dispatch_message: Send an SMS text message to a phone number.",,
+nd01,nd_documents,Pull up the 'Onboarding checklist' page from our wiki.,"get_document: Get a page from the company's internal wiki by its page title.
+fetch_document: Download a file from a public web address (an http or https URL).
+read_document: Read a PDF stored on the local disk and return its text.
+open_document: Open a signed contract from the contracts archive by contract ID (format CT-12345).",,
+nd02,nd_documents,Open the wiki page titled 'Expense policy'.,"get_document: Get a page from the company's internal wiki by its page title.
+fetch_document: Download a file from a public web address (an http or https URL).
+read_document: Read a PDF stored on the local disk and return its text.
+open_document: Open a signed contract from the contracts archive by contract ID (format CT-12345).",,
+nd03,nd_documents,Download https://example.com/report.csv for me.,"get_document: Get a page from the company's internal wiki by its page title.
+fetch_document: Download a file from a public web address (an http or https URL).
+read_document: Read a PDF stored on the local disk and return its text.
+open_document: Open a signed contract from the contracts archive by contract ID (format CT-12345).",,
+nd04,nd_documents,Get the file at http://data.example.org/prices.json.,"get_document: Get a page from the company's internal wiki by its page title.
+fetch_document: Download a file from a public web address (an http or https URL).
+read_document: Read a PDF stored on the local disk and return its text.
+open_document: Open a signed contract from the contracts archive by contract ID (format CT-12345).",,
+nd05,nd_documents,What does the PDF at /home/user/lease.pdf say?,"get_document: Get a page from the company's internal wiki by its page title.
+fetch_document: Download a file from a public web address (an http or https URL).
+read_document: Read a PDF stored on the local disk and return its text.
+open_document: Open a signed contract from the contracts archive by contract ID (format CT-12345).",,
+nd06,nd_documents,Fetch the text of the PDF C:\docs\manual.pdf from my disk.,"get_document: Get a page from the company's internal wiki by its page title.
+fetch_document: Download a file from a public web address (an http or https URL).
+read_document: Read a PDF stored on the local disk and return its text.
+open_document: Open a signed contract from the contracts archive by contract ID (format CT-12345).",,
+nd07,nd_documents,Show me contract CT-40213.,"get_document: Get a page from the company's internal wiki by its page title.
+fetch_document: Download a file from a public web address (an http or https URL).
+read_document: Read a PDF stored on the local disk and return its text.
+open_document: Open a signed contract from the contracts archive by contract ID (format CT-12345).",,
+nd08,nd_documents,Read contract CT-11872 from the archive.,"get_document: Get a page from the company's internal wiki by its page title.
+fetch_document: Download a file from a public web address (an http or https URL).
+read_document: Read a PDF stored on the local disk and return its text.
+open_document: Open a signed contract from the contracts archive by contract ID (format CT-12345).",,
+nc01,nd_calendar,Put my dentist appointment on my calendar for Friday at 2pm.,"create_event: Create an entry on the user's own calendar. No other people are invited.
+schedule_event: Set up a meeting with other people and email them invitations.
+book_event: Reserve a meeting room for a time slot. Does not add anything to a calendar.
+add_event: Add a task with a due date to the user's to-do list. Does not create calendar entries.",,
+nc02,nd_calendar,"Schedule a focus block for me on Thursday from 9 to 11am, just on my own calendar.","create_event: Create an entry on the user's own calendar. No other people are invited.
+schedule_event: Set up a meeting with other people and email them invitations.
+book_event: Reserve a meeting room for a time slot. Does not add anything to a calendar.
+add_event: Add a task with a due date to the user's to-do list. Does not create calendar entries.",,
+nc03,nd_calendar,Set up a call with priya@example.com and tom@example.com next Monday at 3pm.,"create_event: Create an entry on the user's own calendar. No other people are invited.
+schedule_event: Set up a meeting with other people and email them invitations.
+book_event: Reserve a meeting room for a time slot. Does not add anything to a calendar.
+add_event: Add a task with a due date to the user's to-do list. Does not create calendar entries.",,
+nc04,nd_calendar,Book a meeting with design@example.com for Wednesday at 11am and invite them.,"create_event: Create an entry on the user's own calendar. No other people are invited.
+schedule_event: Set up a meeting with other people and email them invitations.
+book_event: Reserve a meeting room for a time slot. Does not add anything to a calendar.
+add_event: Add a task with a due date to the user's to-do list. Does not create calendar entries.",,
+nc05,nd_calendar,Reserve room 4B for Tuesday from 1 to 2pm.,"create_event: Create an entry on the user's own calendar. No other people are invited.
+schedule_event: Set up a meeting with other people and email them invitations.
+book_event: Reserve a meeting room for a time slot. Does not add anything to a calendar.
+add_event: Add a task with a due date to the user's to-do list. Does not create calendar entries.",,
+nc06,nd_calendar,Add a booking for the Large Boardroom on May 3 from 9 to 10am.,"create_event: Create an entry on the user's own calendar. No other people are invited.
+schedule_event: Set up a meeting with other people and email them invitations.
+book_event: Reserve a meeting room for a time slot. Does not add anything to a calendar.
+add_event: Add a task with a due date to the user's to-do list. Does not create calendar entries.",,
+nc07,nd_calendar,"Put 'renew passport' on my to-do list, due June 1.","create_event: Create an entry on the user's own calendar. No other people are invited.
+schedule_event: Set up a meeting with other people and email them invitations.
+book_event: Reserve a meeting room for a time slot. Does not add anything to a calendar.
+add_event: Add a task with a due date to the user's to-do list. Does not create calendar entries.",,
+nc08,nd_calendar,Create a to-do item to file my taxes by April 15.,"create_event: Create an entry on the user's own calendar. No other people are invited.
+schedule_event: Set up a meeting with other people and email them invitations.
+book_event: Reserve a meeting room for a time slot. Does not add anything to a calendar.
+add_event: Add a task with a due date to the user's to-do list. Does not create calendar entries.",,
+xo01,xo_files_qualified,Search this computer's disk for a file named backup.zip.,"local_fs/search_files: Search file names on this computer's local disk.
+local_fs/read_file: Read a text file from this computer's local disk.
+local_fs/delete_file: Delete a file from this computer's local disk.
+cloud_drive/search_files: Search file names in the user's cloud drive.
+cloud_drive/read_file: Read a document stored in the user's cloud drive.
+cloud_drive/delete_file: Move a file in the user's cloud drive to its trash.",,
+xo02,xo_files_qualified,Read the notes.txt file on my laptop's hard drive.,"local_fs/search_files: Search file names on this computer's local disk.
+local_fs/read_file: Read a text file from this computer's local disk.
+local_fs/delete_file: Delete a file from this computer's local disk.
+cloud_drive/search_files: Search file names in the user's cloud drive.
+cloud_drive/read_file: Read a document stored in the user's cloud drive.
+cloud_drive/delete_file: Move a file in the user's cloud drive to its trash.",,
+xo03,xo_files_qualified,Delete old_draft.docx from my local disk.,"local_fs/search_files: Search file names on this computer's local disk.
+local_fs/read_file: Read a text file from this computer's local disk.
+local_fs/delete_file: Delete a file from this computer's local disk.
+cloud_drive/search_files: Search file names in the user's cloud drive.
+cloud_drive/read_file: Read a document stored in the user's cloud drive.
+cloud_drive/delete_file: Move a file in the user's cloud drive to its trash.",,
+xo04,xo_files_qualified,Look on this machine for any file called taxes_2025.pdf.,"local_fs/search_files: Search file names on this computer's local disk.
+local_fs/read_file: Read a text file from this computer's local disk.
+local_fs/delete_file: Delete a file from this computer's local disk.
+cloud_drive/search_files: Search file names in the user's cloud drive.
+cloud_drive/read_file: Read a document stored in the user's cloud drive.
+cloud_drive/delete_file: Move a file in the user's cloud drive to its trash.",,
+xo05,xo_files_qualified,Search my cloud drive for the file holiday_photos.zip.,"local_fs/search_files: Search file names on this computer's local disk.
+local_fs/read_file: Read a text file from this computer's local disk.
+local_fs/delete_file: Delete a file from this computer's local disk.
+cloud_drive/search_files: Search file names in the user's cloud drive.
+cloud_drive/read_file: Read a document stored in the user's cloud drive.
+cloud_drive/delete_file: Move a file in the user's cloud drive to its trash.",,
+xo06,xo_files_qualified,Read the meeting_minutes document I saved in my cloud drive.,"local_fs/search_files: Search file names on this computer's local disk.
+local_fs/read_file: Read a text file from this computer's local disk.
+local_fs/delete_file: Delete a file from this computer's local disk.
+cloud_drive/search_files: Search file names in the user's cloud drive.
+cloud_drive/read_file: Read a document stored in the user's cloud drive.
+cloud_drive/delete_file: Move a file in the user's cloud drive to its trash.",,
+xo07,xo_files_qualified,Move old_budget.xlsx in my cloud drive to the trash.,"local_fs/search_files: Search file names on this computer's local disk.
+local_fs/read_file: Read a text file from this computer's local disk.
+local_fs/delete_file: Delete a file from this computer's local disk.
+cloud_drive/search_files: Search file names in the user's cloud drive.
+cloud_drive/read_file: Read a document stored in the user's cloud drive.
+cloud_drive/delete_file: Move a file in the user's cloud drive to its trash.",,
+xo08,xo_files_qualified,Is there a file called contract_v2.pdf in my online cloud storage?,"local_fs/search_files: Search file names on this computer's local disk.
+local_fs/read_file: Read a text file from this computer's local disk.
+local_fs/delete_file: Delete a file from this computer's local disk.
+cloud_drive/search_files: Search file names in the user's cloud drive.
+cloud_drive/read_file: Read a document stored in the user's cloud drive.
+cloud_drive/delete_file: Move a file in the user's cloud drive to its trash.",,
+xo09,xo_mail_qualified,"From my acme.com work account, email lee@acme.com that the report is done.","work_mail/send_email: Send an email from the user's work account (@acme.com).
+work_mail/search_inbox: Search the user's work inbox (@acme.com).
+work_mail/archive_email: Archive a message in the user's work inbox (@acme.com).
+personal_mail/send_email: Send an email from the user's personal account (@gmail.com).
+personal_mail/search_inbox: Search the user's personal inbox (@gmail.com).
+personal_mail/archive_email: Archive a message in the user's personal inbox (@gmail.com).",,
+xo10,xo_mail_qualified,Search my work inbox for messages about the Q3 audit.,"work_mail/send_email: Send an email from the user's work account (@acme.com).
+work_mail/search_inbox: Search the user's work inbox (@acme.com).
+work_mail/archive_email: Archive a message in the user's work inbox (@acme.com).
+personal_mail/send_email: Send an email from the user's personal account (@gmail.com).
+personal_mail/search_inbox: Search the user's personal inbox (@gmail.com).
+personal_mail/archive_email: Archive a message in the user's personal inbox (@gmail.com).",,
+xo11,xo_mail_qualified,Archive the latest newsletter in my work email.,"work_mail/send_email: Send an email from the user's work account (@acme.com).
+work_mail/search_inbox: Search the user's work inbox (@acme.com).
+work_mail/archive_email: Archive a message in the user's work inbox (@acme.com).
+personal_mail/send_email: Send an email from the user's personal account (@gmail.com).
+personal_mail/search_inbox: Search the user's personal inbox (@gmail.com).
+personal_mail/archive_email: Archive a message in the user's personal inbox (@gmail.com).",,
+xo12,xo_mail_qualified,"Using my work address, send team@acme.com a note that the office is closed Friday.","work_mail/send_email: Send an email from the user's work account (@acme.com).
+work_mail/search_inbox: Search the user's work inbox (@acme.com).
+work_mail/archive_email: Archive a message in the user's work inbox (@acme.com).
+personal_mail/send_email: Send an email from the user's personal account (@gmail.com).
+personal_mail/search_inbox: Search the user's personal inbox (@gmail.com).
+personal_mail/archive_email: Archive a message in the user's personal inbox (@gmail.com).",,
+xo13,xo_mail_qualified,"From my personal gmail, email mum@example.com that I'll visit on Sunday.","work_mail/send_email: Send an email from the user's work account (@acme.com).
+work_mail/search_inbox: Search the user's work inbox (@acme.com).
+work_mail/archive_email: Archive a message in the user's work inbox (@acme.com).
+personal_mail/send_email: Send an email from the user's personal account (@gmail.com).
+personal_mail/search_inbox: Search the user's personal inbox (@gmail.com).
+personal_mail/archive_email: Archive a message in the user's personal inbox (@gmail.com).",,
+xo14,xo_mail_qualified,Search my personal inbox for the flight confirmation.,"work_mail/send_email: Send an email from the user's work account (@acme.com).
+work_mail/search_inbox: Search the user's work inbox (@acme.com).
+work_mail/archive_email: Archive a message in the user's work inbox (@acme.com).
+personal_mail/send_email: Send an email from the user's personal account (@gmail.com).
+personal_mail/search_inbox: Search the user's personal inbox (@gmail.com).
+personal_mail/archive_email: Archive a message in the user's personal inbox (@gmail.com).",,
+xo15,xo_mail_qualified,Archive the gym membership email in my personal gmail account.,"work_mail/send_email: Send an email from the user's work account (@acme.com).
+work_mail/search_inbox: Search the user's work inbox (@acme.com).
+work_mail/archive_email: Archive a message in the user's work inbox (@acme.com).
+personal_mail/send_email: Send an email from the user's personal account (@gmail.com).
+personal_mail/search_inbox: Search the user's personal inbox (@gmail.com).
+personal_mail/archive_email: Archive a message in the user's personal inbox (@gmail.com).",,
+xo16,xo_mail_qualified,Look through my gmail for the concert tickets.,"work_mail/send_email: Send an email from the user's work account (@acme.com).
+work_mail/search_inbox: Search the user's work inbox (@acme.com).
+work_mail/archive_email: Archive a message in the user's work inbox (@acme.com).
+personal_mail/send_email: Send an email from the user's personal account (@gmail.com).
+personal_mail/search_inbox: Search the user's personal inbox (@gmail.com).
+personal_mail/archive_email: Archive a message in the user's personal inbox (@gmail.com).",,
+xo17,xo_knowledge_qualified,Search our team wiki for the deployment runbook.,"team_wiki/search: Search the team's internal wiki pages.
+team_wiki/get_page: Get an internal wiki page by title.
+team_wiki/list_recent: List recently edited internal wiki pages.
+public_web/search: Search the public web.
+public_web/get_page: Get a public web page by URL.
+public_web/list_recent: List the latest public news headlines.",,
+xo18,xo_knowledge_qualified,Get the internal wiki page titled 'On-call rota'.,"team_wiki/search: Search the team's internal wiki pages.
+team_wiki/get_page: Get an internal wiki page by title.
+team_wiki/list_recent: List recently edited internal wiki pages.
+public_web/search: Search the public web.
+public_web/get_page: Get a public web page by URL.
+public_web/list_recent: List the latest public news headlines.",,
+xo19,xo_knowledge_qualified,Which internal wiki pages were edited recently?,"team_wiki/search: Search the team's internal wiki pages.
+team_wiki/get_page: Get an internal wiki page by title.
+team_wiki/list_recent: List recently edited internal wiki pages.
+public_web/search: Search the public web.
+public_web/get_page: Get a public web page by URL.
+public_web/list_recent: List the latest public news headlines.",,
+xo20,xo_knowledge_qualified,Find our internal documentation about the VPN setup.,"team_wiki/search: Search the team's internal wiki pages.
+team_wiki/get_page: Get an internal wiki page by title.
+team_wiki/list_recent: List recently edited internal wiki pages.
+public_web/search: Search the public web.
+public_web/get_page: Get a public web page by URL.
+public_web/list_recent: List the latest public news headlines.",,
+xo21,xo_knowledge_qualified,Search the web for reviews of the new Pixel phone.,"team_wiki/search: Search the team's internal wiki pages.
+team_wiki/get_page: Get an internal wiki page by title.
+team_wiki/list_recent: List recently edited internal wiki pages.
+public_web/search: Search the public web.
+public_web/get_page: Get a public web page by URL.
+public_web/list_recent: List the latest public news headlines.",,
+xo22,xo_knowledge_qualified,Get the page at https://example.com/pricing.,"team_wiki/search: Search the team's internal wiki pages.
+team_wiki/get_page: Get an internal wiki page by title.
+team_wiki/list_recent: List recently edited internal wiki pages.
+public_web/search: Search the public web.
+public_web/get_page: Get a public web page by URL.
+public_web/list_recent: List the latest public news headlines.",,
+xo23,xo_knowledge_qualified,What are the latest news headlines?,"team_wiki/search: Search the team's internal wiki pages.
+team_wiki/get_page: Get an internal wiki page by title.
+team_wiki/list_recent: List recently edited internal wiki pages.
+public_web/search: Search the public web.
+public_web/get_page: Get a public web page by URL.
+public_web/list_recent: List the latest public news headlines.",,
+xo24,xo_knowledge_qualified,Look up the weather forecast for Lisbon online.,"team_wiki/search: Search the team's internal wiki pages.
+team_wiki/get_page: Get an internal wiki page by title.
+team_wiki/list_recent: List recently edited internal wiki pages.
+public_web/search: Search the public web.
+public_web/get_page: Get a public web page by URL.
+public_web/list_recent: List the latest public news headlines.",,

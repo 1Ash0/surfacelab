@@ -1,0 +1,95 @@
+{
+  "server_name": "xo_files",
+  "tools": [
+    {
+      "name": "local_fs_search_files",
+      "description": "Search file names on this computer's local disk.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "local_fs_read_file",
+      "description": "Read a text file from this computer's local disk.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "local_fs_delete_file",
+      "description": "Delete a file from this computer's local disk.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "cloud_drive_search_files",
+      "description": "Search file names in the user's cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "cloud_drive_read_file",
+      "description": "Read a document stored in the user's cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "cloud_drive_delete_file",
+      "description": "Move a file in the user's cloud drive to its trash.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    }
+  ]
+}

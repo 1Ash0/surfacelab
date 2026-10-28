@@ -1,0 +1,65 @@
+{
+  "server_name": "nd_documents",
+  "tools": [
+    {
+      "name": "get_document",
+      "description": "Get a page from the company's internal wiki by its page title.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "fetch_document",
+      "description": "Download a file from a public web address (an http or https URL).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "read_document",
+      "description": "Read a PDF stored on the local disk and return its text.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "open_document",
+      "description": "Open a signed contract from the contracts archive by contract ID (format CT-12345).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    }
+  ]
+}

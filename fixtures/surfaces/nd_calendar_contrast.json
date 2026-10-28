@@ -1,0 +1,65 @@
+{
+  "server_name": "nd_calendar",
+  "tools": [
+    {
+      "name": "create_event",
+      "description": "Create an entry on the user's own calendar. No other people are invited. Use this for the user's own calendar entries. For meetings that invite other people, use `schedule_event`. For reserving a meeting room, use `book_event`. For to-do list tasks, use `add_event`.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "schedule_event",
+      "description": "Set up a meeting with other people and email them invitations. Use this for meetings that invite other people. For the user's own calendar entries, use `create_event`. For reserving a meeting room, use `book_event`. For to-do list tasks, use `add_event`.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "book_event",
+      "description": "Reserve a meeting room for a time slot. Does not add anything to a calendar. Use this for reserving a meeting room. For the user's own calendar entries, use `create_event`. For meetings that invite other people, use `schedule_event`. For to-do list tasks, use `add_event`.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "add_event",
+      "description": "Add a task with a due date to the user's to-do list. Does not create calendar entries. Use this for to-do list tasks. For the user's own calendar entries, use `create_event`. For meetings that invite other people, use `schedule_event`. For reserving a meeting room, use `book_event`.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    }
+  ]
+}

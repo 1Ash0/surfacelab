@@ -1,0 +1,65 @@
+{
+  "server_name": "nd_calendar",
+  "tools": [
+    {
+      "name": "create_event",
+      "description": "Create an entry on the user's own calendar. No other people are invited. Do not use this for meetings that invite other people, reserving a meeting room or to-do list tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "schedule_event",
+      "description": "Set up a meeting with other people and email them invitations. Do not use this for the user's own calendar entries, reserving a meeting room or to-do list tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "book_event",
+      "description": "Reserve a meeting room for a time slot. Does not add anything to a calendar. Do not use this for the user's own calendar entries, meetings that invite other people or to-do list tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "add_event",
+      "description": "Add a task with a due date to the user's to-do list. Does not create calendar entries. Do not use this for the user's own calendar entries, meetings that invite other people or reserving a meeting room.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    }
+  ]
+}

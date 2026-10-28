@@ -1,0 +1,65 @@
+{
+  "server_name": "nd_messaging",
+  "tools": [
+    {
+      "name": "send_message",
+      "description": "Send an email to one or more email addresses, with a subject and body. Use this for emailing someone. For posting in a team chat channel, use `post_message`. For notifying the user's own phone, use `push_message`. For texting a phone number, use `dispatch_message`.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "post_message",
+      "description": "Post a message to a team chat channel such as #general. Cannot send email. Use this for posting in a team chat channel. For emailing someone, use `send_message`. For notifying the user's own phone, use `push_message`. For texting a phone number, use `dispatch_message`.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "push_message",
+      "description": "Send a push notification to the current user's own phone. Cannot reach anyone else. Use this for notifying the user's own phone. For emailing someone, use `send_message`. For posting in a team chat channel, use `post_message`. For texting a phone number, use `dispatch_message`.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "dispatch_message",
+      "description": "Send an SMS text message to a phone number. Use this for texting a phone number. For emailing someone, use `send_message`. For posting in a team chat channel, use `post_message`. For notifying the user's own phone, use `push_message`.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "server_name": "xo_mail",
+  "tools": [
+    {
+      "name": "work_mail/send_email",
+      "description": "Send an email from the user's work account (@acme.com).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "work_mail/search_inbox",
+      "description": "Search the user's work inbox (@acme.com).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "work_mail/archive_email",
+      "description": "Archive a message in the user's work inbox (@acme.com).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "personal_mail/send_email",
+      "description": "Send an email from the user's personal account (@gmail.com).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "personal_mail/search_inbox",
+      "description": "Search the user's personal inbox (@gmail.com).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "personal_mail/archive_email",
+      "description": "Archive a message in the user's personal inbox (@gmail.com).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    }
+  ]
+}

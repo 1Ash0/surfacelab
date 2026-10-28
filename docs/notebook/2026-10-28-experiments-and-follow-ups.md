@@ -17,9 +17,13 @@
 - **Gold ambiguity.** In EXP-005, some "errors" picked distractors that could do the job (`compose_email_9` for send-email). Single-tool gold overstates error on near-duplicates.
 
 ## What was learned
-- The robust signal is near-duplicate tools: siblings accuracy is 25–37%, and at temperature 0 accuracy falls from first third to last (120b +10.4 pp [+2.1, +19.8], 8 families, not preregistered).
+- The robust signal is near-duplicate tools: siblings "accuracy" is 25–37%, and at temperature 0 it falls from first third to last (120b +10.4 pp [+2.1, +19.8], 8 families, not preregistered). See the caveat below: on siblings this is a tie-breaking bias, not an error rate.
 - Temperature 0 on Groq is mostly but not fully deterministic (7 of 8 repeat groups stable per model).
 - Slash-qualified tool names made 120b call tools that do not exist (8 of 12 under `qualified` in EXP-004).
 
 ## Decision
-ADR-023 (proposed): follow-ups EXP-009–012 on near-duplicate surfaces with 32 families, preceded by an independent gold-validation pass. Drafts await approval; no fixtures or runs yet.
+ADR-023 (proposed): follow-ups EXP-009–012 on near-duplicate surfaces with 32 families, preceded by an independent gold-validation pass. Drafts await approval. Fixtures are now written (see below); no runs yet.
+
+## Found while writing the follow-up fixtures
+- The `siblings` surface is four synonyms: identical descriptions reworded, with gold chosen by request keywords. Its "accuracy" measures which synonym gets picked, and its position effect is a tie-breaking bias among equivalent tools. Recorded as a caveat in EXP-001; the new `nd_*` surfaces give each tool one stated difference so a right answer exists.
+- ADR-023 now includes a stop rule: EXP-009–012 verdicts are final for v0.1.

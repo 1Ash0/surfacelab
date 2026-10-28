@@ -1,0 +1,305 @@
+{
+  "server_name": "nd_files_distractors",
+  "tools": [
+    {
+      "name": "scan_files_0",
+      "description": "Search for files by name on a USB drive. Does not look at the local disk or the cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "scan_files_1",
+      "description": "Search for files by name on a network share (NAS). Does not look at the local disk or the cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "scan_files_2",
+      "description": "Search for files by name on the recycle bin. Does not look at the local disk or the cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "scan_files_3",
+      "description": "Search for files by name on email attachments. Does not look at the local disk or the cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "scan_files_4",
+      "description": "Search for files by name on the photo library. Does not look at the local disk or the cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "scan_files_5",
+      "description": "Search for files by name on the nightly backup archive. Does not look at the local disk or the cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "scan_files_6",
+      "description": "Search for files by name on git commit history. Does not look at the local disk or the cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "scan_files_7",
+      "description": "Search for files by name on an SD card. Does not look at the local disk or the cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "scan_files_8",
+      "description": "Search for files by name on a connected phone. Does not look at the local disk or the cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "scan_files_9",
+      "description": "Search for files by name on an FTP server. Does not look at the local disk or the cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "browse_files_0",
+      "description": "Search for files by name on a USB drive. Does not look at the local disk or the cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "browse_files_1",
+      "description": "Search for files by name on a network share (NAS). Does not look at the local disk or the cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "browse_files_2",
+      "description": "Search for files by name on the recycle bin. Does not look at the local disk or the cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "browse_files_3",
+      "description": "Search for files by name on email attachments. Does not look at the local disk or the cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "browse_files_4",
+      "description": "Search for files by name on the photo library. Does not look at the local disk or the cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "browse_files_5",
+      "description": "Search for files by name on the nightly backup archive. Does not look at the local disk or the cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "browse_files_6",
+      "description": "Search for files by name on git commit history. Does not look at the local disk or the cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "browse_files_7",
+      "description": "Search for files by name on an SD card. Does not look at the local disk or the cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "browse_files_8",
+      "description": "Search for files by name on a connected phone. Does not look at the local disk or the cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "browse_files_9",
+      "description": "Search for files by name on an FTP server. Does not look at the local disk or the cloud drive.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    }
+  ]
+}

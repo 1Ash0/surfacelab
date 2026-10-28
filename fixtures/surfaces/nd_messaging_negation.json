@@ -1,0 +1,65 @@
+{
+  "server_name": "nd_messaging",
+  "tools": [
+    {
+      "name": "send_message",
+      "description": "Send an email to one or more email addresses, with a subject and body. Do not use this for posting in a team chat channel, notifying the user's own phone or texting a phone number.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "post_message",
+      "description": "Post a message to a team chat channel such as #general. Cannot send email. Do not use this for emailing someone, notifying the user's own phone or texting a phone number.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "push_message",
+      "description": "Send a push notification to the current user's own phone. Cannot reach anyone else. Do not use this for emailing someone, posting in a team chat channel or texting a phone number.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "dispatch_message",
+      "description": "Send an SMS text message to a phone number. Do not use this for emailing someone, posting in a team chat channel or notifying the user's own phone.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    }
+  ]
+}

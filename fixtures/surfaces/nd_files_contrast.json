@@ -1,0 +1,65 @@
+{
+  "server_name": "nd_files",
+  "tools": [
+    {
+      "name": "search_files",
+      "description": "Search for files by name on the local disk of this computer. Matches file names only, not their contents. Use this for finding a local file by its name. For finding text inside local files, use `find_files`. For finding a file in the cloud drive, use `locate_files`. For listing recently modified local files, use `query_files`.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "find_files",
+      "description": "Find text inside files on the local disk. Returns each file and line where the phrase appears; does not match file names. Use this for finding text inside local files. For finding a local file by its name, use `search_files`. For finding a file in the cloud drive, use `locate_files`. For listing recently modified local files, use `query_files`.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "locate_files",
+      "description": "Locate files by name in the user's cloud drive (synced online storage). Does not look at the local disk. Use this for finding a file in the cloud drive. For finding a local file by its name, use `search_files`. For finding text inside local files, use `find_files`. For listing recently modified local files, use `query_files`.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "query_files",
+      "description": "List files on the local disk that were modified within the last N days, newest first. Use this for listing recently modified local files. For finding a local file by its name, use `search_files`. For finding text inside local files, use `find_files`. For finding a file in the cloud drive, use `locate_files`.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    }
+  ]
+}

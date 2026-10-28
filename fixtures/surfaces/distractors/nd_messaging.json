@@ -1,0 +1,305 @@
+{
+  "server_name": "nd_messaging_distractors",
+  "tools": [
+    {
+      "name": "relay_message_0",
+      "description": "Send a message to a fax number. Cannot send email, chat, push notifications or SMS.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "relay_message_1",
+      "description": "Send a message to a pager. Cannot send email, chat, push notifications or SMS.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "relay_message_2",
+      "description": "Send a message to a printed letter. Cannot send email, chat, push notifications or SMS.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "relay_message_3",
+      "description": "Send a message to a Slack direct message. Cannot send email, chat, push notifications or SMS.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "relay_message_4",
+      "description": "Send a message to a WhatsApp contact. Cannot send email, chat, push notifications or SMS.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "relay_message_5",
+      "description": "Send a message to a Teams call. Cannot send email, chat, push notifications or SMS.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "relay_message_6",
+      "description": "Send a message to a voicemail box. Cannot send email, chat, push notifications or SMS.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "relay_message_7",
+      "description": "Send a message to a smart speaker. Cannot send email, chat, push notifications or SMS.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "relay_message_8",
+      "description": "Send a message to a desk display. Cannot send email, chat, push notifications or SMS.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "relay_message_9",
+      "description": "Send a message to a radio channel. Cannot send email, chat, push notifications or SMS.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "deliver_message_0",
+      "description": "Send a message to a fax number. Cannot send email, chat, push notifications or SMS.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "deliver_message_1",
+      "description": "Send a message to a pager. Cannot send email, chat, push notifications or SMS.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "deliver_message_2",
+      "description": "Send a message to a printed letter. Cannot send email, chat, push notifications or SMS.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "deliver_message_3",
+      "description": "Send a message to a Slack direct message. Cannot send email, chat, push notifications or SMS.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "deliver_message_4",
+      "description": "Send a message to a WhatsApp contact. Cannot send email, chat, push notifications or SMS.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "deliver_message_5",
+      "description": "Send a message to a Teams call. Cannot send email, chat, push notifications or SMS.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "deliver_message_6",
+      "description": "Send a message to a voicemail box. Cannot send email, chat, push notifications or SMS.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "deliver_message_7",
+      "description": "Send a message to a smart speaker. Cannot send email, chat, push notifications or SMS.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "deliver_message_8",
+      "description": "Send a message to a desk display. Cannot send email, chat, push notifications or SMS.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "deliver_message_9",
+      "description": "Send a message to a radio channel. Cannot send email, chat, push notifications or SMS.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    }
+  ]
+}

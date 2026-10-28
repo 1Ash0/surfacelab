@@ -1,0 +1,305 @@
+{
+  "server_name": "nd_calendar_distractors",
+  "tools": [
+    {
+      "name": "plan_event_0",
+      "description": "Use for booking a desk. Does not create calendar entries, meetings, room bookings or to-do tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "plan_event_1",
+      "description": "Use for ordering catering. Does not create calendar entries, meetings, room bookings or to-do tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "plan_event_2",
+      "description": "Use for booking travel. Does not create calendar entries, meetings, room bookings or to-do tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "plan_event_3",
+      "description": "Use for reserving a parking spot. Does not create calendar entries, meetings, room bookings or to-do tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "plan_event_4",
+      "description": "Use for a shared team holiday calendar. Does not create calendar entries, meetings, room bookings or to-do tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "plan_event_5",
+      "description": "Use for a habit tracker. Does not create calendar entries, meetings, room bookings or to-do tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "plan_event_6",
+      "description": "Use for a project Gantt chart. Does not create calendar entries, meetings, room bookings or to-do tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "plan_event_7",
+      "description": "Use for an alarm clock. Does not create calendar entries, meetings, room bookings or to-do tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "plan_event_8",
+      "description": "Use for a car-sharing slot. Does not create calendar entries, meetings, room bookings or to-do tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "plan_event_9",
+      "description": "Use for a gym class. Does not create calendar entries, meetings, room bookings or to-do tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "set_event_0",
+      "description": "Use for booking a desk. Does not create calendar entries, meetings, room bookings or to-do tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "set_event_1",
+      "description": "Use for ordering catering. Does not create calendar entries, meetings, room bookings or to-do tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "set_event_2",
+      "description": "Use for booking travel. Does not create calendar entries, meetings, room bookings or to-do tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "set_event_3",
+      "description": "Use for reserving a parking spot. Does not create calendar entries, meetings, room bookings or to-do tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "set_event_4",
+      "description": "Use for a shared team holiday calendar. Does not create calendar entries, meetings, room bookings or to-do tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "set_event_5",
+      "description": "Use for a habit tracker. Does not create calendar entries, meetings, room bookings or to-do tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "set_event_6",
+      "description": "Use for a project Gantt chart. Does not create calendar entries, meetings, room bookings or to-do tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "set_event_7",
+      "description": "Use for an alarm clock. Does not create calendar entries, meetings, room bookings or to-do tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "set_event_8",
+      "description": "Use for a car-sharing slot. Does not create calendar entries, meetings, room bookings or to-do tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "set_event_9",
+      "description": "Use for a gym class. Does not create calendar entries, meetings, room bookings or to-do tasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    }
+  ]
+}

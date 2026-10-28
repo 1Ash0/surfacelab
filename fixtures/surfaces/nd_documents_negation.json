@@ -1,0 +1,65 @@
+{
+  "server_name": "nd_documents",
+  "tools": [
+    {
+      "name": "get_document",
+      "description": "Get a page from the company's internal wiki by its page title. Do not use this for a file at a web URL, a PDF on the local disk or a contract by its CT- ID.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "fetch_document",
+      "description": "Download a file from a public web address (an http or https URL). Do not use this for a wiki page by title, a PDF on the local disk or a contract by its CT- ID.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "read_document",
+      "description": "Read a PDF stored on the local disk and return its text. Do not use this for a wiki page by title, a file at a web URL or a contract by its CT- ID.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "open_document",
+      "description": "Open a signed contract from the contracts archive by contract ID (format CT-12345). Do not use this for a wiki page by title, a file at a web URL or a PDF on the local disk.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    }
+  ]
+}

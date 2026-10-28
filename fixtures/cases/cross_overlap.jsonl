@@ -1,0 +1,24 @@
+{"id":"xo01","kind":"positive","request":"Search this computer's disk for a file named backup.zip.","gold":["local_fs/search_files"],"surface_name":"xo_files_qualified","note":"cue: this computer's disk"}
+{"id":"xo02","kind":"positive","request":"Read the notes.txt file on my laptop's hard drive.","gold":["local_fs/read_file"],"surface_name":"xo_files_qualified","note":"cue: laptop's hard drive"}
+{"id":"xo03","kind":"positive","request":"Delete old_draft.docx from my local disk.","gold":["local_fs/delete_file"],"surface_name":"xo_files_qualified","note":"cue: local disk"}
+{"id":"xo04","kind":"positive","request":"Look on this machine for any file called taxes_2025.pdf.","gold":["local_fs/search_files"],"surface_name":"xo_files_qualified","note":"cue: this machine"}
+{"id":"xo05","kind":"positive","request":"Search my cloud drive for the file holiday_photos.zip.","gold":["cloud_drive/search_files"],"surface_name":"xo_files_qualified","note":"cue: cloud drive"}
+{"id":"xo06","kind":"positive","request":"Read the meeting_minutes document I saved in my cloud drive.","gold":["cloud_drive/read_file"],"surface_name":"xo_files_qualified","note":"cue: cloud drive"}
+{"id":"xo07","kind":"positive","request":"Move old_budget.xlsx in my cloud drive to the trash.","gold":["cloud_drive/delete_file"],"surface_name":"xo_files_qualified","note":"cue: cloud drive, trash"}
+{"id":"xo08","kind":"positive","request":"Is there a file called contract_v2.pdf in my online cloud storage?","gold":["cloud_drive/search_files"],"surface_name":"xo_files_qualified","note":"cue: online cloud storage"}
+{"id":"xo09","kind":"positive","request":"From my acme.com work account, email lee@acme.com that the report is done.","gold":["work_mail/send_email"],"surface_name":"xo_mail_qualified","note":"cue: work account"}
+{"id":"xo10","kind":"positive","request":"Search my work inbox for messages about the Q3 audit.","gold":["work_mail/search_inbox"],"surface_name":"xo_mail_qualified","note":"cue: work inbox"}
+{"id":"xo11","kind":"positive","request":"Archive the latest newsletter in my work email.","gold":["work_mail/archive_email"],"surface_name":"xo_mail_qualified","note":"cue: work email"}
+{"id":"xo12","kind":"positive","request":"Using my work address, send team@acme.com a note that the office is closed Friday.","gold":["work_mail/send_email"],"surface_name":"xo_mail_qualified","note":"cue: work address"}
+{"id":"xo13","kind":"positive","request":"From my personal gmail, email mum@example.com that I'll visit on Sunday.","gold":["personal_mail/send_email"],"surface_name":"xo_mail_qualified","note":"cue: personal gmail"}
+{"id":"xo14","kind":"positive","request":"Search my personal inbox for the flight confirmation.","gold":["personal_mail/search_inbox"],"surface_name":"xo_mail_qualified","note":"cue: personal inbox"}
+{"id":"xo15","kind":"positive","request":"Archive the gym membership email in my personal gmail account.","gold":["personal_mail/archive_email"],"surface_name":"xo_mail_qualified","note":"cue: personal gmail account"}
+{"id":"xo16","kind":"positive","request":"Look through my gmail for the concert tickets.","gold":["personal_mail/search_inbox"],"surface_name":"xo_mail_qualified","note":"cue: gmail"}
+{"id":"xo17","kind":"positive","request":"Search our team wiki for the deployment runbook.","gold":["team_wiki/search"],"surface_name":"xo_knowledge_qualified","note":"cue: team wiki"}
+{"id":"xo18","kind":"positive","request":"Get the internal wiki page titled 'On-call rota'.","gold":["team_wiki/get_page"],"surface_name":"xo_knowledge_qualified","note":"cue: internal wiki page title"}
+{"id":"xo19","kind":"positive","request":"Which internal wiki pages were edited recently?","gold":["team_wiki/list_recent"],"surface_name":"xo_knowledge_qualified","note":"cue: internal wiki"}
+{"id":"xo20","kind":"positive","request":"Find our internal documentation about the VPN setup.","gold":["team_wiki/search"],"surface_name":"xo_knowledge_qualified","note":"cue: our internal documentation"}
+{"id":"xo21","kind":"positive","request":"Search the web for reviews of the new Pixel phone.","gold":["public_web/search"],"surface_name":"xo_knowledge_qualified","note":"cue: the web"}
+{"id":"xo22","kind":"positive","request":"Get the page at https://example.com/pricing.","gold":["public_web/get_page"],"surface_name":"xo_knowledge_qualified","note":"cue: public URL"}
+{"id":"xo23","kind":"positive","request":"What are the latest news headlines?","gold":["public_web/list_recent"],"surface_name":"xo_knowledge_qualified","note":"cue: news headlines"}
+{"id":"xo24","kind":"positive","request":"Look up the weather forecast for Lisbon online.","gold":["public_web/search"],"surface_name":"xo_knowledge_qualified","note":"cue: online"}
