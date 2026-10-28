@@ -77,7 +77,7 @@ Build a labelled corpus of description edits (real diffs plus synthetic injected
 ### EXP-008 — Does the 3D view help? (exploratory perception check; M7)
 Question: do people find the most confusable pair on a surface faster or more accurately with Galaxy + evidence rail than with a sortable table alone? Design: within-subject, counterbalanced order, 2 surfaces, peers (target n preregistered, small; labelled exploratory, not generalisable). Primary outcome: correct pair identified (binary) and time to answer. Analysis: paired, intervals not just p; report null results. Consequence rule fixed in advance: if 3D does not help, the scene remains but copy and claims about it change, and the finding is published.
 
-### EXP-009–012 — Follow-ups on near-duplicate surfaces (proposed, ADR-023)
+### EXP-009–012 — Follow-ups on near-duplicate surfaces (accepted, ADR-023)
 Order (009), disambiguating edits (010), overlapping servers (011) and distractor dose (012), rerun on near-duplicate tools with 32 validated families, because goodserver was at ceiling in EXP-003–005. Preregistrations in `docs/experiments/EXP-009.md` to `EXP-012.md`.
 
 ## 3. Statistics notes (the spine; see LEARNING U4)

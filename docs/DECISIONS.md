@@ -106,7 +106,7 @@ Decision: use the `openai` Python package with provider-specific `base_url` and 
 Consequences: results are scoped to free-tier models (rate-limited, smaller context windows, may differ from paid tiers); cassette key schema widens by one field; AnthropicProvider is renamed to OpenAICompatProvider; ARCHITECTURE.md updated.
 Revisit: if a free-tier rate limit blocks an experiment, add a paid-tier path with `--max-usd` guard unchanged.
 
-**ADR-023 Follow-up experiments EXP-009–012 move to near-duplicate surfaces, with validated gold** — proposed (2026-10-28)
+**ADR-023 Follow-up experiments EXP-009–012 move to near-duplicate surfaces, with validated gold** — accepted (2026-10-28)
 Context: EXP-003, EXP-004 and EXP-005 were mostly uninformative because goodserver is solved: both models score 100% on it, and its five distinct tools never compete. The one effect found (a position effect on `siblings` at temperature 0, `results/exp001_siblings_t0_analysis.json`) comes from near-duplicate tools, but only 8 families existed. EXP-005 also showed that some "wrong" answers picked a tool that could arguably do the job, so single-tool gold can mislabel defensible choices.
 Decision:
 1. Follow-ups EXP-009 (order), EXP-010 (description edits), EXP-011 (cross-server overlap) and EXP-012 (distractor dose) are preregistered separately; the original EXP-001–005 verdicts stand unchanged.
