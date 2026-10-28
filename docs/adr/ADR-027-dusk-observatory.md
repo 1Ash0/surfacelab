@@ -28,6 +28,11 @@ The Tour is a **scroll-driven 3D observatory at dusk**:
 - **Accessibility.** Muted text darkened/lightened for AA in both themes; buttons, case rows and nav targets at least 40px; the legend folds after the hero; Null Wall states each tile's own scale.
 - **Coda** is now "What it means": three takeaways tied to chapters II, IV and V, with the inconclusive order-effect numbers kept at full size.
 
+## Chapter III in 3D (2026-10-28)
+- **Shuffle rack.** The four `siblings` tools stand as glass cards above the dome and step through all 24 recorded orderings (`balanced_permutations(siblings, 24)`, the EXP-001 order). Per ordering, all 8 requests fire their recorded first call as beams; ring = keyword-gold tool, cross + dashed ring on the gold card = other tool, stub = refusal. Model switch: gpt-oss-20b, gpt-oss-120b, qwen3.8-27b.
+- **Slot strip.** Flat bars under the rack accumulate accuracy for requests whose gold sat in each slot, over the orderings played so far; at 24/24 for gpt-oss-120b it reads 22/48, 18/48, 16/48, 15/48 (sum 71/192, matching `results/exp001_siblings_120b_t0.json`). The preregistered thirds and the clustered-bootstrap gap stay in the DOM rail.
+- **Data.** Per-trial calls are replayed from cassettes (`scripts/analyze_exp001.py` collect, temperature 0) into `docs/design/observatory-siblings-data.json`; replay totals match the recorded results for all three models (48, 71, 79 of 192).
+
 ## What the review kept from the rejected draft
 - State by shape as well as colour (ring / cross / dashed ring / stub).
 - The rail as a record: label as prominent as the number, source path, limit line.

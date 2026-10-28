@@ -260,18 +260,25 @@ input[type=range]{flex:1;min-width:150px;accent-color:var(--brass)}
     <div class="card">
       <p class="eyebrow">III · Ties</p>
       <h2>When four tools do the same job, <em>position</em> breaks the tie.</h2>
-      <p class="look"><b>The test:</b> four near-synonym tools in all 24 orderings, temperature 0. How often did gpt-oss-120b pick the right one, by where it sat in the list?</p>
+      <p class="look"><b>The rack:</b> four near-synonym tools, re-ordered through all 24 recorded orderings. Each beam is one of 8 requests' recorded calls. The strip under the rack fills in how often the right tool was picked, by the slot it sat in.</p>
+      <div class="seg" id="m3Seg" role="group" aria-label="Model"></div>
+      <div class="rowh" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <button class="btn" id="play3" type="button" aria-pressed="false">Play</button>
+        <input id="ord" type="range" min="1" max="24" step="1" value="1" aria-label="Ordering">
+        <span class="mono" id="ordv">1 / 24</span>
+      </div>
+      <p class="ci mono" id="rackTxt" style="font-size:12.5px;color:var(--ink-2)"></p>
       <div class="hook">
-        <label for="g3">Guess first: how many points more often does the first-third tool win?</label>
+        <label for="g3">Guess first: how many points more often does the first-third tool win than the last-third tool?</label>
         <div class="rowh"><input id="g3" type="range" min="-20" max="40" step="1" value="0"><span class="mono" id="g3v">+0 pp</span><button class="btn" id="g3b" type="button">Reveal</button></div>
       </div>
       <div class="slots" id="slots"></div>
       <div class="rail">
-        <div class="row"><span class="k">Gap</span><span class="big">+10.4 <small>pp · gpt-oss-120b</small></span></div>
-        <div class="row"><span class="k">95% CI</span><span class="ci">[+2.1, +19.8] · 8 families · 192 trials</span></div>
-        <div class="row"><span class="k">Qwen</span><span class="ci">+12.5 pp [+2.1, +25.0] · second model family</span></div>
+        <div class="row"><span class="k">Gap</span><span class="big" id="gap3">+10.4 <small>pp · gpt-oss-120b</small></span></div>
+        <div class="row"><span class="k">95% CI</span><span class="ci" id="ci3">[+2.1, +19.8] · 8 families · 192 trials</span></div>
         <div class="row"><span class="k">Label</span><span><span class="tag exp">exploratory</span><span class="tag rep">replicated</span></span></div>
         <div class="row"><span class="k">Source</span><code>results/exp001_siblings_t0_analysis.json · exp014_analysis.json</code></div>
+        <p class="not">These four tools are synonyms, so "right" is the keyword gold of each request; this measures tie-breaking, not an error rate.</p>
       </div>
     </div>
   </section>
@@ -374,6 +381,9 @@ uv run surfacelab probe --server-name mine --snapshots-dir runs/mine -- &lt;your
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
 <script>
 const DATA = __DATA__;
+const SIB = __SIB__;
+const GAP3 = {"120b":["+10.4","[+2.1, +19.8]"],"20b":["+13.5","[−1.0, +31.3]"],"27b":["+12.5","[+2.1, +25.0]"]};
+const rack = {m:"120b", i:0, playing:false, timer:null};
 const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const SMALL = matchMedia("(max-width: 760px)").matches;
 const $ = s => document.querySelector(s);
@@ -408,13 +418,16 @@ const HUE = {"playwright":["#F4B860","#9A5A0E"],"chrome-devtools":["#62D6C8","#1
   }
 })();
 (function slots(){
-  const b = DATA.sib["openai/gpt-oss-120b"], el = $("#slots"), cap = ["first third","middle","last third"];
-  for (let i=0;i<3;i++) el.insertAdjacentHTML("beforeend",`<div class="slot"><div class="bar" data-v="${b[i]}"><span>${Math.round(b[i]*100)}%</span></div><div class="cap">${cap[i]}</div></div>`);
+  const el=$("#slots"), cap=["first third","middle","last third"];
   let shown=false;
-  const show = () => { if(shown) return; shown=true; el.querySelectorAll(".bar").forEach(x=>x.style.height=(parseFloat(x.dataset.v)*150)+"px"); };
-  $("#g3").oninput = e => $("#g3v").textContent = (e.target.value>=0?"+":"")+e.target.value+" pp";
-  $("#g3b").onclick = () => { show(); $("#g3b").textContent = `You ${$("#g3v").textContent} · recorded +10.4`; };
-  window._showSlots = show;
+  window._drawSlots=()=>{ const m={"20b":"openai/gpt-oss-20b","120b":"openai/gpt-oss-120b"}[rack.m];
+    const b=m?DATA.sib[m]:null; el.innerHTML="";
+    if(!b){ el.innerHTML=`<p class="not" style="align-self:center;grid-column:1/-1">Thirds for qwen are in results/exp014_analysis.json (gap shown below); per-slot accuracy is in the 3D strip.</p>`; return; }
+    for(let i=0;i<3;i++) el.insertAdjacentHTML("beforeend",`<div class="slot"><div class="bar" data-v="${b[i]}" style="height:${shown?b[i]*150:0}px"><span>${Math.round(b[i]*100)}%</span></div><div class="cap">${cap[i]}</div></div>`); };
+  const show=()=>{ if(shown) return; shown=true; el.querySelectorAll(".bar").forEach(x=>x.style.height=(parseFloat(x.dataset.v)*150)+"px"); };
+  $("#g3").oninput=e=>$("#g3v").textContent=(e.target.value>=0?"+":"")+e.target.value+" pp";
+  $("#g3b").onclick=()=>{ show(); $("#g3b").textContent=`You ${$("#g3v").textContent} · recorded ${GAP3[rack.m][0]}`; };
+  window._showSlots=show;
 })();
 $("#g1").oninput = e => $("#g1v").textContent = fmt(+e.target.value);
 $("#g4").oninput = e => $("#g4v").textContent = e.target.value+"%";
@@ -583,6 +596,69 @@ function init(){
 }
 function onResize(){ if(!renderer) return; camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); composer&&composer.setSize(innerWidth,innerHeight); starMat.uniforms.uScale.value=innerHeight*.5; }
 
+/* ---------- chapter III: the shuffle rack (siblings, all 24 recorded orderings) ---------- */
+const RACK=new THREE.Vector3(0,15.5,3), SLOTX=[-4.8,-1.6,1.6,4.8];
+const CARD_HUE=[["#F4B860","#9A5A0E"],["#62D6C8","#106E66"],["#BCA3F2","#5C3FA8"],["#FF8C72","#A8381F"]];
+let rackGroup, cards=[], cardMats=[], stripBars=[], stripMats=[], rackFade=0;
+const cardPos=SIB.tools.map(()=>new THREE.Vector3()), cardTgt=SIB.tools.map(()=>new THREE.Vector3());
+const slotLblPos=SLOTX.map(x=>new THREE.Vector3(RACK.x+x,RACK.y+2.75,RACK.z)), stripLblPos=SLOTX.map(x=>new THREE.Vector3(RACK.x+x,RACK.y-3.0,RACK.z));
+function buildRack(){
+  rackGroup=new THREE.Group(); scene.add(rackGroup);
+  SIB.tools.forEach((n,k)=>{
+    const mat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide,
+      uniforms:{uDay:{value:0},uA:{value:0},uHit:{value:0},cG:{value:new THREE.Color(CARD_HUE[k][0])},cI:{value:new THREE.Color(CARD_HUE[k][1])}},
+      vertexShader:`varying vec2 vU; void main(){ vU=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+      fragmentShader:`uniform float uDay,uA,uHit; uniform vec3 cG,cI; varying vec2 vU;
+        void main(){ vec2 d=min(vU,1.-vU); float edge=smoothstep(.035,.0,min(d.x,d.y*1.4));
+          vec3 c=mix(cG,cI,uDay); float fill=mix(.22,.30,uDay)+.08*vU.y+uHit*.25;
+          float a=(fill+edge*.85)*uA; vec3 col=mix(c*(.55+edge*.6+uHit*.6), c, uDay);
+          gl_FragColor=vec4(col,a); }`});
+    const m=new THREE.Mesh(new THREE.PlaneGeometry(2.5,3.4),mat);
+    rackGroup.add(m); cards.push(m); cardMats.push(mat);
+  });
+  /* brass rail with slot ticks */
+  const pts=[V(RACK.x-6.6,RACK.y-1.95,RACK.z),V(RACK.x+6.6,RACK.y-1.95,RACK.z)];
+  SLOTX.forEach(x=>{ pts.push(V(RACK.x+x,RACK.y-1.95,RACK.z),V(RACK.x+x,RACK.y-2.15,RACK.z)); });
+  window._rail=new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0xD2AA6E,transparent:true,opacity:0}));
+  rackGroup.add(window._rail);
+  /* slot strip: flat bars, height = recorded accuracy for requests whose right tool sat in that slot */
+  SLOTX.forEach(x=>{ const mat=new THREE.MeshBasicMaterial({color:0x8FE3C0,transparent:true,opacity:0,depthWrite:false});
+    const b=new THREE.Mesh(new THREE.PlaneGeometry(2.3,1),mat); b.position.set(RACK.x+x,RACK.y-3.4,RACK.z); b.scale.y=.001; rackGroup.add(b); stripBars.push(b); stripMats.push(mat); });
+  setOrdering(0,false);
+  cards.forEach((c,k)=>c.position.copy(cardTgt[k]));
+}
+function setOrdering(i,fire){
+  rack.i=i; const ord=SIB.orders[i];
+  SIB.tools.forEach((n,k)=>cardTgt[k].set(RACK.x+SLOTX[ord.indexOf(k)],RACK.y,RACK.z));
+  /* cumulative per-slot accuracy over orderings 0..i (recorded calls) */
+  const hit=[0,0,0,0], tot=[0,0,0,0];
+  for(let j=0;j<=i;j++){ const o=SIB.orders[j]; for(const c in SIB.cases){ const g=SIB.cases[c].g, slot=o.indexOf(g); tot[slot]++; if(SIB.calls[rack.m][c][j]===g) hit[slot]++; } }
+  window._strip={hit,tot};
+  const calls=Object.keys(SIB.cases).map(c=>({c,e:SIB.calls[rack.m][c][i],g:SIB.cases[c].g}));
+  const right=calls.filter(x=>x.e===x.g).length;
+  $("#ordv").textContent=`${i+1} / 24`; $("#ord").value=i+1;
+  $("#rackTxt").textContent=`Ordering ${i+1}: ${ord.map(k=>SIB.tools[k]).join(" · ")}  —  right tool picked ${right} / 8`;
+  if(fire&&renderer){ clearBeams();
+    setTimeout(()=>{ if(state.key!=="wide2") return; calls.forEach((x,q)=>{ const off=V(0,1.1-q*.3,0);
+      if(x.e<0||x.e==null) noCall(q*70); else addBeamP(cardTgt[x.e].clone().add(off),x.e===x.g,x.e===x.g?[]:[cardTgt[x.g].clone().add(V(0,-1.25,0))],q*70); }); },420); }
+}
+function rackLabels(){
+  setLabels([...SIB.tools.map((n,k)=>[`<b>${n}</b>`,cardPos[k],"list"]),
+    ...SLOTX.map((x,s)=>[`slot ${s+1}`,slotLblPos[s],"cluster"])]);
+  labels.forEach(L=>{ if(L.d.classList.contains("list")) L.d.style.transform="translate(-50%,-50%)"; });
+  window._stripLbls=SLOTX.map((x,s)=>{ const d=document.createElement("div"); d.className="lbl"; labelsEl.appendChild(d); labels.push({d,pos:stripLblPos[s]}); return d; });
+}
+function m3Render(){ const s=$("#m3Seg"); s.innerHTML="";
+  for(const m in MODEL_NAME){ const b=document.createElement("button"); b.type="button"; b.className="btn"+(m===rack.m?" on":""); b.textContent=MODEL_NAME[m]; b.setAttribute("aria-pressed",m===rack.m);
+    b.onclick=()=>{ rack.m=m; m3Render(); window._drawSlots(); setOrdering(rack.i,true); }; s.appendChild(b); }
+  $("#gap3").innerHTML=`${GAP3[rack.m][0]} <small>pp · ${MODEL_NAME[rack.m]}</small>`;
+  $("#ci3").textContent=`${GAP3[rack.m][1]} · 8 families · 192 trials${rack.m==="20b"?" · interval includes 0":""}`; }
+function play3(on){ rack.playing=on; $("#play3").setAttribute("aria-pressed",on); $("#play3").textContent=on?"Pause":"Play"; clearInterval(rack.timer);
+  if(on) rack.timer=setInterval(()=>{ if(rack.i>=23){ play3(false); return; } setOrdering(rack.i+1,true); },2100); }
+$("#play3").onclick=()=>{ if(!rack.playing&&rack.i>=23) setOrdering(0,true); play3(!rack.playing); };
+$("#ord").oninput=e=>{ play3(false); setOrdering(+e.target.value-1,true); };
+m3Render(); window._drawSlots();
+
 /* ---------- beams: recorded calls, as tubes with a travelling pulse ---------- */
 let beams=[];
 function clearBeams(){ while(beamGroup.children.length){ const c=beamGroup.children.pop(); c.geometry&&c.geometry.dispose(); c.material&&c.material.dispose&&c.material.dispose(); } beams=[]; beamMats=[]; }
@@ -594,14 +670,15 @@ function beamMat(ok){ return new THREE.ShaderMaterial({transparent:true,depthWri
       vec3 dusk=vec3(1.,.86,.62); vec3 ink=vec3(.50,.30,.06);
       vec3 c=mix(dusk,ink,uDay); float a=mix(.55+.45*head+pulse,.75+.25*head,uDay);
       gl_FragColor=vec4(c*a*(1.-uDay)+c*uDay,a); }`}); }
-function addBeam(target,ok,gold,delay){
-  const A=tipPos.clone(),B=starPos[target].clone(),mid=A.clone().lerp(B,.5); mid.y+=1.6;
+function addBeam(target,ok,gold,delay){ addBeamP(starPos[target].clone(),ok,gold.map(i=>starPos[i]),delay); }
+function addBeamP(B,ok,goldPts,delay){
+  const A=tipPos.clone(),mid=A.clone().lerp(B,.5); mid.y+=1.6;
   const curve=new THREE.QuadraticBezierCurve3(A,mid,B), mat=beamMat(ok); beamMats.push(mat);
   beamGroup.add(new THREE.Mesh(new THREE.TubeGeometry(curve,72,.045,6,false),mat));
   const col=day<.5?(ok?0x8FE3C0:0xFF7A66):(ok?0x1F7A58:0xB53A2A);
   const ret=new THREE.Sprite(new THREE.SpriteMaterial({map:ok?RING:CROSS,color:col,transparent:true,opacity:0,depthWrite:false,blending:day<.5?THREE.AdditiveBlending:THREE.NormalBlending}));
   ret.position.copy(B); ret.scale.setScalar(1.35); beamGroup.add(ret);
-  const rings=[]; if(!ok) for(const gi of gold){ const s=new THREE.Sprite(new THREE.SpriteMaterial({map:DASH,color:day<.5?0xECE6DA:0x1E1A16,transparent:true,opacity:0,depthWrite:false})); s.position.copy(starPos[gi]); s.scale.setScalar(1.25); beamGroup.add(s); rings.push(s); }
+  const rings=[]; if(!ok) for(const gp of goldPts){ const s=new THREE.Sprite(new THREE.SpriteMaterial({map:DASH,color:day<.5?0xECE6DA:0x1E1A16,transparent:true,opacity:0,depthWrite:false})); s.position.copy(gp); s.scale.setScalar(1.25); beamGroup.add(s); rings.push(s); }
   beams.push({mat,ret,rings,t0:performance.now()+delay});
 }
 function noCall(delay){ const A=tipPos.clone(),B=tipPos.clone().add(CLOUD.clone().sub(tipPos).normalize().multiplyScalar(2.4)), mat=beamMat(false);
@@ -646,7 +723,7 @@ const KEY={
   problem:{pos:V(0,6,30), tgt:V(0,16,-6)},
   request:{pos:C_b.clone().add(V(-6.5,.5,8)), tgt:C_b.clone().add(V(-4.6,0,0))},
   wide:   {pos:CLOUD.clone().add(V(0,4,34)), tgt:CLOUD.clone().add(V(0,-2,0))},
-  wide2:  {pos:CLOUD.clone().add(V(-18,-2,26)), tgt:CLOUD.clone().add(V(-6,0,0))},
+  wide2:  {pos:RACK.clone().add(V(10.8,.4,24)), tgt:RACK.clone().add(V(10.8,-1.6,0))},
   real:   {pos:CLOUD.clone().add(V(6,1,23)), tgt:CLOUD.clone().add(V(-8,3,0))},
   serve:  {pos:V(14,10,22), tgt:V(0,18,-10)},
   lab:    {pos:CLOUD.clone().add(V(0,-9,27)), tgt:CLOUD.clone().add(V(0,-3,0))},
@@ -658,12 +735,13 @@ function setLit(fn){ for(let i=0;i<TOOLS.length;i++) litTarget[i]=fn(TOOLS[i],i)
 function enter(key){
   if(state.key===key) return; state.key=key;
   $("#nav").querySelectorAll("a").forEach((a,i)=>a.classList.toggle("on",sections[i].dataset.cam===key));
-  if(key==="wide2") window._showSlots();
   if(key!=="hero") $("#legend").open=false;
   if(!renderer){ if(key==="lab") labRender(); return; }
   waveTimers.forEach(clearTimeout); waveTimers=[];
   clearBeams(); edgesGroup.visible=false; setLabels([]);
-  if(key==="hero"||key==="coda"||key==="wide"||key==="wide2"||key==="problem") setLit(()=>true);
+  if(key!=="wide2"){ play3(false); }
+  if(key==="hero"||key==="coda"||key==="wide"||key==="problem") setLit(()=>true);
+  if(key==="wide2"){ setLit(()=>false); $("#legend").open=false; rackLabels(); setOrdering(0,true); if(REDUCE) setOrdering(23,true); else play3(true); }
   listTarget = key==="request"?1:0;
   if(key==="request"){ setLit(t=>t.l===l1); listLabels(); }
   if(key==="real"){ setLit(()=>true); edgesGroup.visible=true; setLabels(Object.keys(LOADOUT_NAME).map(l=>[LOADOUT_NAME[l],centroid(t=>t.l===l).add(V(0,2.8,0)),"cluster"])); }
@@ -811,6 +889,13 @@ function loop(){
     b.rings.forEach(s=>s.material.opacity=Math.max(0,(u-.9)/.1)*.85); }
   { const a=stars.geometry.attributes.lit; let ch=false; for(let i=0;i<TOOLS.length;i++){ const d=litTarget[i]-a.array[i]; if(Math.abs(d)>.002){ a.array[i]+=d*(REDUCE?1:.07); ch=true; } } if(ch) a.needsUpdate=true; }
   listCur+=(listTarget-listCur)*(REDUCE?1:.06); starMat.uniforms.uList.value=listCur;
+  if(rackGroup){ rackFade+=((state.key==="wide2"?1:0)-rackFade)*(REDUCE?1:.06); rackGroup.visible=rackFade>.01;
+    cards.forEach((c,k)=>{ c.position.lerp(cardTgt[k],REDUCE?1:.12); cardPos[k].copy(c.position).add(V(0,2.05,0)); cardMats[k].uniforms.uA.value=rackFade; cardMats[k].uniforms.uDay.value=day; cardMats[k].uniforms.uHit.value*=.94; });
+    window._rail.material.opacity=.7*rackFade; window._rail.material.color.set(day<.5?0xD2AA6E:0x7a4c16);
+    const S=window._strip; if(S) stripBars.forEach((b,s)=>{ const acc=S.tot[s]?S.hit[s]/S.tot[s]:0, h=Math.max(.02,acc*3.2);
+      b.scale.y+= (h-b.scale.y)*.15; b.position.y=RACK.y-2.55-b.scale.y/2; stripMats[s].opacity=.75*rackFade; stripMats[s].color.set(day<.5?0x8FE3C0:0x1F7A58);
+      if(window._stripLbls&&window._stripLbls[s]) window._stripLbls[s].textContent=S.tot[s]?`${Math.round(acc*100)}% · ${S.hit[s]}/${S.tot[s]}`:""; });
+    stripLblPos.forEach((p,s)=>p.y=RACK.y-2.75-(stripBars[s]?stripBars[s].scale.y:0)-.35); }
   /* screen-space picking (works for list and sky positions, and on tap) */
   let hi=-1, bestD=22*22; const inL=stars.geometry.attributes.inL.array, kk=listCur*listCur*(3-2*listCur);
   if(mouse.x>-2) for(let i=0;i<TOOLS.length;i++){ v3.copy(starPos[i]).lerp(listPos[i],kk*inL[i]).project(camera); if(v3.z>1) continue;
@@ -827,5 +912,6 @@ if(SMALL) $("#legend").removeAttribute("open");
   if(REDUCE||!("IntersectionObserver" in window)){ cards.forEach(c=>c.classList.add("in")); return; }
   const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("in"); }),{threshold:.12});
   cards.forEach(c=>io.observe(c)); })();
+if(renderer) buildRack();
 scrollState();
 </script>
