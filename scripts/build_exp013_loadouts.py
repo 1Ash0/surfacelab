@@ -15,7 +15,7 @@ from pathlib import Path
 
 import tiktoken
 
-from run_exp006 import COMMANDS, PLACEHOLDER
+from run_exp006 import COMMANDS, PLACEHOLDER  # noqa: I001
 from surfacelab.pulse import probe_docker
 from surfacelab.render import render
 from surfacelab.schema import Surface
@@ -30,15 +30,21 @@ OPTIONS: dict[str, list[str]] = {
     "chrome-devtools": ["--categoryEmulation=false", "--categoryPerformance=false",
                         "--categoryMemory=false", "--categoryNetwork=false",
                         "--categoryInput=false", "--categoryDebugging=false"],
-    "brave-search": ["--enabled-tools", "brave_web_search", "brave_news_search", "brave_image_search"],
-    "github": ["--tools=get_file_contents,create_or_update_file,delete_file,push_files,search_code,"
-               "list_commits,get_commit,create_branch,list_branches,search_repositories"],
+    "brave-search": ["--enabled-tools", "brave_web_search", "brave_news_search"],
+    "github": ["--tools=get_file_contents,create_or_update_file,delete_file,search_code,"
+               "list_commits,get_commit,list_branches"],
 }
+
+# Servers added for EXP-013 (docker/exp006/extra.Dockerfile); same sandbox flags as EXP-006.
+EXTRA = "surfacelab/exp006-extra:1"
+COMMANDS = {**COMMANDS,
+            "duckduckgo": (EXTRA, ["duckduckgo-mcp-server"], []),
+            "git": (EXTRA, ["mcp-server-git", "--repository", "/repo"], [])}
 
 LOADOUTS: dict[str, list[str]] = {
     "browser": ["playwright", "chrome-devtools"],
-    "web": ["fetch", "tavily", "brave-search"],
-    "workspace": ["filesystem", "github"],
+    "web": ["brave-search", "tavily", "duckduckgo"],
+    "workspace": ["filesystem", "git", "github"],
     "docs": ["context7", "aws-documentation", "fetch"],
 }
 

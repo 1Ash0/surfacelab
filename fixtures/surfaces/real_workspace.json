@@ -301,35 +301,332 @@
       }
     },
     {
-      "name": "create_branch",
-      "description": "Create a new branch in a GitHub repository",
+      "name": "git_status",
+      "description": "Shows the working tree status",
       "input_schema": {
-        "type": "object",
         "properties": {
-          "branch": {
-            "type": "string",
-            "description": "Name for new branch"
-          },
-          "from_branch": {
-            "type": "string",
-            "description": "Source branch (defaults to repo default)"
-          },
-          "owner": {
-            "type": "string",
-            "description": "Repository owner",
-            "x-mcp-header": "owner"
-          },
-          "repo": {
-            "type": "string",
-            "description": "Repository name",
-            "x-mcp-header": "repo"
+          "repo_path": {
+            "title": "Repo Path",
+            "type": "string"
           }
         },
         "required": [
-          "owner",
-          "repo",
-          "branch"
-        ]
+          "repo_path"
+        ],
+        "type": "object",
+        "title": "statusArguments"
+      }
+    },
+    {
+      "name": "git_diff_unstaged",
+      "description": "Shows changes in the working directory that are not yet staged",
+      "input_schema": {
+        "properties": {
+          "repo_path": {
+            "title": "Repo Path",
+            "type": "string"
+          },
+          "context_lines": {
+            "default": 3,
+            "title": "Context Lines",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "repo_path"
+        ],
+        "type": "object",
+        "title": "diff_unstagedArguments"
+      }
+    },
+    {
+      "name": "git_diff_staged",
+      "description": "Shows changes that are staged for commit",
+      "input_schema": {
+        "properties": {
+          "repo_path": {
+            "title": "Repo Path",
+            "type": "string"
+          },
+          "context_lines": {
+            "default": 3,
+            "title": "Context Lines",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "repo_path"
+        ],
+        "type": "object",
+        "title": "diff_stagedArguments"
+      }
+    },
+    {
+      "name": "git_diff",
+      "description": "Shows differences between branches or commits",
+      "input_schema": {
+        "properties": {
+          "repo_path": {
+            "title": "Repo Path",
+            "type": "string"
+          },
+          "target": {
+            "title": "Target",
+            "type": "string"
+          },
+          "context_lines": {
+            "default": 3,
+            "title": "Context Lines",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "repo_path",
+          "target"
+        ],
+        "type": "object",
+        "title": "diffArguments"
+      }
+    },
+    {
+      "name": "git_commit",
+      "description": "Records changes to the repository",
+      "input_schema": {
+        "properties": {
+          "repo_path": {
+            "title": "Repo Path",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "repo_path",
+          "message"
+        ],
+        "type": "object",
+        "title": "commitArguments"
+      }
+    },
+    {
+      "name": "git_add",
+      "description": "Adds file contents to the staging area",
+      "input_schema": {
+        "properties": {
+          "repo_path": {
+            "title": "Repo Path",
+            "type": "string"
+          },
+          "files": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "title": "Files",
+            "type": "array"
+          }
+        },
+        "required": [
+          "repo_path",
+          "files"
+        ],
+        "type": "object",
+        "title": "addArguments"
+      }
+    },
+    {
+      "name": "git_reset",
+      "description": "Unstages all staged changes",
+      "input_schema": {
+        "properties": {
+          "repo_path": {
+            "title": "Repo Path",
+            "type": "string"
+          }
+        },
+        "required": [
+          "repo_path"
+        ],
+        "type": "object",
+        "title": "resetArguments"
+      }
+    },
+    {
+      "name": "git_log",
+      "description": "Shows the commit logs",
+      "input_schema": {
+        "properties": {
+          "repo_path": {
+            "title": "Repo Path",
+            "type": "string"
+          },
+          "max_count": {
+            "default": 10,
+            "title": "Max Count",
+            "type": "integer"
+          },
+          "start_timestamp": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Start timestamp for filtering commits. Accepts: ISO 8601 format (e.g., '2024-01-15T14:30:25'), relative dates (e.g., '2 weeks ago', 'yesterday'), or absolute dates (e.g., '2024-01-15', 'Jan 15 2024')",
+            "title": "Start Timestamp"
+          },
+          "end_timestamp": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "End timestamp for filtering commits. Accepts: ISO 8601 format (e.g., '2024-01-15T14:30:25'), relative dates (e.g., '2 weeks ago', 'yesterday'), or absolute dates (e.g., '2024-01-15', 'Jan 15 2024')",
+            "title": "End Timestamp"
+          }
+        },
+        "required": [
+          "repo_path"
+        ],
+        "type": "object",
+        "title": "logArguments"
+      }
+    },
+    {
+      "name": "git_create_branch",
+      "description": "Creates a new branch from an optional base branch",
+      "input_schema": {
+        "properties": {
+          "repo_path": {
+            "title": "Repo Path",
+            "type": "string"
+          },
+          "branch_name": {
+            "title": "Branch Name",
+            "type": "string"
+          },
+          "base_branch": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Base Branch"
+          }
+        },
+        "required": [
+          "repo_path",
+          "branch_name"
+        ],
+        "type": "object",
+        "title": "create_branchArguments"
+      }
+    },
+    {
+      "name": "git_checkout",
+      "description": "Switches branches",
+      "input_schema": {
+        "properties": {
+          "repo_path": {
+            "title": "Repo Path",
+            "type": "string"
+          },
+          "branch_name": {
+            "title": "Branch Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "repo_path",
+          "branch_name"
+        ],
+        "type": "object",
+        "title": "checkoutArguments"
+      }
+    },
+    {
+      "name": "git_show",
+      "description": "Shows the contents of a commit, or of a file or directory given as <revision>:<path>",
+      "input_schema": {
+        "properties": {
+          "repo_path": {
+            "title": "Repo Path",
+            "type": "string"
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "string"
+          }
+        },
+        "required": [
+          "repo_path",
+          "revision"
+        ],
+        "type": "object",
+        "title": "showArguments"
+      }
+    },
+    {
+      "name": "git_branch",
+      "description": "List Git branches",
+      "input_schema": {
+        "properties": {
+          "repo_path": {
+            "description": "The path to the Git repository.",
+            "title": "Repo Path",
+            "type": "string"
+          },
+          "branch_type": {
+            "description": "Whether to list local branches ('local'), remote branches ('remote') or all branches('all').",
+            "title": "Branch Type",
+            "type": "string"
+          },
+          "contains": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The commit sha that branch should contain. Do not pass anything to this param if no commit sha is specified",
+            "title": "Contains"
+          },
+          "not_contains": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The commit sha that branch should NOT contain. Do not pass anything to this param if no commit sha is specified",
+            "title": "Not Contains"
+          }
+        },
+        "required": [
+          "repo_path",
+          "branch_type"
+        ],
+        "type": "object",
+        "title": "branchArguments"
       }
     },
     {
@@ -628,62 +925,6 @@
       }
     },
     {
-      "name": "push_files",
-      "description": "Push multiple files to a GitHub repository in a single commit",
-      "input_schema": {
-        "type": "object",
-        "properties": {
-          "branch": {
-            "type": "string",
-            "description": "Branch to push to"
-          },
-          "files": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "content": {
-                  "type": "string",
-                  "description": "file content"
-                },
-                "path": {
-                  "type": "string",
-                  "description": "path to the file"
-                }
-              },
-              "required": [
-                "path",
-                "content"
-              ],
-              "additionalProperties": false
-            },
-            "description": "Array of file objects to push, each object with path (string) and content (string)"
-          },
-          "message": {
-            "type": "string",
-            "description": "Commit message"
-          },
-          "owner": {
-            "type": "string",
-            "description": "Repository owner",
-            "x-mcp-header": "owner"
-          },
-          "repo": {
-            "type": "string",
-            "description": "Repository name",
-            "x-mcp-header": "repo"
-          }
-        },
-        "required": [
-          "owner",
-          "repo",
-          "branch",
-          "files",
-          "message"
-        ]
-      }
-    },
-    {
       "name": "search_code",
       "description": "Fast and precise code search across ALL GitHub repositories using GitHub's native search engine. Best for finding exact symbols, functions, classes, or specific code patterns.",
       "input_schema": {
@@ -729,56 +970,6 @@
           "sort": {
             "type": "string",
             "description": "Sort field ('indexed' only)"
-          }
-        },
-        "required": [
-          "query"
-        ]
-      }
-    },
-    {
-      "name": "search_repositories",
-      "description": "Find GitHub repositories by name, description, readme, topics, or other metadata. Perfect for discovering projects, finding examples, or locating specific repositories across GitHub.",
-      "input_schema": {
-        "type": "object",
-        "properties": {
-          "minimal_output": {
-            "type": "boolean",
-            "description": "Return minimal repository information (default: true). When false, modern clients receive additional curated repository details, not the complete GitHub API object. Legacy clients retain full GitHub API repository objects.",
-            "default": true
-          },
-          "order": {
-            "type": "string",
-            "description": "Sort order",
-            "enum": [
-              "asc",
-              "desc"
-            ]
-          },
-          "page": {
-            "type": "number",
-            "description": "Page number for pagination (min 1)",
-            "minimum": 1
-          },
-          "perPage": {
-            "type": "number",
-            "description": "Results per page for pagination (min 1, max 100)",
-            "minimum": 1,
-            "maximum": 100
-          },
-          "query": {
-            "type": "string",
-            "description": "Repository search query. Examples: 'machine learning in:name stars:>1000 language:python', 'topic:react', 'user:facebook'. Supports advanced search syntax for precise filtering."
-          },
-          "sort": {
-            "type": "string",
-            "description": "Sort repositories by field, defaults to best match",
-            "enum": [
-              "stars",
-              "forks",
-              "help-wanted-issues",
-              "updated"
-            ]
           }
         },
         "required": [

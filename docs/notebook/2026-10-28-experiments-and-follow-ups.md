@@ -45,3 +45,8 @@ ADR-023 (proposed): follow-ups EXP-009–012 on near-duplicate surfaces with 32 
 - Real tool lists are big: Notion 21.7K, Firecrawl 16.6K, MongoDB 15.6K, GitHub 13.8K tokens (local count), each over one free-tier request. Groq counts gpt-oss prompts at about 0.6x and Qwen at about 1.05x the local count, so the Qwen 7K input limit binds.
 - EXP-013 loadouts cut to fit using only the servers' own options; Firecrawl, Notion, the data loadout and Chrome's screenshot tools are out (EXP-013 Deviations). 48 cases written; blind gold sheet `fixtures/cases/gold_validation_exp013.csv`, full tool descriptions in `gold_validation_exp013_tools.csv`.
 - EXP-014: all three findings replicated on Qwen (siblings gap +12.5 pp [+2.1, +25.0]; 768/768 on nd_*; 0 collisions in 48).
+
+## EXP-013 redesign (ADR-025)
+- A returned gold sheet had been filled without the tool descriptions (it invented names such as `browser_go_back`); discarded. The new sheet puts each candidate tool's description next to the request.
+- Redesign around the replicated finding: on requests two real servers can both serve, does list order pick the server? Added DuckDuckGo (keyless search, 3 tools) and Git (with an empty repo at /repo so it starts); Desktop Commander (~10K tokens, no tool filter) does not fit.
+- All four loadouts measured under 6,500 provider tokens for every model (largest: workspace, 6,277 on Qwen).

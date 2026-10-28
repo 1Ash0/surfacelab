@@ -1,11 +1,12 @@
 {
- "fetch": "fetch",
+ "brave_web_search": "brave-search",
+ "brave_news_search": "brave-search",
  "tavily_search": "tavily",
  "tavily_extract": "tavily",
  "tavily_crawl": "tavily",
  "tavily_map": "tavily",
  "tavily_research": "tavily",
- "brave_web_search": "brave-search",
- "brave_image_search": "brave-search",
- "brave_news_search": "brave-search"
+ "search": "duckduckgo",
+ "fetch_content": "duckduckgo",
+ "expand_link": "duckduckgo"
 }
