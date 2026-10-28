@@ -84,7 +84,22 @@ def plan_012():
             yield {"surface": s, "kind": "near-duplicate", "n": n}, cs, [nd]
 
 
-PLANS = {10: plan_010, 11: plan_011, 12: plan_012}
+def plan_013():
+    """Every cyclic rotation of the server blocks; tool order within a server is its own (EXP-013)."""
+    cases = load_cases(Path("fixtures/cases/real_loadouts.jsonl"))
+    for name in ["browser", "web", "workspace", "docs"]:
+        s = load_fixture_surface(f"real_{name}")
+        owner = json.loads(Path(f"fixtures/surfaces/real_{name}.servers.json").read_text())
+        servers = list(dict.fromkeys(owner[t.name] for t in s.tools))
+        blocks = [[t for t in s.tools if owner[t.name] == sv] for sv in servers]
+        cs = [c for c in cases if c.surface_name == f"real_{name}"]
+        for r in range(len(blocks)):
+            order = blocks[r:] + blocks[:r]
+            v = Surface(server_name=s.server_name, tools=[t for b in order for t in b])
+            yield {"loadout": name, "rotation": r, "first_server": servers[r]}, cs, [v]
+
+
+PLANS = {10: plan_010, 11: plan_011, 12: plan_012, 13: plan_013}
 
 
 def main() -> None:
@@ -111,7 +126,7 @@ def main() -> None:
 
     store = CassetteStore(Path("cassettes"), mode="record" if args.record else "replay")
     p = OpenAICompatProvider(provider_slug="groq", model_id=args.model, cassette_store=store, temperature=0.0)
-    if args.exp == 12:
+    if args.exp in (12, 13):
         p._min_call_interval = 3.0  # padded prompts: keep each org under 8K tokens/minute
     for attempt in range(1, 4):
         rows, n_err = [], 0

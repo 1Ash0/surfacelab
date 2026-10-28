@@ -1,0 +1,7 @@
+case_id,author_gold,validator_yes,final_gold,class,resolution
+rw02,brave_web_search;search;tavily_search,brave_news_search,brave_news_search;brave_web_search;search;tavily_search,shared,widened to union (ADR-023 rule)
+rw04,brave_news_search;tavily_search,brave_news_search,brave_news_search;tavily_search,shared,widened to union (ADR-023 rule)
+rk02,read_file;read_text_file,read_file;read_multiple_files;read_text_file,read_file;read_multiple_files;read_text_file,unique,widened to union (ADR-023 rule)
+rk11,git_show;read_file;read_text_file,read_file;read_multiple_files;read_text_file,git_show;read_file;read_multiple_files;read_text_file,shared,widened to union (ADR-023 rule)
+rd04,query-docs;resolve-library-id,query-docs,query-docs;resolve-library-id,unique,widened to union (ADR-023 rule)
+rd06,query-docs;resolve-library-id,query-docs,query-docs;resolve-library-id,unique,widened to union (ADR-023 rule)
