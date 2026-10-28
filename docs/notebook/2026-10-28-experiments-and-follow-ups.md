@@ -61,3 +61,8 @@ ADR-023 (proposed): follow-ups EXP-009–012 on near-duplicate surfaces with 32 
 ## Design direction (ADR-026, proposed)
 - Wrote `docs/FINDINGS.md`, then ADR-026: the Tour follows findings, not experiments. One primitive (the Request), five chapters + coda, predict-then-reveal hooks, a flat Null Wall for the nulls, a `Finding` record as the only data contract.
 - Why: three of the five planned chapters rested on null results; the two most interesting findings (EXP-013 misses and the `list_pages` detour) had no scene.
+
+## Design review (ADR-027, proposed)
+- Audited every early design decision against the findings. Kept: the instrument concept, all honesty rules, reticle and scales, vanilla three.js. Dropped: gradient sky, glass-bead glow, frosted rail, grain, bloom; revised the palette and the cream daylight theme, which matched common generated looks.
+- Converged on the observatory plate room: the blink comparator is our method (same field, two plates, what moved). One rule of light: only the call is lit.
+- Specimen built from recorded EXP-013 data only.
