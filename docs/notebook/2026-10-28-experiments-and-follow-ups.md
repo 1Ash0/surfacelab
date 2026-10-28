@@ -27,3 +27,10 @@ ADR-023 (proposed): follow-ups EXP-009–012 on near-duplicate surfaces with 32 
 ## Found while writing the follow-up fixtures
 - The `siblings` surface is four synonyms: identical descriptions reworded, with gold chosen by request keywords. Its "accuracy" measures which synonym gets picked, and its position effect is a tie-breaking bias among equivalent tools. Recorded as a caveat in EXP-001; the new `nd_*` surfaces give each tool one stated difference so a right answer exists.
 - ADR-023 now includes a stop rule: EXP-009–012 verdicts are final for v0.1.
+
+## EXP-009–012 outcomes (end of day)
+- EXP-009: both models at ceiling (99.9% / 99.6%); position effect absent by rule, read as "surfaces too easy" (`results/exp009_analysis.json`).
+- EXP-010: not run; ceiling check failed for both models.
+- EXP-011: 1 collision in 288 trials; H1/H2 not confirmed; EXP-004's slash-name failure did not recur (`results/exp011_analysis.json`).
+- EXP-012: no dose-response; H1/H2 not confirmed (`results/exp012_analysis.json`).
+- Per ADR-023's stop rule these verdicts are final for v0.1. Overall: when tool descriptions state a distinct scope, gpt-oss-20b/120b select correctly regardless of order, distractors or namespacing; the only measurable order effect was tie-breaking among true synonyms (EXP-001 siblings, exploratory).
