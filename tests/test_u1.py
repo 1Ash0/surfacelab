@@ -7,6 +7,7 @@ wrong verdicts, for all three case kinds.
 from pathlib import Path
 
 import pytest
+from pydantic import ValidationError
 
 from surfacelab.cases import Case, CaseKind, load_cases
 from surfacelab.grading import Verdict, grade
@@ -19,12 +20,12 @@ FIXTURES = Path(__file__).parent.parent / "fixtures" / "demo_cases.jsonl"
 # ---------------------------------------------------------------------------
 
 def test_positive_case_requires_nonempty_gold():
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         Case(id="x", kind=CaseKind.positive, request="r", gold=frozenset(), surface_name="s")
 
 
 def test_abstain_case_requires_empty_gold():
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         Case(id="x", kind=CaseKind.abstain, request="r", gold=frozenset(["a"]), surface_name="s")
 
 

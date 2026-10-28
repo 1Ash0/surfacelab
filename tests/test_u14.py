@@ -5,12 +5,12 @@ Two-sided tests per CLAUDE.md rule 8: one that must fire, one that must not.
 
 from __future__ import annotations
 
-import openai
-
 import os
 import threading
 from pathlib import Path
 from unittest.mock import patch
+
+import openai
 
 from surfacelab.cases import Case
 from surfacelab.providers.cassette import CassetteStore
@@ -154,9 +154,10 @@ class TestKeyRotation:
 
 
 class TestRateLimitRetry:
-    def _make_rate_limit_error(self) -> "openai.RateLimitError":
-        import openai
+    def _make_rate_limit_error(self) -> openai.RateLimitError:
         from unittest.mock import MagicMock
+
+        import openai
         mock_response = MagicMock()
         mock_response.request = MagicMock()
         mock_response.status_code = 429
@@ -243,15 +244,15 @@ class TestRateLimitRetry:
                 provider_slug="groq", model_id="openai/gpt-oss-20b", cassette_store=store
             )
 
-        with patch("openai.resources.chat.completions.Completions.create", always_429):
-            with pytest.raises(openai.RateLimitError):
-                provider.call(_case("c001"), SURFACE)
+        with patch("openai.resources.chat.completions.Completions.create", always_429),                 pytest.raises(openai.RateLimitError):
+            provider.call(_case("c001"), SURFACE)
 
 
 class TestToolUseFailed:
-    def _bad_request(self, code: str) -> "openai.BadRequestError":
-        import openai
+    def _bad_request(self, code: str) -> openai.BadRequestError:
         from unittest.mock import MagicMock
+
+        import openai
         resp = MagicMock()
         resp.status_code = 400
         resp.headers = {}
@@ -291,9 +292,8 @@ class TestToolUseFailed:
             raise err
 
         provider = self._provider(tmp_path)
-        with patch("openai.resources.chat.completions.Completions.create", fail):
-            with pytest.raises(openai.BadRequestError):
-                provider.call(_case("c001"), SURFACE)
+        with patch("openai.resources.chat.completions.Completions.create", fail),                 pytest.raises(openai.BadRequestError):
+            provider.call(_case("c001"), SURFACE)
 
 
 # ---------------------------------------------------------------------------
