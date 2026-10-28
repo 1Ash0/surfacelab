@@ -34,3 +34,8 @@ ADR-023 (proposed): follow-ups EXP-009–012 on near-duplicate surfaces with 32 
 - EXP-011: 1 collision in 288 trials; H1/H2 not confirmed; EXP-004's slash-name failure did not recur (`results/exp011_analysis.json`).
 - EXP-012: no dose-response; H1/H2 not confirmed (`results/exp012_analysis.json`).
 - Per ADR-023's stop rule these verdicts are final for v0.1. Overall: when tool descriptions state a distinct scope, gpt-oss-20b/120b select correctly regardless of order, distractors or namespacing; the only measurable order effect was tie-breaking among true synonyms (EXP-001 siblings, exploratory).
+
+## Next: real servers and a second family (draft)
+- Drafted EXP-006 target list (19 servers), EXP-013 (real loadouts) and EXP-014 (Qwen replication), under proposed ADR-024. Nothing run.
+- Groq model list (2026-10-28): only `qwen/qwen3.8-27b` besides gpt-oss offers chat with tools; one probe call returned a correct forced tool call at T=0; limits 1,000 RPD / 8K TPM, same as gpt-oss.
+- Risk: large servers (GitHub, Playwright) may exceed the 8K TPM per request; EXP-013 fixes a 6,000-token loadout cap and uses servers' own toolset options rather than editing tools.

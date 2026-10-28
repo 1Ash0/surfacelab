@@ -1,0 +1,24 @@
+{
+  "_note": "EXP-006 curated target list (draft 2026-10-28, awaiting review). Open-source, publicly published servers only (consent by publication). Versions checked against npm/PyPI on 2026-10-28; pinned at image build time. Credentials, where a server demands one to start, are the literal placeholder 'surfacelab-placeholder' inside a --network=none container, so no request can leave the sandbox. Only initialize + tools/list are sent (ADR-008).",
+  "targets": [
+    {"name": "filesystem", "group": "workspace", "maintainer": "MCP steering group (modelcontextprotocol/servers)", "runtime": "npm", "package": "@modelcontextprotocol/server-filesystem", "version": "2.0.1", "args": ["/tmp"], "licence": "MIT (repo)"},
+    {"name": "memory", "group": "workspace", "maintainer": "MCP steering group", "runtime": "npm", "package": "@modelcontextprotocol/server-memory", "version": "2.0.0", "licence": "MIT (repo)"},
+    {"name": "git", "group": "workspace", "maintainer": "MCP steering group", "runtime": "pypi", "package": "mcp-server-git", "version": "2026.10.19", "licence": "MIT"},
+    {"name": "fetch", "group": "web", "maintainer": "MCP steering group", "runtime": "pypi", "package": "mcp-server-fetch", "version": "2026.10.24", "licence": "MIT"},
+    {"name": "time", "group": "utility", "maintainer": "MCP steering group", "runtime": "pypi", "package": "mcp-server-time", "version": "2026.10.19", "licence": "MIT"},
+    {"name": "sequential-thinking", "group": "utility", "maintainer": "MCP steering group", "runtime": "npm", "package": "@modelcontextprotocol/server-sequential-thinking", "version": "2.0.0", "licence": "MIT (repo)"},
+    {"name": "github", "group": "workspace", "maintainer": "GitHub", "runtime": "docker", "package": "ghcr.io/github/github-mcp-server", "version": "pin digest at build", "env": ["GITHUB_PERSONAL_ACCESS_TOKEN"], "licence": "MIT"},
+    {"name": "notion", "group": "workspace", "maintainer": "Notion", "runtime": "npm", "package": "@notionhq/notion-mcp-server", "version": "2.6.0", "env": ["NOTION_TOKEN"], "licence": "MIT"},
+    {"name": "playwright", "group": "browser", "maintainer": "Microsoft", "runtime": "npm", "package": "@playwright/mcp", "version": "0.0.83", "licence": "Apache-2.0"},
+    {"name": "chrome-devtools", "group": "browser", "maintainer": "Google (ChromeDevTools)", "runtime": "npm", "package": "chrome-devtools-mcp", "version": "1.12.0", "licence": "Apache-2.0"},
+    {"name": "brave-search", "group": "web", "maintainer": "Brave", "runtime": "npm", "package": "@brave/brave-search-mcp-server", "version": "2.1.4", "env": ["BRAVE_API_KEY"], "licence": "MIT"},
+    {"name": "tavily", "group": "web", "maintainer": "Tavily", "runtime": "npm", "package": "tavily-mcp", "version": "0.2.22", "env": ["TAVILY_API_KEY"], "licence": "MIT"},
+    {"name": "firecrawl", "group": "web", "maintainer": "Firecrawl", "runtime": "npm", "package": "firecrawl-mcp", "version": "3.36.0", "env": ["FIRECRAWL_API_KEY"], "licence": "MIT"},
+    {"name": "supabase", "group": "data", "maintainer": "Supabase", "runtime": "npm", "package": "@supabase/mcp-server-supabase", "version": "0.14.0", "env": ["SUPABASE_ACCESS_TOKEN"], "licence": "Apache-2.0"},
+    {"name": "neon", "group": "data", "maintainer": "Neon", "runtime": "npm", "package": "@neondatabase/mcp-server-neon", "version": "0.6.5", "env": ["NEON_API_KEY"], "licence": "MIT"},
+    {"name": "mongodb", "group": "data", "maintainer": "MongoDB", "runtime": "npm", "package": "mongodb-mcp-server", "version": "3.1.0", "licence": "Apache-2.0"},
+    {"name": "stripe", "group": "saas", "maintainer": "Stripe", "runtime": "npm", "package": "@stripe/mcp", "version": "0.3.3", "env": ["STRIPE_SECRET_KEY"], "licence": "MIT"},
+    {"name": "context7", "group": "docs", "maintainer": "Upstash", "runtime": "npm", "package": "@upstash/context7-mcp", "version": "4.4.4", "licence": "MIT"},
+    {"name": "aws-documentation", "group": "docs", "maintainer": "AWS Labs", "runtime": "pypi", "package": "awslabs.aws-documentation-mcp-server", "version": "1.2.3", "licence": "Apache-2.0"}
+  ]
+}
