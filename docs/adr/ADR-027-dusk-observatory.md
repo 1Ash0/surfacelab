@@ -16,6 +16,11 @@ The Tour is a **scroll-driven 3D observatory at dusk**:
 5. **Chapters follow ADR-026**, each with a predict-then-reveal hook and a docked evidence rail (number, interval, label, source file, "does not show"). Flat comparisons (the Null Wall, the slot bars) are 2D panels over the sky, as ADR-015 requires.
 6. **The Lab** lets the viewer pick a model, a loadout and a request, fire the recorded call, switch which server is listed first, and orbit the sky.
 
+## Second pass (2026-10-28)
+- **Two times of day.** Dusk (default) and Morning: the sky, ridge, dome, stars and threads transition together; in Morning, stars become ink marks on a cream dawn and blending switches from additive to normal so marks stay legible. System light mode opens in Morning.
+- **Shaders.** Sky with scattering-like gradient, sun glow, a two-layer procedural ridge and a faint, low-contrast Milky Way band (scenery only, captioned as such in the footer); dome shaded by a sky rim light; lamp light pooled on the ground in front of the slit; stars with core, halo and diffraction spikes; beams and threads as tubes with a travelling pulse.
+- **Understanding.** A "how an agent picks a tool" chapter before any data; a persistent legend; named chapter navigation; each chapter's "what you're looking at" line; chapter V plays two waves (Playwright first, then Chrome DevTools first) with the recorded count.
+
 ## What the review kept from the rejected draft
 - State by shape as well as colour (ring / cross / dashed ring / stub).
 - The rail as a record: label as prominent as the number, source path, limit line.
