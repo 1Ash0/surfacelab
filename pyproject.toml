@@ -1,6 +1,7 @@
 [project]
 name = "surfacelab"
 version = "0.1.0"
+license = "MIT"
 description = "Measure MCP tool-choice robustness, composition, and availability."
 requires-python = ">=3.12"
 dependencies = [
