@@ -1,0 +1,55 @@
+{
+  "server_name": "time",
+  "captured_at": "2026-10-30T18:48:39.275886+00:00",
+  "surface_hash": "98ac3bd88b1a8a3de5a5e39101685052d5d858576d35642bd1a908034f09479c",
+  "tools": [
+    {
+      "name": "get_current_time",
+      "description": "Get current time in a specific timezone",
+      "input_schema": {
+        "properties": {
+          "timezone": {
+            "description": "IANA timezone name (e.g., 'America/New_York', 'Europe/London'). Use 'Etc/UTC' as local timezone if no timezone provided by the user.",
+            "title": "Timezone",
+            "type": "string"
+          }
+        },
+        "required": [
+          "timezone"
+        ],
+        "type": "object",
+        "title": "get_current_timeArguments"
+      }
+    },
+    {
+      "name": "convert_time",
+      "description": "Convert time between timezones",
+      "input_schema": {
+        "properties": {
+          "source_timezone": {
+            "description": "Source IANA timezone name (e.g., 'America/New_York', 'Europe/London'). Use 'Etc/UTC' as local timezone if no source timezone provided by the user.",
+            "title": "Source Timezone",
+            "type": "string"
+          },
+          "time": {
+            "description": "Time to convert in 24-hour format (HH:MM)",
+            "title": "Time",
+            "type": "string"
+          },
+          "target_timezone": {
+            "description": "Target IANA timezone name (e.g., 'Asia/Tokyo', 'America/San_Francisco'). Use 'Etc/UTC' as local timezone if no target timezone provided by the user.",
+            "title": "Target Timezone",
+            "type": "string"
+          }
+        },
+        "required": [
+          "source_timezone",
+          "time",
+          "target_timezone"
+        ],
+        "type": "object",
+        "title": "convert_timeArguments"
+      }
+    }
+  ]
+}

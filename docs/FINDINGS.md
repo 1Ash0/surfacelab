@@ -81,6 +81,6 @@ Models: `openai/gpt-oss-20b`, `openai/gpt-oss-120b` (all experiments), `qwen/qwe
 ## Limits
 - Three open models on one provider; results may differ for Claude, GPT or Gemini.
 - EXP-013 has 48 families (16 shared); H1 intervals are wide.
-- Surfaces are taken from servers as they stood on 2026-10-28 with pinned versions; the EXP-006 re-probe will check drift.
+- Surfaces are taken from servers as they stood on 2026-10-28 with pinned versions. A re-probe on 2026-10-31 against the latest releases found one changed tool description in 16 comparable servers (EXP-006).
 - First-call scoring: multi-step behaviour is not measured.
 - Gold sets were validated by one person who did not write the cases; disagreements were resolved by widening gold to the union.

@@ -85,6 +85,6 @@ Three open models (gpt-oss-20b, gpt-oss-120b, qwen3.8-27b) on one provider (Groq
 
 ## Status
 
-v0.1 evaluation complete. Next: confirm the two exploratory real-server findings in a preregistered run, measure the second call, add a second provider family, and a drift re-probe of the 19 servers ([`docs/ROADMAP.md`](docs/ROADMAP.md)).
+v0.1 evaluation complete. Next: confirm the two exploratory real-server findings in a preregistered run, measure the second call, add a second provider family, and a longer drift window than the three days measured ([`docs/ROADMAP.md`](docs/ROADMAP.md)).
 
 Built by [@1Ash0](https://github.com/1Ash0). MIT licensed, see [LICENSE](LICENSE).

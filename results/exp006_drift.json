@@ -1,0 +1,433 @@
+{
+ "probed": "2026-10-31",
+ "first_probe": "2026-10-28",
+ "outcome_changes": {},
+ "primary": [
+  {
+   "server": "filesystem",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 14,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "memory",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 9,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "git",
+   "timeout_s": 10.0,
+   "outcome": "protocol_error",
+   "n_tools": 0,
+   "error": "stdout closed",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "fetch",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 1,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "time",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 2,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "sequential-thinking",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 1,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "github",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 46,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "notion",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 24,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "playwright",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 25,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "chrome-devtools",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 32,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "brave-search",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 8,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "tavily",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 5,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "firecrawl",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 28,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "supabase",
+   "timeout_s": 10.0,
+   "outcome": "no_tools",
+   "n_tools": 0,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "neon",
+   "timeout_s": 10.0,
+   "outcome": "timeout",
+   "n_tools": 0,
+   "error": "Timeout after 10.0s. stderr: ",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "mongodb",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 27,
+   "error": "",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "stripe",
+   "timeout_s": 10.0,
+   "outcome": "protocol_error",
+   "n_tools": 0,
+   "error": "stdout closed",
+   "instruction_like_flags": []
+  },
+  {
+   "server": "context7",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 2,
+   "error": "",
+   "instruction_like_flags": [
+    "('resolve-library-id', 'must_use_directive')"
+   ]
+  },
+  {
+   "server": "aws-documentation",
+   "timeout_s": 10.0,
+   "outcome": "ok",
+   "n_tools": 5,
+   "error": "",
+   "instruction_like_flags": []
+  }
+ ],
+ "snapshot_retry_30s_not_primary": [
+  {
+   "server": "neon",
+   "timeout_s": 30.0,
+   "outcome": "timeout",
+   "n_tools": 0,
+   "error": "Timeout after 30.0s. stderr: ",
+   "instruction_like_flags": []
+  }
+ ],
+ "drift": [
+  {
+   "server": "filesystem",
+   "status": "compared",
+   "old_hash": "2c438e05646a3c784a26ddc454a41203c5ae62060cabeb21fe60a4cccd292417",
+   "new_hash": "e297b5db2f1c1097143a90ebf259de2710bf870160e69a4972597e483f16f9e2",
+   "old_tools": 14,
+   "new_tools": 14,
+   "events": [
+    {
+     "kind": "description_changed",
+     "tool": "get_file_info"
+    }
+   ]
+  },
+  {
+   "server": "memory",
+   "status": "compared",
+   "old_hash": "bf19355a99615c3073e4bbc7734016174f9142320e798f3b09ca54332f39877d",
+   "new_hash": "bf19355a99615c3073e4bbc7734016174f9142320e798f3b09ca54332f39877d",
+   "old_tools": 9,
+   "new_tools": 9,
+   "events": [
+    {
+     "kind": "unchanged",
+     "tool": null
+    }
+   ]
+  },
+  {
+   "server": "git",
+   "status": "no_pair"
+  },
+  {
+   "server": "fetch",
+   "status": "compared",
+   "old_hash": "12c615903196e18250118eec3df63e939f0ff14276cc31b2a06769153be3603e",
+   "new_hash": "12c615903196e18250118eec3df63e939f0ff14276cc31b2a06769153be3603e",
+   "old_tools": 1,
+   "new_tools": 1,
+   "events": [
+    {
+     "kind": "unchanged",
+     "tool": null
+    }
+   ]
+  },
+  {
+   "server": "time",
+   "status": "compared",
+   "old_hash": "98ac3bd88b1a8a3de5a5e39101685052d5d858576d35642bd1a908034f09479c",
+   "new_hash": "98ac3bd88b1a8a3de5a5e39101685052d5d858576d35642bd1a908034f09479c",
+   "old_tools": 2,
+   "new_tools": 2,
+   "events": [
+    {
+     "kind": "unchanged",
+     "tool": null
+    }
+   ]
+  },
+  {
+   "server": "sequential-thinking",
+   "status": "compared",
+   "old_hash": "9b34726fcecefc7eaadc09cab9b2e4d0f0970df2f96f5e54a71d6355aaeb68d2",
+   "new_hash": "9b34726fcecefc7eaadc09cab9b2e4d0f0970df2f96f5e54a71d6355aaeb68d2",
+   "old_tools": 1,
+   "new_tools": 1,
+   "events": [
+    {
+     "kind": "unchanged",
+     "tool": null
+    }
+   ]
+  },
+  {
+   "server": "github",
+   "status": "compared",
+   "old_hash": "768dd5a221a3b254f7ac8291287dba86a2b9228c8d75719909dc80f4bb6a9d56",
+   "new_hash": "768dd5a221a3b254f7ac8291287dba86a2b9228c8d75719909dc80f4bb6a9d56",
+   "old_tools": 46,
+   "new_tools": 46,
+   "events": [
+    {
+     "kind": "unchanged",
+     "tool": null
+    }
+   ]
+  },
+  {
+   "server": "notion",
+   "status": "compared",
+   "old_hash": "daad220d17066b7a2dcc8d0e1d3e17f91046224f4aa124c4d8de8620f9ffcc41",
+   "new_hash": "daad220d17066b7a2dcc8d0e1d3e17f91046224f4aa124c4d8de8620f9ffcc41",
+   "old_tools": 24,
+   "new_tools": 24,
+   "events": [
+    {
+     "kind": "unchanged",
+     "tool": null
+    }
+   ]
+  },
+  {
+   "server": "playwright",
+   "status": "compared",
+   "old_hash": "572397453945fbfd4860b5df3132f9ec6532fbe4542062441426024173951266",
+   "new_hash": "572397453945fbfd4860b5df3132f9ec6532fbe4542062441426024173951266",
+   "old_tools": 25,
+   "new_tools": 25,
+   "events": [
+    {
+     "kind": "unchanged",
+     "tool": null
+    }
+   ]
+  },
+  {
+   "server": "chrome-devtools",
+   "status": "compared",
+   "old_hash": "52c1aef977c204819f7087ed5446ffe569658817f70712bd97a275fbb636995e",
+   "new_hash": "52c1aef977c204819f7087ed5446ffe569658817f70712bd97a275fbb636995e",
+   "old_tools": 32,
+   "new_tools": 32,
+   "events": [
+    {
+     "kind": "unchanged",
+     "tool": null
+    }
+   ]
+  },
+  {
+   "server": "brave-search",
+   "status": "compared",
+   "old_hash": "352080bf1c4e3b71d7ebab2554bdad6f63c643fa8243325a8ed01d8cd4893295",
+   "new_hash": "352080bf1c4e3b71d7ebab2554bdad6f63c643fa8243325a8ed01d8cd4893295",
+   "old_tools": 8,
+   "new_tools": 8,
+   "events": [
+    {
+     "kind": "unchanged",
+     "tool": null
+    }
+   ]
+  },
+  {
+   "server": "tavily",
+   "status": "compared",
+   "old_hash": "beb890aa8b98968b0317a0afa8c46c09ed267769abd9074f2392d3564f83ca1f",
+   "new_hash": "beb890aa8b98968b0317a0afa8c46c09ed267769abd9074f2392d3564f83ca1f",
+   "old_tools": 5,
+   "new_tools": 5,
+   "events": [
+    {
+     "kind": "unchanged",
+     "tool": null
+    }
+   ]
+  },
+  {
+   "server": "firecrawl",
+   "status": "compared",
+   "old_hash": "325250459b7507a548dbf9dfa4329c732958cb095610434248476d363000e32d",
+   "new_hash": "325250459b7507a548dbf9dfa4329c732958cb095610434248476d363000e32d",
+   "old_tools": 28,
+   "new_tools": 28,
+   "events": [
+    {
+     "kind": "unchanged",
+     "tool": null
+    }
+   ]
+  },
+  {
+   "server": "supabase",
+   "status": "compared",
+   "old_hash": "3177d70f87bc8141e82fdfe8a8df5e773b92a64c16625d8ffaf61c922961dc71",
+   "new_hash": "3177d70f87bc8141e82fdfe8a8df5e773b92a64c16625d8ffaf61c922961dc71",
+   "old_tools": 0,
+   "new_tools": 0,
+   "events": [
+    {
+     "kind": "unchanged",
+     "tool": null
+    }
+   ]
+  },
+  {
+   "server": "neon",
+   "status": "no_pair"
+  },
+  {
+   "server": "mongodb",
+   "status": "compared",
+   "old_hash": "8fe090c4e6a7dfe1ae521ab1a69d16c1290af5913f2508bcd3dfe487fcae949d",
+   "new_hash": "8fe090c4e6a7dfe1ae521ab1a69d16c1290af5913f2508bcd3dfe487fcae949d",
+   "old_tools": 27,
+   "new_tools": 27,
+   "events": [
+    {
+     "kind": "unchanged",
+     "tool": null
+    }
+   ]
+  },
+  {
+   "server": "stripe",
+   "status": "no_pair"
+  },
+  {
+   "server": "context7",
+   "status": "compared",
+   "old_hash": "65bf7b0516e6fe075823845fdbabf575b339e462a3712026c70fb2879ee8de90",
+   "new_hash": "65bf7b0516e6fe075823845fdbabf575b339e462a3712026c70fb2879ee8de90",
+   "old_tools": 2,
+   "new_tools": 2,
+   "events": [
+    {
+     "kind": "unchanged",
+     "tool": null
+    }
+   ]
+  },
+  {
+   "server": "aws-documentation",
+   "status": "compared",
+   "old_hash": "c219be643a34be4e6e5fd78d35a71eced336c332401da53b2ab32f96dc878176",
+   "new_hash": "c219be643a34be4e6e5fd78d35a71eced336c332401da53b2ab32f96dc878176",
+   "old_tools": 5,
+   "new_tools": 5,
+   "events": [
+    {
+     "kind": "unchanged",
+     "tool": null
+    }
+   ]
+  }
+ ],
+ "versions": {
+  "npm": {
+   "brave-search": "@brave/brave-search-mcp-server@2.1.4",
+   "chrome-devtools": "chrome-devtools-mcp@1.12.0",
+   "context7": "@upstash/context7-mcp@4.4.4",
+   "filesystem": "@modelcontextprotocol/server-filesystem@2.1.0",
+   "firecrawl": "firecrawl-mcp@3.36.0",
+   "memory": "@modelcontextprotocol/server-memory@2.0.1",
+   "mongodb": "mongodb-mcp-server@3.2.2",
+   "neon": "@neondatabase/mcp-server-neon@0.6.5",
+   "notion": "@notionhq/notion-mcp-server@2.6.1",
+   "playwright": "@playwright/mcp@0.0.83",
+   "sequential-thinking": "@modelcontextprotocol/server-sequential-thinking@2.0.0",
+   "stripe": "@stripe/mcp@0.3.3",
+   "supabase": "@supabase/mcp-server-supabase@0.15.0",
+   "tavily": "tavily-mcp@0.2.22"
+  },
+  "pip": {
+   "awslabs.aws-documentation-mcp-server": "1.2.3",
+   "mcp-server-fetch": "2026.10.28",
+   "mcp-server-git": "2026.10.28",
+   "mcp-server-time": "2026.10.28"
+  }
+ }
+}
